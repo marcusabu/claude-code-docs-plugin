@@ -10,7 +10,7 @@ Make sure you have:
 
 * A terminal or command prompt open
 * A code project to work with
-* A [Claude.ai](https://claude.ai) (recommended) or [Claude Console](https://console.anthropic.com/) account
+* A [Claude subscription](https://claude.com/pricing) (Pro, Max, Teams, or Enterprise) or [Claude Console](https://console.anthropic.com/) account
 
 ## Step 1: Install Claude Code
 
@@ -35,20 +35,30 @@ To install Claude Code, use one of the following methods:
     ```batch  theme={null}
     curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
     ```
+
+    <Info>
+      Native installations automatically update in the background to keep you on the latest version.
+    </Info>
   </Tab>
 
   <Tab title="Homebrew">
     ```sh  theme={null}
     brew install --cask claude-code
     ```
+
+    <Info>
+      Homebrew installations do not auto-update. Run `brew upgrade claude-code` periodically to get the latest features and security fixes.
+    </Info>
   </Tab>
 
-  <Tab title="NPM">
-    If you have [Node.js 18 or newer installed](https://nodejs.org/en/download/):
-
-    ```sh  theme={null}
-    npm install -g @anthropic-ai/claude-code
+  <Tab title="WinGet">
+    ```powershell  theme={null}
+    winget install Anthropic.ClaudeCode
     ```
+
+    <Info>
+      WinGet installations do not auto-update. Run `winget upgrade Anthropic.ClaudeCode` periodically to get the latest features and security fixes.
+    </Info>
   </Tab>
 </Tabs>
 
@@ -66,9 +76,9 @@ claude
 # Follow the prompts to log in with your account
 ```
 
-You can log in using either account type:
+You can log in using any of these account types:
 
-* [Claude.ai](https://claude.ai) (subscription plans - recommended)
+* [Claude Pro, Max, Teams, or Enterprise](https://claude.com/pricing) (recommended)
 * [Claude Console](https://console.anthropic.com/) (API access with pre-paid credits)
 
 Once logged in, your credentials are stored and you won't need to log in again.
@@ -240,17 +250,17 @@ There are a number of ways to work with Claude:
 
 Here are the most important commands for daily use:
 
-| Command             | What it does                      | Example                             |
-| ------------------- | --------------------------------- | ----------------------------------- |
-| `claude`            | Start interactive mode            | `claude`                            |
-| `claude "task"`     | Run a one-time task               | `claude "fix the build error"`      |
-| `claude -p "query"` | Run one-off query, then exit      | `claude -p "explain this function"` |
-| `claude -c`         | Continue most recent conversation | `claude -c`                         |
-| `claude -r`         | Resume a previous conversation    | `claude -r`                         |
-| `claude commit`     | Create a Git commit               | `claude commit`                     |
-| `/clear`            | Clear conversation history        | `> /clear`                          |
-| `/help`             | Show available commands           | `> /help`                           |
-| `exit` or Ctrl+C    | Exit Claude Code                  | `> exit`                            |
+| Command             | What it does                                           | Example                             |
+| ------------------- | ------------------------------------------------------ | ----------------------------------- |
+| `claude`            | Start interactive mode                                 | `claude`                            |
+| `claude "task"`     | Run a one-time task                                    | `claude "fix the build error"`      |
+| `claude -p "query"` | Run one-off query, then exit                           | `claude -p "explain this function"` |
+| `claude -c`         | Continue most recent conversation in current directory | `claude -c`                         |
+| `claude -r`         | Resume a previous conversation                         | `claude -r`                         |
+| `claude commit`     | Create a Git commit                                    | `claude commit`                     |
+| `/clear`            | Clear conversation history                             | `> /clear`                          |
+| `/help`             | Show available commands                                | `> /help`                           |
+| `exit` or Ctrl+C    | Exit Claude Code                                       | `> exit`                            |
 
 See the [CLI reference](/en/cli-reference) for a complete list of commands.
 

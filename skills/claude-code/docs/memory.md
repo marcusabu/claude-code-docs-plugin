@@ -103,7 +103,8 @@ Rules can be scoped to specific files using YAML frontmatter with the `paths` fi
 
 ```markdown  theme={null}
 ---
-paths: src/api/**/*.ts
+paths:
+  - "src/api/**/*.ts"
 ---
 
 # API Development Rules
@@ -126,23 +127,30 @@ The `paths` field supports standard glob patterns:
 | `*.md`                 | Markdown files in the project root       |
 | `src/components/*.tsx` | React components in a specific directory |
 
-You can use braces to match multiple patterns efficiently:
+You can specify multiple patterns:
 
 ```markdown  theme={null}
 ---
-paths: src/**/*.{ts,tsx}
+paths:
+  - "src/**/*.ts"
+  - "lib/**/*.ts"
+  - "tests/**/*.test.ts"
+---
+```
+
+Brace expansion is supported for matching multiple extensions or directories:
+
+```markdown  theme={null}
+---
+paths:
+  - "src/**/*.{ts,tsx}"
+  - "{src,lib}/**/*.ts"
 ---
 
 # TypeScript/React Rules
 ```
 
-This expands to match both `src/**/*.ts` and `src/**/*.tsx`. You can also combine multiple patterns with commas:
-
-```markdown  theme={null}
----
-paths: {src,lib}/**/*.ts, tests/**/*.test.ts
----
-```
+This expands `src/**/*.{ts,tsx}` to match both `.ts` and `.tsx` files.
 
 ### Subdirectories
 
@@ -198,11 +206,11 @@ User-level rules are loaded before project rules, giving project rules higher pr
 
 ## Organization-level memory management
 
-Enterprise organizations can deploy centrally managed CLAUDE.md files that apply to all users.
+Organizations can deploy centrally managed CLAUDE.md files that apply to all users.
 
 To set up organization-level memory management:
 
-1. Create the enterprise memory file at the **Enterprise policy** location shown in the [memory types table above](#determine-memory-type).
+1. Create the managed memory file at the **Managed policy** location shown in the [memory types table above](#determine-memory-type).
 
 2. Deploy via your configuration management system (MDM, Group Policy, Ansible, etc.) to ensure consistent distribution across all developer machines.
 

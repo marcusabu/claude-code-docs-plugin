@@ -166,19 +166,19 @@ This removes your stored authentication information and forces a clean login.
 
 Claude Code stores configuration in several locations:
 
-| File                          | Purpose                                                                |
-| :---------------------------- | :--------------------------------------------------------------------- |
-| `~/.claude/settings.json`     | User settings (permissions, hooks, model overrides)                    |
-| `.claude/settings.json`       | Project settings (checked into source control)                         |
-| `.claude/settings.local.json` | Local project settings (not committed)                                 |
-| `~/.claude.json`              | Global state (theme, OAuth, MCP servers, allowed tools)                |
-| `.mcp.json`                   | Project MCP servers (checked into source control)                      |
-| `managed-settings.json`       | [Enterprise managed settings](/en/settings#settings-files)             |
-| `managed-mcp.json`            | [Enterprise managed MCP servers](/en/mcp#enterprise-mcp-configuration) |
+| File                          | Purpose                                                  |
+| :---------------------------- | :------------------------------------------------------- |
+| `~/.claude/settings.json`     | User settings (permissions, hooks, model overrides)      |
+| `.claude/settings.json`       | Project settings (checked into source control)           |
+| `.claude/settings.local.json` | Local project settings (not committed)                   |
+| `~/.claude.json`              | Global state (theme, OAuth, MCP servers, allowed tools)  |
+| `.mcp.json`                   | Project MCP servers (checked into source control)        |
+| `managed-settings.json`       | [Managed settings](/en/settings#settings-files)          |
+| `managed-mcp.json`            | [Managed MCP servers](/en/mcp#managed-mcp-configuration) |
 
 On Windows, `~` refers to your user home directory, such as `C:\Users\YourName`.
 
-**Enterprise managed file locations:**
+**Managed file locations:**
 
 * macOS: `/Library/Application Support/ClaudeCode/`
 * Linux/WSL: `/etc/claude-code/`
@@ -387,7 +387,14 @@ If you're experiencing issues not covered here:
 
 1. Use the `/bug` command within Claude Code to report problems directly to Anthropic
 2. Check the [GitHub repository](https://github.com/anthropics/claude-code) for known issues
-3. Run `/doctor` to check the health of your Claude Code installation
+3. Run `/doctor` to diagnose issues. It checks:
+   * Installation type, version, and search functionality
+   * Auto-update status and available versions
+   * Invalid settings files (malformed JSON, incorrect types)
+   * MCP server configuration errors
+   * Keybinding configuration problems
+   * Context usage warnings (large CLAUDE.md files, high MCP token usage, unreachable permission rules)
+   * Plugin and agent loading errors
 4. Ask Claude directly about its capabilities and features - Claude has built-in access to its documentation
 
 

@@ -244,27 +244,6 @@ LSP integration provides:
 | `shutdownTimeout`       | Max time to wait for graceful shutdown (milliseconds)     |
 | `restartOnCrash`        | Whether to automatically restart the server if it crashes |
 | `maxRestarts`           | Maximum number of restart attempts before giving up       |
-| `loggingConfig`         | Debug logging configuration (see below)                   |
-
-**Debug logging configuration:**
-
-The `loggingConfig` field enables verbose LSP logging when users pass `--enable-lsp-logging`. This helps debug language server issues without impacting normal operation.
-
-```json  theme={null}
-"loggingConfig": {
-  "args": ["--log-level", "4"],
-  "env": {
-    "TSS_LOG": "-level verbose -file ${CLAUDE_PLUGIN_LSP_LOG_FILE}"
-  }
-}
-```
-
-| Field  | Description                                                        |
-| :----- | :----------------------------------------------------------------- |
-| `args` | Additional command-line arguments appended when logging is enabled |
-| `env`  | Additional environment variables merged when logging is enabled    |
-
-The `${CLAUDE_PLUGIN_LSP_LOG_FILE}` variable expands to the log file path. Logs are written to `~/.claude/debug/`.
 
 <Warning>
   **You must install the language server binary separately.** LSP plugins configure how Claude Code connects to a language server, but they don't include the server itself. If you see `Executable not found in $PATH` in the `/plugin` Errors tab, install the required binary for your language.
@@ -291,7 +270,7 @@ When you install a plugin, you choose a **scope** that determines where the plug
 | `user`    | `~/.claude/settings.json`     | Personal plugins available across all projects (default) |
 | `project` | `.claude/settings.json`       | Team plugins shared via version control                  |
 | `local`   | `.claude/settings.local.json` | Project-specific plugins, gitignored                     |
-| `managed` | `managed-settings.json`       | Enterprise-managed plugins (read-only, update only)      |
+| `managed` | `managed-settings.json`       | Managed plugins (read-only, update only)                 |
 
 Plugins use the same scope system as other Claude Code configurations. For installation instructions and scope flags, see [Install plugins](/en/discover-plugins#install-plugins). For a complete explanation of scopes, see [Configuration scopes](/en/settings#configuration-scopes).
 

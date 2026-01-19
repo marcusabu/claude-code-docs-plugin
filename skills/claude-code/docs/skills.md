@@ -54,7 +54,7 @@ This example creates a personal Skill that teaches Claude to explain code using 
   </Step>
 
   <Step title="Load and verify the Skill">
-    Exit and restart Claude Code to load the new Skill. Then verify it appears in the list:
+    Skills are automatically loaded when created or modified. Verify the Skill appears in the list:
 
     ```
     What Skills are available?
@@ -88,7 +88,7 @@ When you send a request, Claude follows these steps to find and use relevant Ski
   </Step>
 
   <Step title="Activation">
-    When your request matches a Skill's description, Claude asks to use the Skill. You'll see a confirmation prompt before the full `SKILL.md` is loaded into context. Claude matches requests against descriptions using semantic similarity, so [write descriptions](#skill-not-triggering) that include keywords users would naturally say.
+    When your request matches a Skill's description, Claude asks to use the Skill. You'll see a confirmation prompt before the full `SKILL.md` is loaded into context. Since Claude reads these descriptions to find relevant Skills, [write descriptions](#skill-not-triggering) that include keywords users would naturally say.
   </Step>
 
   <Step title="Execution">
@@ -100,14 +100,18 @@ When you send a request, Claude follows these steps to find and use relevant Ski
 
 Where you store a Skill determines who can use it:
 
-| Location   | Path                                                        | Applies to                        |
-| :--------- | :---------------------------------------------------------- | :-------------------------------- |
-| Enterprise | See [managed settings](/en/iam#enterprise-managed-settings) | All users in your organization    |
-| Personal   | `~/.claude/skills/`                                         | You, across all projects          |
-| Project    | `.claude/skills/`                                           | Anyone working in this repository |
-| Plugin     | Bundled with [plugins](/en/plugins)                         | Anyone with the plugin installed  |
+| Location   | Path                                             | Applies to                        |
+| :--------- | :----------------------------------------------- | :-------------------------------- |
+| Enterprise | See [managed settings](/en/iam#managed-settings) | All users in your organization    |
+| Personal   | `~/.claude/skills/`                              | You, across all projects          |
+| Project    | `.claude/skills/`                                | Anyone working in this repository |
+| Plugin     | Bundled with [plugins](/en/plugins)              | Anyone with the plugin installed  |
 
-If two Skills have the same name, the higher row wins: enterprise overrides personal, personal overrides project, and project overrides plugin.
+If two Skills have the same name, the higher row wins: managed overrides personal, personal overrides project, and project overrides plugin.
+
+#### Automatic discovery from nested directories
+
+When you work with files in subdirectories, Claude Code automatically discovers Skills from nested `.claude/skills/` directories. For example, if you're editing a file in `packages/frontend/`, Claude Code also looks for Skills in `packages/frontend/.claude/skills/`. This supports monorepo setups where packages have their own Skills.
 
 ### When to use Skills versus other options
 
@@ -157,18 +161,44 @@ Show concrete examples of using this Skill.
 
 You can use the following fields in the YAML frontmatter:
 
-| Field           | Required | Description                                                                                                                                                                      |
-| :-------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`          | Yes      | Skill name. Must use lowercase letters, numbers, and hyphens only (max 64 characters). Should match the directory name.                                                          |
-| `description`   | Yes      | What the Skill does and when to use it (max 1024 characters). Claude uses this to decide when to apply the Skill.                                                                |
-| `allowed-tools` | No       | Tools Claude can use without asking permission when this Skill is active. See [Restrict tool access](#restrict-tool-access-with-allowed-tools).                                  |
-| `model`         | No       | [Model](https://docs.claude.com/en/docs/about-claude/models/overview) to use when this Skill is active (e.g., `claude-sonnet-4-20250514`). Defaults to the conversation's model. |
+| Field            | Required | Description                                                                                                                                                                                                                                                                                       |
+| :--------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`           | Yes      | Skill name. Must use lowercase letters, numbers, and hyphens only (max 64 characters). Should match the directory name.                                                                                                                                                                           |
+| `description`    | Yes      | What the Skill does and when to use it (max 1024 characters). Claude uses this to decide when to apply the Skill.                                                                                                                                                                                 |
+| `allowed-tools`  | No       | Tools Claude can use without asking permission when this Skill is active. Supports comma-separated values or YAML-style lists. See [Restrict tool access](#restrict-tool-access-with-allowed-tools).                                                                                              |
+| `model`          | No       | [Model](https://docs.claude.com/en/docs/about-claude/models/overview) to use when this Skill is active (e.g., `claude-sonnet-4-20250514`). Defaults to the conversation's model.                                                                                                                  |
+| `context`        | No       | Set to `fork` to run the Skill in a forked sub-agent context with its own conversation history.                                                                                                                                                                                                   |
+| `agent`          | No       | Specify which [agent type](/en/sub-agents#built-in-subagents) to use when `context: fork` is set (e.g., `Explore`, `Plan`, `general-purpose`, or a custom agent name from `.claude/agents/`). Defaults to `general-purpose` if not specified. Only applicable when combined with `context: fork`. |
+| `hooks`          | No       | Define hooks scoped to this Skill's lifecycle. Supports `PreToolUse`, `PostToolUse`, and `Stop` events.                                                                                                                                                                                           |
+| `user-invocable` | No       | Controls whether the Skill appears in the slash command menu. Does not affect the [`Skill` tool](/en/slash-commands#skill-tool) or automatic discovery. Defaults to `true`. See [Control Skill visibility](#control-skill-visibility).                                                            |
+
+#### Available string substitutions
+
+Skills support string substitution for dynamic values in the Skill content:
+
+| Variable               | Description                                                                                                                                  |
+| :--------------------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
+| `$ARGUMENTS`           | All arguments passed when invoking the Skill. If `$ARGUMENTS` is not present in the content, arguments are appended as `ARGUMENTS: <value>`. |
+| `${CLAUDE_SESSION_ID}` | The current session ID. Useful for logging, creating session-specific files, or correlating Skill output with sessions.                      |
+
+**Example using substitutions:**
+
+```yaml  theme={null}
+---
+name: session-logger
+description: Log activity for this session
+---
+
+Log the following to logs/${CLAUDE_SESSION_ID}.log:
+
+$ARGUMENTS
+```
 
 See the [best practices guide](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices) for complete authoring guidance including validation rules.
 
 ### Update or delete a Skill
 
-To update a Skill, edit its `SKILL.md` file directly. To remove a Skill, delete its directory. Exit and restart Claude Code for changes to take effect.
+To update a Skill, edit its `SKILL.md` file directly. To remove a Skill, delete its directory. Changes take effect immediately.
 
 ### Add supporting files with progressive disclosure
 
@@ -230,7 +260,7 @@ For complete guidance on structuring Skills, see the [best practices guide](http
 
 ### Restrict tool access with allowed-tools
 
-Use the `allowed-tools` frontmatter field to limit which tools Claude can use when a Skill is active:
+Use the `allowed-tools` frontmatter field to limit which tools Claude can use when a Skill is active. You can specify tools as a comma-separated string or a YAML list:
 
 ```yaml  theme={null}
 ---
@@ -238,15 +268,19 @@ name: reading-files-safely
 description: Read files without making changes. Use when you need read-only file access.
 allowed-tools: Read, Grep, Glob
 ---
+```
 
-# Safe File Reader
+Or use YAML-style lists for better readability:
 
-This Skill provides read-only file access.
-
-## Instructions
-1. Use Read to view file contents
-2. Use Grep to search within files
-3. Use Glob to find files by pattern
+```yaml  theme={null}
+---
+name: reading-files-safely
+description: Read files without making changes. Use when you need read-only file access.
+allowed-tools:
+  - Read
+  - Grep
+  - Glob
+---
 ```
 
 When this Skill is active, Claude can only use the specified tools (Read, Grep, Glob) without needing to ask for permission. This is useful for:
@@ -261,12 +295,86 @@ If `allowed-tools` is omitted, the Skill doesn't restrict tools. Claude uses its
   `allowed-tools` is only supported for Skills in Claude Code.
 </Note>
 
-### Use Skills with subagents
+### Run Skills in a forked context
 
-[Subagents](/en/sub-agents) do not automatically inherit Skills from the main conversation. To give a custom subagent access to specific Skills, list them in the subagent's `skills` field in `.claude/agents/`:
+Use `context: fork` to run a Skill in an isolated sub-agent context with its own conversation history. This is useful for Skills that perform complex multi-step operations without cluttering the main conversation:
 
 ```yaml  theme={null}
-# .claude/agents/code-reviewer/AGENT.md
+---
+name: code-analysis
+description: Analyze code quality and generate detailed reports
+context: fork
+---
+```
+
+### Define hooks for Skills
+
+Skills can define hooks that run during the Skill's lifecycle. Use the `hooks` field to specify `PreToolUse`, `PostToolUse`, or `Stop` handlers:
+
+```yaml  theme={null}
+---
+name: secure-operations
+description: Perform operations with additional security checks
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: "./scripts/security-check.sh $TOOL_INPUT"
+          once: true
+---
+```
+
+The `once: true` option runs the hook only once per session. After the first successful execution, the hook is removed.
+
+Hooks defined in a Skill are scoped to that Skill's execution and are automatically cleaned up when the Skill finishes.
+
+See [Hooks](/en/hooks) for the complete hook configuration format.
+
+### Control Skill visibility
+
+Skills can be invoked in three ways:
+
+1. **Manual invocation**: You type `/skill-name` in the prompt
+2. **Programmatic invocation**: Claude calls it via the [`Skill` tool](/en/slash-commands#skill-tool)
+3. **Automatic discovery**: Claude reads the Skill's description and loads it when relevant to the conversation
+
+The `user-invocable` field controls only manual invocation. When set to `false`, the Skill is hidden from the slash command menu but Claude can still invoke it programmatically or discover it automatically.
+
+To block programmatic invocation via the `Skill` tool, use `disable-model-invocation: true` instead.
+
+#### When to use each setting
+
+| Setting                          | Slash menu | `Skill` tool | Auto-discovery | Use case                                                        |
+| :------------------------------- | :--------- | :----------- | :------------- | :-------------------------------------------------------------- |
+| `user-invocable: true` (default) | Visible    | Allowed      | Yes            | Skills you want users to invoke directly                        |
+| `user-invocable: false`          | Hidden     | Allowed      | Yes            | Skills that Claude can use but users shouldn't invoke manually  |
+| `disable-model-invocation: true` | Visible    | Blocked      | Yes            | Skills you want users to invoke but not Claude programmatically |
+
+#### Example: model-only Skill
+
+Set `user-invocable: false` to hide a Skill from the slash menu while still allowing Claude to invoke it programmatically:
+
+```yaml  theme={null}
+---
+name: internal-review-standards
+description: Apply internal code review standards when reviewing pull requests
+user-invocable: false
+---
+```
+
+With this setting, users won't see the Skill in the `/` menu, but Claude can still invoke it via the `Skill` tool or discover it automatically based on context.
+
+### Skills and subagents
+
+There are two ways Skills and subagents can work together:
+
+#### Give a subagent access to Skills
+
+[Subagents](/en/sub-agents) do not automatically inherit Skills from the main conversation. To give a custom subagent access to specific Skills, list them in the subagent's `skills` field:
+
+```yaml  theme={null}
+# .claude/agents/code-reviewer.md
 ---
 name: code-reviewer
 description: Review code for quality and best practices
@@ -274,11 +382,15 @@ skills: pr-review, security-check
 ---
 ```
 
-The listed Skills are loaded into the subagent's context when it starts. If the `skills` field is omitted, no Skills are preloaded for that subagent.
+The full content of each listed Skill is injected into the subagent's context at startup, not just made available for invocation. If the `skills` field is omitted, no Skills are loaded for that subagent.
 
 <Note>
-  Built-in agents (Explore, Plan, Verify) and the Task tool do not have access to your Skills. Only custom subagents you define in `.claude/agents/` with an explicit `skills` field can use Skills.
+  Built-in agents (Explore, Plan, general-purpose) do not have access to your Skills. Only custom subagents you define in `.claude/agents/` with an explicit `skills` field can use Skills.
 </Note>
+
+#### Run a Skill in a subagent context
+
+Use `context: fork` and `agent` to run a Skill in a forked subagent with its own separate context. See [Run Skills in a forked context](#run-skills-in-a-forked-context) for details.
 
 ### Distribute Skills
 
@@ -286,7 +398,7 @@ You can share Skills in several ways:
 
 * **Project Skills**: Commit `.claude/skills/` to version control. Anyone who clones the repository gets the Skills.
 * **Plugins**: To share Skills across multiple repositories, create a `skills/` directory in your [plugin](/en/plugins) with Skill folders containing `SKILL.md` files. Distribute through a [plugin marketplace](/en/plugin-marketplaces).
-* **Enterprise**: Administrators can deploy Skills organization-wide through [managed settings](/en/iam#enterprise-managed-settings). See [Where Skills live](#where-skills-live) for enterprise Skill paths.
+* **Managed**: Administrators can deploy Skills organization-wide through [managed settings](/en/iam#managed-settings). See [Where Skills live](#where-skills-live) for managed Skill paths.
 
 ## Examples
 

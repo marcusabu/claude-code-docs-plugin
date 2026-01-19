@@ -210,11 +210,17 @@ You can also add a direct path to a `marketplace.json` file:
 /plugin marketplace add ./path/to/marketplace.json
 ```
 
-Or add a remote `marketplace.json` file via URL:
+### Add from remote URLs
+
+Add a remote `marketplace.json` file via URL:
 
 ```shell  theme={null}
 /plugin marketplace add https://example.com/marketplace.json
 ```
+
+<Note>
+  URL-based marketplaces have some limitations compared to Git-based marketplaces. If you encounter "path not found" errors when installing plugins, see [Troubleshooting](/en/plugin-marketplaces#plugins-with-relative-paths-fail-in-url-based-marketplaces).
+</Note>
 
 ## Install plugins
 
@@ -230,7 +236,7 @@ To choose a different [installation scope](/en/settings#configuration-scopes), u
 * **Project scope**: install for all collaborators on this repository (adds to `.claude/settings.json`)
 * **Local scope**: install for yourself in this repository only (not shared with collaborators)
 
-You may also see plugins with **managed** scope—these are installed by enterprise administrators via [managed settings](/en/settings#enterprise-managed-policy-settings) and cannot be modified.
+You may also see plugins with **managed** scope—these are installed by administrators via [managed settings](/en/settings#settings-files) and cannot be modified.
 
 Run `/plugin` and go to the **Installed** tab to see your plugins grouped by scope.
 

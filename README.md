@@ -5,12 +5,14 @@ A Claude Code plugin with comprehensive documentation about Claude Code features
 ## Installation
 
 ```bash
-# From GitHub
-/plugin marketplace add mabukari/claude-code-docs-skill
-/plugin install claude-code-docs@claude-code
+# Add the marketplace from GitHub
+/plugin marketplace add marcusabu/claude-code-docs-skill
+
+# Install the plugin
+/plugin install claude-code-docs@marcusabu-claude-code-docs
 
 # Local testing
-claude --plugin-dir ./claude-code-docs-skill
+claude --plugin-dir ./plugins/claude-code-docs
 ```
 
 ## What's Included

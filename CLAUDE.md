@@ -6,16 +6,21 @@ A Claude Code plugin providing comprehensive documentation about Claude Code fea
 
 ```
 .claude-plugin/
-├── plugin.json           # Plugin metadata (name, version, author)
-skills/
-└── claude-code/
-    ├── SKILL.md          # Skill definition with frontmatter
-    └── docs/             # Official Claude Code documentation
-        └── *.md          # 50+ documentation files
+└── marketplace.json      # Marketplace catalog for distribution
+plugins/
+└── claude-code-docs/
+    ├── .claude-plugin/
+    │   └── plugin.json   # Plugin metadata (name, version, author)
+    └── skills/
+        └── claude-code/
+            ├── SKILL.md  # Skill definition with frontmatter
+            └── docs/     # Official Claude Code documentation
+                └── *.md  # 50+ documentation files
 ```
 
 ## Key Files
 
+- **marketplace.json** - Marketplace catalog listing plugins for distribution
 - **plugin.json** - Plugin manifest defining name, description, version
 - **SKILL.md** - Skill configuration with description for when to activate
 - **docs/** - Comprehensive Claude Code documentation synced from official sources
@@ -36,7 +41,7 @@ claude --plugin-dir .
 
 ### Adding Documentation
 
-1. Add markdown files to `skills/claude-code/docs/`
+1. Add markdown files to `plugins/claude-code-docs/skills/claude-code/docs/`
 2. Update `docs_manifest.json` if syncing from URLs
 3. Reference new docs in `SKILL.md` if significant
 

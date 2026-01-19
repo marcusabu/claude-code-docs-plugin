@@ -7,7 +7,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-DOCS_DIR="$PROJECT_ROOT/skills/claude-code/docs"
+DOCS_DIR="$PROJECT_ROOT/plugins/claude-code-docs/skills/claude-code/docs"
 SOURCE_REPO="https://github.com/ericbuess/claude-code-docs.git"
 TEMP_DIR=$(mktemp -d)
 

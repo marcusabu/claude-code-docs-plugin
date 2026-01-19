@@ -1,11 +1,17 @@
 {
   "name": "marcusabu-claude-code-docs",
-  "version": "1.0.0",
+  "owner": {
+    "name": "Marcus Abukari"
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "description": "Marketplace for Claude Code documentation and knowledge plugins"
+  },
   "plugins": [
     {
       "name": "claude-code-docs",
       "description": "Claude Code documentation and knowledge skill - comprehensive reference for features, configuration, and best practices",
-      "source": "./"
+      "source": "./plugins/claude-code-docs"
     }
   ]
 }

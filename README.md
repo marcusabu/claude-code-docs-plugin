@@ -75,6 +75,10 @@ The plugin includes 50+ documentation files covering all aspects of Claude Code:
 | Cloud | amazon-bedrock, google-vertex-ai |
 | Troubleshooting | troubleshooting, common-workflows |
 
+## Acknowledgments
+
+Documentation sourced from [claude-code-docs](https://github.com/ericbuess/claude-code-docs) by Eric Buess.
+
 ## License
 
 MIT

@@ -1,0 +1,74 @@
+name: Update Claude Code Documentation
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        ref: main
+
+    - name: Fetch latest documentation
+      id: fetch-docs
+      run: |
+        chmod +x scripts/fetch-docs.sh
+        ./scripts/fetch-docs.sh || echo "fetch_failed=true" >> $GITHUB_OUTPUT
+      continue-on-error: true
+
+    - name: Check for changes
+      id: verify-changed-files
+      run: |
+        git diff --exit-code || echo "changed=true" >> $GITHUB_OUTPUT
+
+    - name: Generate commit message
+      if: steps.verify-changed-files.outputs.changed == 'true'
+      id: commit-msg
+      run: |
+        DOCS_DIR="skills/claude-code/docs"
+
+        # Stage changes to see what will be committed
+        git add -A "$DOCS_DIR"
+
+        # Get list of changed files
+        CHANGED_FILES=$(git diff --name-status --cached | grep "^M" | cut -f2 | grep -E "\.md$" | xargs -I {} basename {} 2>/dev/null | paste -sd ", " -)
+        ADDED_FILES=$(git diff --name-status --cached | grep "^A" | cut -f2 | grep -E "\.md$" | xargs -I {} basename {} 2>/dev/null | paste -sd ", " -)
+        DELETED_FILES=$(git diff --name-status --cached | grep "^D" | cut -f2 | grep -E "\.md$" | xargs -I {} basename {} 2>/dev/null | paste -sd ", " -)
+
+        # Build commit message
+        COMMIT_MSG="docs: sync Claude Code docs - $(date +'%Y-%m-%d')"
+
+        if [ -n "$CHANGED_FILES" ]; then
+          COMMIT_MSG="$COMMIT_MSG | Updated: $CHANGED_FILES"
+        fi
+
+        if [ -n "$ADDED_FILES" ]; then
+          COMMIT_MSG="$COMMIT_MSG | Added: $ADDED_FILES"
+        fi
+
+        if [ -n "$DELETED_FILES" ]; then
+          COMMIT_MSG="$COMMIT_MSG | Removed: $DELETED_FILES"
+        fi
+
+        echo "message=$COMMIT_MSG" >> $GITHUB_OUTPUT
+
+    - name: Commit and push if changed
+      if: steps.verify-changed-files.outputs.changed == 'true'
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -m "${{ steps.commit-msg.outputs.message }}"
+        git push
+

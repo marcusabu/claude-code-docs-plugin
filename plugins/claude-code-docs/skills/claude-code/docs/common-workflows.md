@@ -336,7 +336,7 @@ You can create pull requests by asking Claude directly ("create a pr for my chan
 > /commit-push-pr
 ```
 
-If you have a Slack MCP server configured and specify channels in your CLAUDE.md (for example, "post PR URLs to #team-prs"), the skill automatically posts the PR URL to those channels.
+If you have a Slack MCP server configured and specify channels in your AGENTS.md (for example, "post PR URLs to #team-prs"), the skill automatically posts the PR URL to those channels.
 
 For more control over the process, guide Claude through it step-by-step or [create your own skill](/en/skills):
 
@@ -500,7 +500,7 @@ Use @ to quickly include files or directories without waiting for Claude to read
   Tips:
 
   * File paths can be relative or absolute
-  * @ file references add `CLAUDE.md` in the file's directory and parent directories to context
+  * @ file references add `AGENTS.md` in the file's directory and parent directories to context
   * Directory references show file listings, not contents
   * You can reference multiple files in a single message (for example, "@file1.js and @file2.js")
 </Tip>

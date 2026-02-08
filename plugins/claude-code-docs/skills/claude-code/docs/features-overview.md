@@ -4,7 +4,7 @@
 
 # Extend Claude Code
 
-> Understand when to use CLAUDE.md, Skills, subagents, hooks, MCP, and plugins.
+> Understand when to use AGENTS.md, Skills, subagents, hooks, MCP, and plugins.
 
 Claude Code combines a model that reasons about your code with [built-in tools](/en/how-claude-code-works#tools) for file operations, search, execution, and web access. The built-in tools cover most coding tasks. This guide covers the extension layer: features you add to customize what Claude knows, connect it to external services, and automate workflows.
 
@@ -12,13 +12,13 @@ Claude Code combines a model that reasons about your code with [built-in tools](
   For how the core agentic loop works, see [How Claude Code works](/en/how-claude-code-works).
 </Note>
 
-**New to Claude Code?** Start with [CLAUDE.md](/en/memory) for project conventions. Add other extensions as you need them.
+**New to Claude Code?** Start with [AGENTS.md](/en/memory) for project conventions. Add other extensions as you need them.
 
 ## Overview
 
 Extensions plug into different parts of the agentic loop:
 
-* **[CLAUDE.md](/en/memory)** adds persistent context Claude sees every session
+* **[AGENTS.md](/en/memory)** adds persistent context Claude sees every session
 * **[Skills](/en/skills)** add reusable knowledge and invocable workflows
 * **[MCP](/en/mcp)** connects Claude to external services and tools
 * **[Subagents](/en/sub-agents)** run their own loops in isolated context, returning summaries
@@ -34,7 +34,7 @@ Features range from always-on context that Claude sees every session, to on-dema
 
 | Feature                            | What it does                                               | When to use it                                                                  | Example                                                                          |
 | ---------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| **CLAUDE.md**                      | Persistent context loaded every conversation               | Project conventions, "always do X" rules                                        | "Use pnpm, not npm. Run tests before committing."                                |
+| **AGENTS.md**                      | Persistent context loaded every conversation               | Project conventions, "always do X" rules                                        | "Use pnpm, not npm. Run tests before committing."                                |
 | **Skill**                          | Instructions, knowledge, and workflows Claude can use      | Reusable content, reference docs, repeatable tasks                              | `/review` runs your code review checklist; API docs skill with endpoint patterns |
 | **Subagent**                       | Isolated execution context that returns summarized results | Context isolation, parallel tasks, specialized workers                          | Research task that reads many files but returns only key findings                |
 | **[Agent teams](/en/agent-teams)** | Coordinate multiple independent Claude Code sessions       | Parallel research, new feature development, debugging with competing hypotheses | Spawn reviewers to check security, performance, and tests simultaneously         |
@@ -67,21 +67,21 @@ Some features can seem similar. Here's how to tell them apart.
     **They can combine.** A subagent can preload specific skills (`skills:` field). A skill can run in isolated context using `context: fork`. See [Skills](/en/skills) for details.
   </Tab>
 
-  <Tab title="CLAUDE.md vs Skill">
+  <Tab title="AGENTS.md vs Skill">
     Both store instructions, but they load differently and serve different purposes.
 
-    | Aspect                    | CLAUDE.md                    | Skill                                   |
+    | Aspect                    | AGENTS.md                    | Skill                                   |
     | ------------------------- | ---------------------------- | --------------------------------------- |
     | **Loads**                 | Every session, automatically | On demand                               |
     | **Can include files**     | Yes, with `@path` imports    | Yes, with `@path` imports               |
     | **Can trigger workflows** | No                           | Yes, with `/<name>`                     |
     | **Best for**              | "Always do X" rules          | Reference material, invocable workflows |
 
-    **Put it in CLAUDE.md** if Claude should always know it: coding conventions, build commands, project structure, "never do X" rules.
+    **Put it in AGENTS.md** if Claude should always know it: coding conventions, build commands, project structure, "never do X" rules.
 
     **Put it in a skill** if it's reference material Claude needs sometimes (API docs, style guides) or a workflow you trigger with `/<name>` (deploy, review, release).
 
-    **Rule of thumb:** Keep CLAUDE.md under \~500 lines. If it's growing, move reference content to skills.
+    **Rule of thumb:** Keep AGENTS.md under \~500 lines. If it's growing, move reference content to skills.
   </Tab>
 
   <Tab title="Subagent vs Agent team">
@@ -130,24 +130,24 @@ Some features can seem similar. Here's how to tell them apart.
 
 ### Understand how features layer
 
-Features can be defined at multiple levels: user-wide, per-project, via plugins, or through managed policies. You can also nest CLAUDE.md files in subdirectories or place skills in specific packages of a monorepo. When the same feature exists at multiple levels, here's how they layer:
+Features can be defined at multiple levels: user-wide, per-project, via plugins, or through managed policies. You can also nest AGENTS.md files in subdirectories or place skills in specific packages of a monorepo. When the same feature exists at multiple levels, here's how they layer:
 
-* **CLAUDE.md files** are additive: all levels contribute content to Claude's context simultaneously. Files from your working directory and above load at launch; subdirectories load as you work in them. When instructions conflict, Claude uses judgment to reconcile them, with more specific instructions typically taking precedence. See [how Claude looks up memories](/en/memory#how-claude-looks-up-memories).
+* **AGENTS.md files** are additive: all levels contribute content to Claude's context simultaneously. Files from your working directory and above load at launch; subdirectories load as you work in them. When instructions conflict, Claude uses judgment to reconcile them, with more specific instructions typically taking precedence. See [how Claude looks up memories](/en/memory#how-claude-looks-up-memories).
 * **Skills and subagents** override by name: when the same name exists at multiple levels, one definition wins based on priority (managed > user > project for skills; managed > CLI flag > project > user > plugin for subagents). Plugin skills are [namespaced](/en/plugins#add-skills-to-your-plugin) to avoid conflicts. See [skill discovery](/en/skills#where-skills-live) and [subagent scope](/en/sub-agents#choose-the-subagent-scope).
 * **MCP servers** override by name: local > project > user. See [MCP scope](/en/mcp#scope-hierarchy-and-precedence).
 * **Hooks** merge: all registered hooks fire for their matching events regardless of source. See [hooks](/en/hooks).
 
 ### Combine features
 
-Each extension solves a different problem: CLAUDE.md handles always-on context, skills handle on-demand knowledge and workflows, MCP handles external connections, subagents handle isolation, and hooks handle automation. Real setups combine them based on your workflow.
+Each extension solves a different problem: AGENTS.md handles always-on context, skills handle on-demand knowledge and workflows, MCP handles external connections, subagents handle isolation, and hooks handle automation. Real setups combine them based on your workflow.
 
-For example, you might use CLAUDE.md for project conventions, a skill for your deployment workflow, MCP to connect to your database, and a hook to run linting after every edit. Each feature handles what it's best at.
+For example, you might use AGENTS.md for project conventions, a skill for your deployment workflow, MCP to connect to your database, and a hook to run linting after every edit. Each feature handles what it's best at.
 
 | Pattern                | How it works                                                                     | Example                                                                                            |
 | ---------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | **Skill + MCP**        | MCP provides the connection; a skill teaches Claude how to use it well           | MCP connects to your database, a skill documents your schema and query patterns                    |
 | **Skill + Subagent**   | A skill spawns subagents for parallel work                                       | `/review` skill kicks off security, performance, and style subagents that work in isolated context |
-| **CLAUDE.md + Skills** | CLAUDE.md holds always-on rules; skills hold reference material loaded on demand | CLAUDE.md says "follow our API conventions," a skill contains the full API style guide             |
+| **AGENTS.md + Skills** | AGENTS.md holds always-on rules; skills hold reference material loaded on demand | AGENTS.md says "follow our API conventions," a skill contains the full API style guide             |
 | **Hook + MCP**         | A hook triggers external actions through MCP                                     | Post-edit hook sends a Slack notification when Claude modifies critical files                      |
 
 ## Understand context costs
@@ -160,7 +160,7 @@ Each feature has a different loading strategy and context cost:
 
 | Feature         | When it loads             | What loads                                    | Context cost                                 |
 | --------------- | ------------------------- | --------------------------------------------- | -------------------------------------------- |
-| **CLAUDE.md**   | Session start             | Full content                                  | Every request                                |
+| **AGENTS.md**   | Session start             | Full content                                  | Every request                                |
 | **Skills**      | Session start + when used | Descriptions at start, full content when used | Low (descriptions every request)\*           |
 | **MCP servers** | Session start             | All tool definitions and schemas              | Every request                                |
 | **Subagents**   | When spawned              | Fresh context with specified skills           | Isolated from main session                   |
@@ -172,17 +172,17 @@ Each feature has a different loading strategy and context cost:
 
 Each feature loads at different points in your session. The tabs below explain when each one loads and what goes into context.
 
-<img src="https://mintcdn.com/claude-code/ELkJZG54dIaeldDC/images/context-loading.svg?fit=max&auto=format&n=ELkJZG54dIaeldDC&q=85&s=bd2e24b8e6a99b31ecfffb63f5b23bf5" alt="Context loading: CLAUDE.md and MCP load at session start and stay in every request. Skills load descriptions at start, full content on invocation. Subagents get isolated context. Hooks run externally." data-og-width="720" width="720" data-og-height="410" height="410" data-path="images/context-loading.svg" data-optimize="true" data-opv="3" srcset="https://mintcdn.com/claude-code/ELkJZG54dIaeldDC/images/context-loading.svg?w=280&fit=max&auto=format&n=ELkJZG54dIaeldDC&q=85&s=aebaadd1f484f285dd9cb4e0ea6d49b9 280w, https://mintcdn.com/claude-code/ELkJZG54dIaeldDC/images/context-loading.svg?w=560&fit=max&auto=format&n=ELkJZG54dIaeldDC&q=85&s=030c9b46126d750de315612560082727 560w, https://mintcdn.com/claude-code/ELkJZG54dIaeldDC/images/context-loading.svg?w=840&fit=max&auto=format&n=ELkJZG54dIaeldDC&q=85&s=6c73f8b0389da4f3190843140c810fe9 840w, https://mintcdn.com/claude-code/ELkJZG54dIaeldDC/images/context-loading.svg?w=1100&fit=max&auto=format&n=ELkJZG54dIaeldDC&q=85&s=9844c55d08d2c386672447f2e8518669 1100w, https://mintcdn.com/claude-code/ELkJZG54dIaeldDC/images/context-loading.svg?w=1650&fit=max&auto=format&n=ELkJZG54dIaeldDC&q=85&s=21a9522d0e4bd10ced146aab850ede76 1650w, https://mintcdn.com/claude-code/ELkJZG54dIaeldDC/images/context-loading.svg?w=2500&fit=max&auto=format&n=ELkJZG54dIaeldDC&q=85&s=d318525915aee1a1a6a4215cfaa61fb9 2500w" />
+<img src="https://mintcdn.com/claude-code/ELkJZG54dIaeldDC/images/context-loading.svg?fit=max&auto=format&n=ELkJZG54dIaeldDC&q=85&s=bd2e24b8e6a99b31ecfffb63f5b23bf5" alt="Context loading: AGENTS.md and MCP load at session start and stay in every request. Skills load descriptions at start, full content on invocation. Subagents get isolated context. Hooks run externally." data-og-width="720" width="720" data-og-height="410" height="410" data-path="images/context-loading.svg" data-optimize="true" data-opv="3" srcset="https://mintcdn.com/claude-code/ELkJZG54dIaeldDC/images/context-loading.svg?w=280&fit=max&auto=format&n=ELkJZG54dIaeldDC&q=85&s=aebaadd1f484f285dd9cb4e0ea6d49b9 280w, https://mintcdn.com/claude-code/ELkJZG54dIaeldDC/images/context-loading.svg?w=560&fit=max&auto=format&n=ELkJZG54dIaeldDC&q=85&s=030c9b46126d750de315612560082727 560w, https://mintcdn.com/claude-code/ELkJZG54dIaeldDC/images/context-loading.svg?w=840&fit=max&auto=format&n=ELkJZG54dIaeldDC&q=85&s=6c73f8b0389da4f3190843140c810fe9 840w, https://mintcdn.com/claude-code/ELkJZG54dIaeldDC/images/context-loading.svg?w=1100&fit=max&auto=format&n=ELkJZG54dIaeldDC&q=85&s=9844c55d08d2c386672447f2e8518669 1100w, https://mintcdn.com/claude-code/ELkJZG54dIaeldDC/images/context-loading.svg?w=1650&fit=max&auto=format&n=ELkJZG54dIaeldDC&q=85&s=21a9522d0e4bd10ced146aab850ede76 1650w, https://mintcdn.com/claude-code/ELkJZG54dIaeldDC/images/context-loading.svg?w=2500&fit=max&auto=format&n=ELkJZG54dIaeldDC&q=85&s=d318525915aee1a1a6a4215cfaa61fb9 2500w" />
 
 <Tabs>
-  <Tab title="CLAUDE.md">
+  <Tab title="AGENTS.md">
     **When:** Session start
 
-    **What loads:** Full content of all CLAUDE.md files (managed, user, and project levels).
+    **What loads:** Full content of all AGENTS.md files (managed, user, and project levels).
 
-    **Inheritance:** Claude reads CLAUDE.md files from your working directory up to the root, and discovers nested ones in subdirectories as it accesses those files. See [How Claude looks up memories](/en/memory#how-claude-looks-up-memories) for details.
+    **Inheritance:** Claude reads AGENTS.md files from your working directory up to the root, and discovers nested ones in subdirectories as it accesses those files. See [How Claude looks up memories](/en/memory#how-claude-looks-up-memories) for details.
 
-    <Tip>Keep CLAUDE.md under \~500 lines. Move reference material to skills, which load on-demand.</Tip>
+    <Tip>Keep AGENTS.md under \~500 lines. Move reference material to skills, which load on-demand.</Tip>
   </Tab>
 
   <Tab title="Skills">
@@ -220,7 +220,7 @@ Each feature loads at different points in your session. The tabs below explain w
 
     * The system prompt (shared with parent for cache efficiency)
     * Full content of skills listed in the agent's `skills:` field
-    * CLAUDE.md and git status (inherited from parent)
+    * AGENTS.md and git status (inherited from parent)
     * Whatever context the lead agent passes in the prompt
 
     **Context cost:** Isolated from main session. Subagents don't inherit your conversation history or invoked skills.
@@ -244,7 +244,7 @@ Each feature loads at different points in your session. The tabs below explain w
 Each feature has its own guide with setup instructions, examples, and configuration options.
 
 <CardGroup cols={2}>
-  <Card title="CLAUDE.md" icon="file-lines" href="/en/memory">
+  <Card title="AGENTS.md" icon="file-lines" href="/en/memory">
     Store project context, conventions, and instructions
   </Card>
 

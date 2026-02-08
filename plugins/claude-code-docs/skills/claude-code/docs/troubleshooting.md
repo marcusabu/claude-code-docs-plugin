@@ -404,7 +404,7 @@ If generated markdown has excessive blank lines or inconsistent spacing:
 To minimize formatting issues:
 
 * **Be explicit in requests**: Ask for "properly formatted markdown with language-tagged code blocks"
-* **Use project conventions**: Document your preferred markdown style in [`CLAUDE.md`](/en/memory)
+* **Use project conventions**: Document your preferred markdown style in [`AGENTS.md`](/en/memory)
 * **Set up validation hooks**: Use post-processing hooks to automatically verify and fix common formatting issues
 
 ## Getting more help
@@ -419,6 +419,6 @@ If you're experiencing issues not covered here:
    * Invalid settings files (malformed JSON, incorrect types)
    * MCP server configuration errors
    * Keybinding configuration problems
-   * Context usage warnings (large CLAUDE.md files, high MCP token usage, unreachable permission rules)
+   * Context usage warnings (large AGENTS.md files, high MCP token usage, unreachable permission rules)
    * Plugin and agent loading errors
 4. Ask Claude directly about its capabilities and features - Claude has built-in access to its documentation

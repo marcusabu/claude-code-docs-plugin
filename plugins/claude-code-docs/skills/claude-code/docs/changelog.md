@@ -147,7 +147,7 @@
 - Added arrow key history navigation in vim normal mode when cursor cannot move further
 - Added external editor shortcut (Ctrl+G) to the help menu for better discoverability
 - Added PR review status indicator to the prompt footer, showing the current branch's PR state (approved, changes requested, pending, or draft) as a colored dot with a clickable link
-- Added support for loading `CLAUDE.md` files from additional directories specified via `--add-dir` flag (requires setting `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1`)
+- Added support for loading `AGENTS.md` files from additional directories specified via `--add-dir` flag (requires setting `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1`)
 - Added ability to delete tasks via the `TaskUpdate` tool
 - Fixed session compaction issues that could cause resume to load full history instead of the compact summary
 - Fixed agents sometimes ignoring user messages sent while actively working on a task
@@ -301,7 +301,7 @@
 - Fixed corrupted config backup files accumulating in the home directory (now only one backup is created per config file)
 - Fixed `mcp list` and `mcp get` commands leaving orphaned MCP server processes
 - Fixed visual artifacts in ink2 mode when nodes become hidden via `display:none`
-- Improved the external CLAUDE.md imports approval dialog to show which files are being imported and from where
+- Improved the external AGENTS.md imports approval dialog to show which files are being imported and from where
 - Improved the `/tasks` dialog to go directly to task details when there's only one background task running
 - Improved @ autocomplete with icons for different suggestion types and single-line formatting
 - Updated "Help improve Claude" setting fetch to refresh OAuth and retry when it fails due to a stale OAuth token
@@ -345,7 +345,7 @@
 - Added `agent_type` to SessionStart hook input, populated if `--agent` is specified
 - Fixed a command injection vulnerability in bash command processing where malformed input could execute arbitrary commands
 - Fixed a memory leak where tree-sitter parse trees were not being freed, causing WASM memory to grow unbounded over long sessions
-- Fixed binary files (images, PDFs, etc.) being accidentally included in memory when using `@include` directives in CLAUDE.md files
+- Fixed binary files (images, PDFs, etc.) being accidentally included in memory when using `@include` directives in AGENTS.md files
 - Fixed updates incorrectly claiming another installation is in progress
 - Fixed crash when socket files exist in watched directories (defense-in-depth for EOPNOTSUPP errors)
 - Fixed remote session URL and teleport being broken when using `/tasks` command
@@ -542,7 +542,7 @@
 - Fixed diff view not updating when terminal is resized
 - Improved memory usage by 3x for large conversations
 - Improved resolution of stats screenshots copied to clipboard (Ctrl+S) for crisper images
-- Removed # shortcut for quick memory entry (tell Claude to edit your CLAUDE.md instead)
+- Removed # shortcut for quick memory entry (tell Claude to edit your AGENTS.md instead)
 - Fix thinking mode toggle in /config not persisting correctly
 - Improve UI for file creation permission dialog
 
@@ -570,7 +570,7 @@
 - Fixed scroll position resetting after deleting a permission rule in `/permissions`
 - Fixed word deletion (opt+delete) and word navigation (opt+arrow) not working correctly with non-Latin text such as Cyrillic, Greek, Arabic, Hebrew, Thai, and Chinese
 - Fixed `claude install --force` not bypassing stale lock files
-- Fixed consecutive @~/ file references in CLAUDE.md being incorrectly parsed due to markdown strikethrough interference
+- Fixed consecutive @~/ file references in AGENTS.md being incorrectly parsed due to markdown strikethrough interference
 - Windows: Fixed plugin MCP servers failing due to colons in log directory paths
 
 ## 2.0.65
@@ -711,7 +711,7 @@
 - Added `tool_use_id` field to `PreToolUseHookInput` and `PostToolUseHookInput` types
 - Added skills frontmatter field to declare skills to auto-load for subagents
 - Added the `SubagentStart` hook event
-- Fixed nested `CLAUDE.md` files not loading when @-mentioning files
+- Fixed nested `AGENTS.md` files not loading when @-mentioning files
 - Fixed duplicate rendering of some messages in the UI
 - Fixed some visual flickers
 - Fixed NotebookEdit tool inserting cells at incorrect positions when cell IDs matched the pattern `cell-N`
@@ -791,7 +791,7 @@
 - Added prompt-based stop hooks
 - VSCode: Added respectGitIgnore configuration to include .gitignored files in file searches (defaults to true)
 - Enabled SSE MCP servers on native build
-- Deprecated output styles. Review options in `/output-style` and use --system-prompt-file, --system-prompt, --append-system-prompt, CLAUDE.md, or plugins instead
+- Deprecated output styles. Review options in `/output-style` and use --system-prompt-file, --system-prompt, --append-system-prompt, AGENTS.md, or plugins instead
 - Removed support for custom ripgrep configuration, resolving an issue where Search returns no results and config discovery fails
 - Fixed Explore agent creating unwanted .md investigation files during codebase exploration
 - Fixed a bug where `/context` would sometimes fail with "max_tokens must be greater than thinking.budget_tokens" error message
@@ -1146,7 +1146,7 @@
 - Fix incorrect model names being used for certain commands like `/pr-comments`
 - Windows: improve permissions checks for allow / deny tools and project trust. This may create a new project entry in `.claude.json` - manually merge the history field if desired.
 - Windows: improve sub-process spawning to eliminate "No such file or directory" when running commands like pnpm
-- Enhanced /doctor command with CLAUDE.md and MCP tool context for self-serve debugging
+- Enhanced /doctor command with AGENTS.md and MCP tool context for self-serve debugging
 - SDK: Added canUseTool callback support for tool confirmation
 - Added `disableAllHooks` setting
 - Improved file suggestions performance in large repos
@@ -1487,7 +1487,7 @@
 
 ## 0.2.107
 
-- CLAUDE.md files can now import other files. Add @path/to/file.md to ./CLAUDE.md to load additional files on launch
+- AGENTS.md files can now import other files. Add @path/to/file.md to ./AGENTS.md to load additional files on launch
 
 ## 0.2.106
 

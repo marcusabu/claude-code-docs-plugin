@@ -142,19 +142,19 @@ You can provide rich data to Claude in several ways:
 
 A few setup steps make Claude Code significantly more effective across all your sessions. For a full overview of extension features and when to use each one, see [Extend Claude Code](/en/features-overview).
 
-### Write an effective CLAUDE.md
+### Write an effective AGENTS.md
 
 <Tip>
-  Run `/init` to generate a starter CLAUDE.md file based on your current project structure, then refine over time.
+  Run `/init` to generate a starter AGENTS.md file based on your current project structure, then refine over time.
 </Tip>
 
-CLAUDE.md is a special file that Claude reads at the start of every conversation. Include Bash commands, code style, and workflow rules. This gives Claude persistent context **it can't infer from code alone**.
+AGENTS.md is a special file that Claude reads at the start of every conversation. Include Bash commands, code style, and workflow rules. This gives Claude persistent context **it can't infer from code alone**.
 
 The `/init` command analyzes your codebase to detect build systems, test frameworks, and code patterns, giving you a solid foundation to refine.
 
-There's no required format for CLAUDE.md files, but keep it short and human-readable. For example:
+There's no required format for AGENTS.md files, but keep it short and human-readable. For example:
 
-```markdown CLAUDE.md theme={null}
+```markdown AGENTS.md theme={null}
 # Code style
 - Use ES modules (import/export) syntax, not CommonJS (require)
 - Destructure imports when possible (eg. import { foo } from 'bar')
@@ -164,9 +164,9 @@ There's no required format for CLAUDE.md files, but keep it short and human-read
 - Prefer running single tests, and not the whole test suite, for performance
 ```
 
-CLAUDE.md is loaded every session, so only include things that apply broadly. For domain knowledge or workflows that are only relevant sometimes, use [skills](/en/skills) instead. Claude loads them on demand without bloating every conversation.
+AGENTS.md is loaded every session, so only include things that apply broadly. For domain knowledge or workflows that are only relevant sometimes, use [skills](/en/skills) instead. Claude loads them on demand without bloating every conversation.
 
-Keep it concise. For each line, ask: *"Would removing this cause Claude to make mistakes?"* If not, cut it. Bloated CLAUDE.md files cause Claude to ignore your actual instructions!
+Keep it concise. For each line, ask: *"Would removing this cause Claude to make mistakes?"* If not, cut it. Bloated AGENTS.md files cause Claude to ignore your actual instructions!
 
 | ✅ Include                                            | ❌ Exclude                                          |
 | ---------------------------------------------------- | -------------------------------------------------- |
@@ -178,13 +178,13 @@ Keep it concise. For each line, ask: *"Would removing this cause Claude to make 
 | Developer environment quirks (required env vars)     | File-by-file descriptions of the codebase          |
 | Common gotchas or non-obvious behaviors              | Self-evident practices like "write clean code"     |
 
-If Claude keeps doing something you don't want despite having a rule against it, the file is probably too long and the rule is getting lost. If Claude asks you questions that are answered in CLAUDE.md, the phrasing might be ambiguous. Treat CLAUDE.md like code: review it when things go wrong, prune it regularly, and test changes by observing whether Claude's behavior actually shifts.
+If Claude keeps doing something you don't want despite having a rule against it, the file is probably too long and the rule is getting lost. If Claude asks you questions that are answered in AGENTS.md, the phrasing might be ambiguous. Treat AGENTS.md like code: review it when things go wrong, prune it regularly, and test changes by observing whether Claude's behavior actually shifts.
 
-You can tune instructions by adding emphasis (e.g., "IMPORTANT" or "YOU MUST") to improve adherence. Check CLAUDE.md into git so your team can contribute. The file compounds in value over time.
+You can tune instructions by adding emphasis (e.g., "IMPORTANT" or "YOU MUST") to improve adherence. Check AGENTS.md into git so your team can contribute. The file compounds in value over time.
 
-CLAUDE.md files can import additional files using `@path/to/import` syntax:
+AGENTS.md files can import additional files using `@path/to/import` syntax:
 
-```markdown CLAUDE.md theme={null}
+```markdown AGENTS.md theme={null}
 See @README.md for project overview and @package.json for available npm commands.
 
 # Additional Instructions
@@ -192,12 +192,12 @@ See @README.md for project overview and @package.json for available npm commands
 - Personal overrides: @~/.claude/my-project-instructions.md
 ```
 
-You can place CLAUDE.md files in several locations:
+You can place AGENTS.md files in several locations:
 
-* **Home folder (`~/.claude/CLAUDE.md`)**: Applies to all Claude sessions
-* **Project root (`./CLAUDE.md`)**: Check into git to share with your team, or name it `CLAUDE.local.md` and `.gitignore` it
-* **Parent directories**: Useful for monorepos where both `root/CLAUDE.md` and `root/foo/CLAUDE.md` are pulled in automatically
-* **Child directories**: Claude pulls in child CLAUDE.md files on demand when working with files in those directories
+* **Home folder (`~/.claude/AGENTS.md`)**: Applies to all Claude sessions
+* **Project root (`./AGENTS.md`)**: Check into git to share with your team, or name it `CLAUDE.local.md` and `.gitignore` it
+* **Parent directories**: Useful for monorepos where both `root/AGENTS.md` and `root/foo/AGENTS.md` are pulled in automatically
+* **Child directories**: Claude pulls in child AGENTS.md files on demand when working with files in those directories
 
 ### Configure permissions
 
@@ -242,7 +242,7 @@ With [MCP servers](/en/mcp), you can ask Claude to implement features from issue
   Use hooks for actions that must happen every time with zero exceptions.
 </Tip>
 
-[Hooks](/en/hooks-guide) run scripts automatically at specific points in Claude's workflow. Unlike CLAUDE.md instructions which are advisory, hooks are deterministic and guarantee the action happens.
+[Hooks](/en/hooks-guide) run scripts automatically at specific points in Claude's workflow. Unlike AGENTS.md instructions which are advisory, hooks are deterministic and guarantee the action happens.
 
 Claude can write hooks for you. Try prompts like *"Write a hook that runs eslint after every file edit"* or *"Write a hook that blocks writes to the migrations folder."* Run `/hooks` for interactive configuration, or edit `.claude/settings.json` directly.
 
@@ -401,7 +401,7 @@ During long sessions, Claude's context window can fill with irrelevant conversat
 * When auto compaction triggers, Claude summarizes what matters most, including code patterns, file states, and key decisions
 * For more control, run `/compact <instructions>`, like `/compact Focus on the API changes`
 * To compact only part of the conversation, use `Esc + Esc` or `/rewind`, select a message checkpoint, and choose **Summarize from here**. This condenses messages from that point forward while keeping earlier context intact.
-* Customize compaction behavior in CLAUDE.md with instructions like `"When compacting, always preserve the full list of modified files and any test commands"` to ensure critical context survives summarization
+* Customize compaction behavior in AGENTS.md with instructions like `"When compacting, always preserve the full list of modified files and any test commands"` to ensure critical context survives summarization
 
 ### Use subagents for investigation
 
@@ -559,7 +559,7 @@ These are common mistakes. Recognizing them early saves time:
   > **Fix**: `/clear` between unrelated tasks.
 * **Correcting over and over.** Claude does something wrong, you correct it, it's still wrong, you correct again. Context is polluted with failed approaches.
   > **Fix**: After two failed corrections, `/clear` and write a better initial prompt incorporating what you learned.
-* **The over-specified CLAUDE.md.** If your CLAUDE.md is too long, Claude ignores half of it because important rules get lost in the noise.
+* **The over-specified AGENTS.md.** If your AGENTS.md is too long, Claude ignores half of it because important rules get lost in the noise.
   > **Fix**: Ruthlessly prune. If Claude already does something correctly without the instruction, delete it or convert it to a hook.
 * **The trust-then-verify gap.** Claude produces a plausible-looking implementation that doesn't handle edge cases.
   > **Fix**: Always provide verification (tests, scripts, screenshots). If you can't verify it, don't ship it.
@@ -593,7 +593,7 @@ Over time, you'll develop intuition that no guide can capture. You'll know when 
     Step-by-step recipes for debugging, testing, PRs, and more
   </Card>
 
-  <Card title="CLAUDE.md" icon="file-lines" href="/en/memory">
+  <Card title="AGENTS.md" icon="file-lines" href="/en/memory">
     Store project conventions and persistent context
   </Card>
 </CardGroup>

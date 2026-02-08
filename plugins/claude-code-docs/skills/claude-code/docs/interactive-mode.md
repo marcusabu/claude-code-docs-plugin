@@ -101,9 +101,9 @@ To create your own commands you can invoke with `/`, see [skills](/en/skills).
 | `/exit`                   | Exit the REPL                                                                                                                                                                                                              |
 | `/export [filename]`      | Export the current conversation to a file or clipboard                                                                                                                                                                     |
 | `/help`                   | Get usage help                                                                                                                                                                                                             |
-| `/init`                   | Initialize project with `CLAUDE.md` guide                                                                                                                                                                                  |
+| `/init`                   | Initialize project with `AGENTS.md` guide                                                                                                                                                                                  |
 | `/mcp`                    | Manage MCP server connections and OAuth authentication                                                                                                                                                                     |
-| `/memory`                 | Edit `CLAUDE.md` memory files                                                                                                                                                                                              |
+| `/memory`                 | Edit `AGENTS.md` memory files                                                                                                                                                                                              |
 | `/model`                  | Select or change the AI model. With Opus 4.6, use left/right arrows to [adjust effort level](/en/model-config#adjust-effort-level). The change takes effect immediately without waiting for the current response to finish |
 | `/permissions`            | View or update [permissions](/en/permissions#manage-permissions)                                                                                                                                                           |
 | `/plan`                   | Enter plan mode directly from the prompt                                                                                                                                                                                   |
@@ -323,4 +323,4 @@ When working on a branch with an open pull request, Claude Code displays a click
 * [Checkpointing](/en/checkpointing) - Rewind Claude's edits and restore previous states
 * [CLI reference](/en/cli-reference) - Command-line flags and options
 * [Settings](/en/settings) - Configuration options
-* [Memory management](/en/memory) - Managing CLAUDE.md files
+* [Memory management](/en/memory) - Managing AGENTS.md files

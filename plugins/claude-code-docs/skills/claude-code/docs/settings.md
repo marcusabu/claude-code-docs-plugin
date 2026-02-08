@@ -69,7 +69,7 @@ Scopes apply to many Claude Code features:
 | **Subagents**   | `~/.claude/agents/`       | `.claude/agents/`                  | —                              |
 | **MCP servers** | `~/.claude.json`          | `.mcp.json`                        | `~/.claude.json` (per-project) |
 | **Plugins**     | `~/.claude/settings.json` | `.claude/settings.json`            | `.claude/settings.local.json`  |
-| **CLAUDE.md**   | `~/.claude/CLAUDE.md`     | `CLAUDE.md` or `.claude/CLAUDE.md` | `CLAUDE.local.md`              |
+| **AGENTS.md**   | `~/.claude/AGENTS.md`     | `AGENTS.md` or `.claude/AGENTS.md` | `CLAUDE.local.md`              |
 
 ***
 
@@ -376,7 +376,7 @@ For example, if your user settings allow `Bash(npm run *)` but a project's share
 
 ### Key points about the configuration system
 
-* **Memory files (`CLAUDE.md`)**: Contain instructions and context that Claude loads at startup
+* **Memory files (`AGENTS.md`)**: Contain instructions and context that Claude loads at startup
 * **Settings files (JSON)**: Configure permissions, environment variables, and tool behavior
 * **Skills**: Custom prompts that can be invoked with `/skill-name` or loaded by Claude automatically
 * **MCP servers**: Extend Claude Code with additional tools and integrations
@@ -385,7 +385,7 @@ For example, if your user settings allow `Bash(npm run *)` but a project's share
 
 ### System prompt
 
-Claude Code's internal system prompt is not published. To add custom instructions, use `CLAUDE.md` files or the `--append-system-prompt` flag.
+Claude Code's internal system prompt is not published. To add custom instructions, use `AGENTS.md` files or the `--append-system-prompt` flag.
 
 ### Excluding sensitive files
 
@@ -760,7 +760,7 @@ Claude Code supports the following environment variables to control its behavior
 | `BASH_MAX_TIMEOUT_MS`                          | Maximum timeout the model can set for long-running bash commands                                                                                                                                                                                                                                                                                                                                                                                                                                      |     |
 | `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE`              | Set the percentage of context capacity (1-100) at which auto-compaction triggers. By default, auto-compaction triggers at approximately 95% capacity. Use lower values like `50` to compact earlier. Values above the default threshold have no effect. Applies to both main conversations and subagents. This percentage aligns with the `context_window.used_percentage` field available in [status line](/en/statusline)                                                                           |     |
 | `CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR`     | Return to the original working directory after each Bash command                                                                                                                                                                                                                                                                                                                                                                                                                                      |     |
-| `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD` | Set to `1` to load CLAUDE.md files from directories specified with `--add-dir`. By default, additional directories do not load memory files                                                                                                                                                                                                                                                                                                                                                           | `1` |
+| `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD` | Set to `1` to load AGENTS.md files from directories specified with `--add-dir`. By default, additional directories do not load memory files                                                                                                                                                                                                                                                                                                                                                           | `1` |
 | `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`         | Set to `1` to enable [agent teams](/en/agent-teams). Agent teams are experimental and disabled by default                                                                                                                                                                                                                                                                                                                                                                                             |     |
 | `CLAUDE_CODE_API_KEY_HELPER_TTL_MS`            | Interval in milliseconds at which credentials should be refreshed (when using `apiKeyHelper`)                                                                                                                                                                                                                                                                                                                                                                                                         |     |
 | `CLAUDE_CODE_CLIENT_CERT`                      | Path to client certificate file for mTLS authentication                                                                                                                                                                                                                                                                                                                                                                                                                                               |     |

@@ -324,7 +324,7 @@ Now that you've learned the basics, explore more advanced features:
   </Card>
 
   <Card title="Extend Claude Code" icon="puzzle-piece" href="/en/features-overview">
-    Customize with CLAUDE.md, skills, hooks, MCP, and more
+    Customize with AGENTS.md, skills, hooks, MCP, and more
   </Card>
 </CardGroup>
 

@@ -220,7 +220,7 @@ When you start a session in Claude Code on the web, here's what happens under th
 
 2. **Network configuration**: We configure internet access for the agent. Internet access is limited by default, but you can configure the environment to have no internet or full internet access based on your needs.
 
-3. **Claude Code execution**: Claude Code runs to complete your task, writing code, running tests, and checking its work. You can guide and steer Claude throughout the session via the web interface. Claude respects context you've defined in your `CLAUDE.md`.
+3. **Claude Code execution**: Claude Code runs to complete your task, writing code, running tests, and checking its work. You can guide and steer Claude throughout the session via the web interface. Claude respects context you've defined in your `AGENTS.md`.
 
 4. **Outcome**: When Claude completes its work, it will push the branch to remote. You will be able to create a PR for the branch.
 
@@ -602,7 +602,7 @@ Claude Code on the web shares rate limits with all other Claude and Claude Code 
 ## Best practices
 
 1. **Use Claude Code hooks**: Configure [SessionStart hooks](/en/hooks#sessionstart) to automate environment setup and dependency installation.
-2. **Document requirements**: Clearly specify dependencies and commands in your `CLAUDE.md` file. If you have an `AGENTS.md` file, you can source it in your `CLAUDE.md` using `@AGENTS.md` to maintain a single source of truth.
+2. **Document requirements**: Clearly specify dependencies and commands in your `AGENTS.md` file. If you have an `AGENTS.md` file, you can source it in your `AGENTS.md` using `@AGENTS.md` to maintain a single source of truth.
 
 ## Related resources
 

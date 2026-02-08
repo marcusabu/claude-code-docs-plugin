@@ -30,7 +30,7 @@ The `docs/` folder contains official Claude Code documentation:
 **Core Configuration:**
 - [Settings](docs/settings.md) - All settings options, permissions, environment variables
 - [Model Config](docs/model-config.md) - Model selection and configuration
-- [Memory](docs/memory.md) - CLAUDE.md and context management
+- [Memory](docs/memory.md) - AGENTS.md and context management
 - [Skills](docs/skills.md) - Creating and managing skills
 - [Sub-agents](docs/sub-agents.md) - Custom agent configuration
 - [Hooks](docs/hooks.md) - Hook configuration and lifecycle events

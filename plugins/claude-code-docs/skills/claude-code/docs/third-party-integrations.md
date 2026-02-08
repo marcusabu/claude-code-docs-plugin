@@ -224,12 +224,12 @@ The following examples show the environment variables to set in your shell or sh
 
 ### Invest in documentation and memory
 
-We strongly recommend investing in documentation so that Claude Code understands your codebase. Organizations can deploy CLAUDE.md files at multiple levels:
+We strongly recommend investing in documentation so that Claude Code understands your codebase. Organizations can deploy AGENTS.md files at multiple levels:
 
-* **Organization-wide**: Deploy to system directories like `/Library/Application Support/ClaudeCode/CLAUDE.md` (macOS) for company-wide standards
-* **Repository-level**: Create `CLAUDE.md` files in repository roots containing project architecture, build commands, and contribution guidelines. Check these into source control so all users benefit
+* **Organization-wide**: Deploy to system directories like `/Library/Application Support/ClaudeCode/AGENTS.md` (macOS) for company-wide standards
+* **Repository-level**: Create `AGENTS.md` files in repository roots containing project architecture, build commands, and contribution guidelines. Check these into source control so all users benefit
 
-Learn more in [Memory and CLAUDE.md files](/en/memory).
+Learn more in [Memory and AGENTS.md files](/en/memory).
 
 ### Simplify deployment
 
@@ -254,5 +254,5 @@ At Anthropic, we trust Claude Code to power development across every Anthropic c
 Once you've chosen a deployment option and configured access for your team:
 
 1. **Roll out to your team**: Share installation instructions and have team members [install Claude Code](/en/setup) and authenticate with their credentials.
-2. **Set up shared configuration**: Create a [CLAUDE.md file](/en/memory) in your repositories to help Claude Code understand your codebase and coding standards.
+2. **Set up shared configuration**: Create a [AGENTS.md file](/en/memory) in your repositories to help Claude Code understand your codebase and coding standards.
 3. **Configure permissions**: Review [security settings](/en/security) to define what Claude Code can and cannot do in your environment.

@@ -23,7 +23,7 @@ Claude Code GitHub Actions brings AI-powered automation to your GitHub workflow.
 
 * **Instant PR creation**: Describe what you need, and Claude creates a complete PR with all necessary changes
 * **Automated code implementation**: Turn issues into working code with a single command
-* **Follows your standards**: Claude respects your `CLAUDE.md` guidelines and existing code patterns
+* **Follows your standards**: Claude respects your `AGENTS.md` guidelines and existing code patterns
 * **Simple setup**: Get started in minutes with our installer and API key
 * **Secure by default**: Your code stays on Github's runners
 
@@ -210,9 +210,9 @@ Claude will automatically analyze the context and respond appropriately.
 
 ## Best practices
 
-### CLAUDE.md configuration
+### AGENTS.md configuration
 
-Create a `CLAUDE.md` file in your repository root to define code style guidelines, review criteria, project-specific rules, and preferred patterns. This file guides Claude's understanding of your project standards.
+Create a `AGENTS.md` file in your repository root to define code style guidelines, review criteria, project-specific rules, and preferred patterns. This file guides Claude's understanding of your project standards.
 
 ### Security considerations
 
@@ -231,7 +231,7 @@ Always use GitHub Secrets (for example, `${{ secrets.ANTHROPIC_API_KEY }}`) rath
 
 ### Optimizing performance
 
-Use issue templates to provide context, keep your `CLAUDE.md` concise and focused, and configure appropriate timeouts for your workflows.
+Use issue templates to provide context, keep your `AGENTS.md` concise and focused, and configure appropriate timeouts for your workflows.
 
 ### CI costs
 
@@ -670,7 +670,7 @@ See the [Claude Code Action documentation](https://github.com/anthropics/claude-
 
 You can configure Claude's behavior in two ways:
 
-1. **CLAUDE.md**: Define coding standards, review criteria, and project-specific rules in a `CLAUDE.md` file at the root of your repository. Claude will follow these guidelines when creating PRs and responding to requests. Check out our [Memory documentation](/en/memory) for more details.
+1. **AGENTS.md**: Define coding standards, review criteria, and project-specific rules in a `AGENTS.md` file at the root of your repository. Claude will follow these guidelines when creating PRs and responding to requests. Check out our [Memory documentation](/en/memory) for more details.
 2. **Custom prompts**: Use the `prompt` parameter in the workflow file to provide workflow-specific instructions. This allows you to customize Claude's behavior for different workflows or tasks.
 
 Claude will follow these guidelines when creating PRs and responding to requests.

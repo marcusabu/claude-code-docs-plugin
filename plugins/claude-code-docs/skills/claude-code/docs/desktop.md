@@ -78,7 +78,7 @@ If you already use the CLI, you can skip to [How Desktop relates to CLI](#how-de
 
     * "Find a TODO comment and fix it"
     * "Add tests for the main function"
-    * "Create a CLAUDE.md with instructions for this codebase"
+    * "Create a AGENTS.md with instructions for this codebase"
 
     A **session** is a conversation with Claude about your code. Each session tracks its own context and changes, so you can work on multiple tasks without them interfering with each other.
   </Step>
@@ -174,7 +174,7 @@ When starting a session, you choose between **Local** (runs on your machine) or 
 
 ## How Desktop relates to CLI
 
-If you already use the Claude Code CLI, Desktop runs the same underlying engine with a graphical interface. You can run both simultaneously on the same machine, even on the same project. Each maintains separate session history, but they share configuration and project memory (CLAUDE.md files).
+If you already use the Claude Code CLI, Desktop runs the same underlying engine with a graphical interface. You can run both simultaneously on the same machine, even on the same project. Each maintains separate session history, but they share configuration and project memory (AGENTS.md files).
 
 ### CLI flag equivalents
 
@@ -192,7 +192,7 @@ If you're used to CLI flags, the table below shows the Desktop equivalent for ea
 
 Desktop and CLI read the same configuration files, so your setup carries over:
 
-* **[CLAUDE.md](/en/memory)** and **CLAUDE.local.md** files in your project are used by both
+* **[AGENTS.md](/en/memory)** and **CLAUDE.local.md** files in your project are used by both
 * **[MCP servers](/en/mcp)** configured in `~/.claude.json` or `.mcp.json` work in both
 * **[Hooks](/en/hooks)** and **[skills](/en/skills)** defined in settings apply to both
 * **[Settings](/en/settings)** in `~/.claude.json` and `~/.claude/settings.json` are shared

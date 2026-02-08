@@ -9,7 +9,7 @@
 Claude Code has two kinds of memory that persist across sessions:
 
 * **Auto memory**: Claude automatically saves useful context like project patterns, key commands, and your preferences. This persists across sessions.
-* **CLAUDE.md files**: Markdown files you write and maintain with instructions, rules, and preferences for Claude to follow.
+* **AGENTS.md files**: Markdown files you write and maintain with instructions, rules, and preferences for Claude to follow.
 
 Both are loaded into Claude's context at the start of every session, though auto memory loads only the first 200 lines of its main file.
 
@@ -19,14 +19,14 @@ Claude Code offers several memory locations in a hierarchical structure, each se
 
 | Memory Type                | Location                                                                                                                                                        | Purpose                                             | Use Case Examples                                                    | Shared With                     |
 | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------- |
-| **Managed policy**         | • macOS: `/Library/Application Support/ClaudeCode/CLAUDE.md`<br />• Linux: `/etc/claude-code/CLAUDE.md`<br />• Windows: `C:\Program Files\ClaudeCode\CLAUDE.md` | Organization-wide instructions managed by IT/DevOps | Company coding standards, security policies, compliance requirements | All users in organization       |
-| **Project memory**         | `./CLAUDE.md` or `./.claude/CLAUDE.md`                                                                                                                          | Team-shared instructions for the project            | Project architecture, coding standards, common workflows             | Team members via source control |
+| **Managed policy**         | • macOS: `/Library/Application Support/ClaudeCode/AGENTS.md`<br />• Linux: `/etc/claude-code/AGENTS.md`<br />• Windows: `C:\Program Files\ClaudeCode\AGENTS.md` | Organization-wide instructions managed by IT/DevOps | Company coding standards, security policies, compliance requirements | All users in organization       |
+| **Project memory**         | `./AGENTS.md` or `./.claude/AGENTS.md`                                                                                                                          | Team-shared instructions for the project            | Project architecture, coding standards, common workflows             | Team members via source control |
 | **Project rules**          | `./.claude/rules/*.md`                                                                                                                                          | Modular, topic-specific project instructions        | Language-specific guidelines, testing conventions, API standards     | Team members via source control |
-| **User memory**            | `~/.claude/CLAUDE.md`                                                                                                                                           | Personal preferences for all projects               | Code styling preferences, personal tooling shortcuts                 | Just you (all projects)         |
+| **User memory**            | `~/.claude/AGENTS.md`                                                                                                                                           | Personal preferences for all projects               | Code styling preferences, personal tooling shortcuts                 | Just you (all projects)         |
 | **Project memory (local)** | `./CLAUDE.local.md`                                                                                                                                             | Personal project-specific preferences               | Your sandbox URLs, preferred test data                               | Just you (current project)      |
 | **Auto memory**            | `~/.claude/projects/<project>/memory/`                                                                                                                          | Claude's automatic notes and learnings              | Project patterns, debugging insights, architecture notes             | Just you (per project)          |
 
-CLAUDE.md files in the directory hierarchy above the working directory are loaded in full at launch. CLAUDE.md files in child directories load on demand when Claude reads files in those directories. Auto memory loads only the first 200 lines of `MEMORY.md`. More specific instructions take precedence over broader ones.
+AGENTS.md files in the directory hierarchy above the working directory are loaded in full at launch. AGENTS.md files in child directories load on demand when Claude reads files in those directories. Auto memory loads only the first 200 lines of `MEMORY.md`. More specific instructions take precedence over broader ones.
 
 <Note>
   CLAUDE.local.md files are automatically added to .gitignore, making them ideal for private project-specific preferences that shouldn't be checked into version control.
@@ -34,7 +34,7 @@ CLAUDE.md files in the directory hierarchy above the working directory are loade
 
 ## Auto memory
 
-Auto memory is a persistent directory where Claude records learnings, patterns, and insights as it works. Unlike CLAUDE.md files that contain instructions you write for Claude, auto memory contains notes Claude writes for itself based on what it discovers during sessions.
+Auto memory is a persistent directory where Claude records learnings, patterns, and insights as it works. Unlike AGENTS.md files that contain instructions you write for Claude, auto memory contains notes Claude writes for itself based on what it discovers during sessions.
 
 <Note>
   Auto memory is being rolled out gradually. If you aren't seeing auto memory, you can opt in by setting `CLAUDE_CODE_DISABLE_AUTO_MEMORY=0` in your environment.
@@ -73,7 +73,7 @@ The directory contains a `MEMORY.md` entrypoint and optional topic files:
 
 ### Manage auto memory
 
-Auto memory files are markdown files you can edit at any time. Use `/memory` to open the file selector, which includes your auto memory entrypoint alongside your CLAUDE.md files.
+Auto memory files are markdown files you can edit at any time. Use `/memory` to open the file selector, which includes your auto memory entrypoint alongside your AGENTS.md files.
 
 To ask Claude to save something specific, tell it directly: "remember that we use pnpm, not npm" or "save to memory that the API tests require a local Redis instance".
 
@@ -84,9 +84,9 @@ export CLAUDE_CODE_DISABLE_AUTO_MEMORY=1  # Force off
 export CLAUDE_CODE_DISABLE_AUTO_MEMORY=0  # Force on
 ```
 
-## CLAUDE.md imports
+## AGENTS.md imports
 
-CLAUDE.md files can import additional files using `@path/to/import` syntax. The following example imports 3 files:
+AGENTS.md files can import additional files using `@path/to/import` syntax. The following example imports 3 files:
 
 ```
 See @README for project overview and @package.json for available npm commands for this project.
@@ -118,15 +118,15 @@ Imported files can recursively import additional files, with a max-depth of 5 ho
 
 ## How Claude looks up memories
 
-Claude Code reads memories recursively: starting in the cwd, Claude Code recurses up to (but not including) the root directory */* and reads any CLAUDE.md or CLAUDE.local.md files it finds. This is especially convenient when working in large repositories where you run Claude Code in *foo/bar/*, and have memories in both *foo/CLAUDE.md* and *foo/bar/CLAUDE.md*.
+Claude Code reads memories recursively: starting in the cwd, Claude Code recurses up to (but not including) the root directory */* and reads any AGENTS.md or CLAUDE.local.md files it finds. This is especially convenient when working in large repositories where you run Claude Code in *foo/bar/*, and have memories in both *foo/AGENTS.md* and *foo/bar/AGENTS.md*.
 
-Claude will also discover CLAUDE.md nested in subtrees under your current working directory. Instead of loading them at launch, they are only included when Claude reads files in those subtrees.
+Claude will also discover AGENTS.md nested in subtrees under your current working directory. Instead of loading them at launch, they are only included when Claude reads files in those subtrees.
 
 ### Load memory from additional directories
 
-The `--add-dir` flag gives Claude access to additional directories outside your main working directory. By default, CLAUDE.md files from these directories are not loaded.
+The `--add-dir` flag gives Claude access to additional directories outside your main working directory. By default, AGENTS.md files from these directories are not loaded.
 
-To also load memory files (CLAUDE.md, .claude/CLAUDE.md, and .claude/rules/\*.md) from additional directories, set the `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD` environment variable:
+To also load memory files (AGENTS.md, .claude/AGENTS.md, and .claude/rules/\*.md) from additional directories, set the `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD` environment variable:
 
 ```bash  theme={null}
 CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1 claude --add-dir ../shared-config
@@ -138,9 +138,9 @@ Use the `/memory` command during a session to open any memory file in your syste
 
 ## Set up project memory
 
-Suppose you want to set up a CLAUDE.md file to store important project information, conventions, and frequently used commands. Project memory can be stored in either `./CLAUDE.md` or `./.claude/CLAUDE.md`.
+Suppose you want to set up a AGENTS.md file to store important project information, conventions, and frequently used commands. Project memory can be stored in either `./AGENTS.md` or `./.claude/AGENTS.md`.
 
-Bootstrap a CLAUDE.md for your codebase with the following command:
+Bootstrap a AGENTS.md for your codebase with the following command:
 
 ```
 > /init
@@ -152,12 +152,12 @@ Bootstrap a CLAUDE.md for your codebase with the following command:
   * Include frequently used commands (build, test, lint) to avoid repeated searches
   * Document code style preferences and naming conventions
   * Add important architectural patterns specific to your project
-  * CLAUDE.md memories can be used for both instructions shared with your team and for your individual preferences.
+  * AGENTS.md memories can be used for both instructions shared with your team and for your individual preferences.
 </Tip>
 
 ## Modular rules with `.claude/rules/`
 
-For larger projects, you can organize instructions into multiple files using the `.claude/rules/` directory. This allows teams to maintain focused, well-organized rule files instead of one large CLAUDE.md.
+For larger projects, you can organize instructions into multiple files using the `.claude/rules/` directory. This allows teams to maintain focused, well-organized rule files instead of one large AGENTS.md.
 
 ### Basic structure
 
@@ -166,14 +166,14 @@ Place markdown files in your project's `.claude/rules/` directory:
 ```
 your-project/
 ├── .claude/
-│   ├── CLAUDE.md           # Main project instructions
+│   ├── AGENTS.md           # Main project instructions
 │   └── rules/
 │       ├── code-style.md   # Code style guidelines
 │       ├── testing.md      # Testing conventions
 │       └── security.md     # Security requirements
 ```
 
-All `.md` files in `.claude/rules/` are automatically loaded as project memory, with the same priority as `.claude/CLAUDE.md`.
+All `.md` files in `.claude/rules/` are automatically loaded as project memory, with the same priority as `.claude/AGENTS.md`.
 
 ### Path-specific rules
 
@@ -284,7 +284,7 @@ User-level rules are loaded before project rules, giving project rules higher pr
 
 ## Organization-level memory management
 
-Organizations can deploy centrally managed CLAUDE.md files that apply to all users.
+Organizations can deploy centrally managed AGENTS.md files that apply to all users.
 
 To set up organization-level memory management:
 

@@ -230,7 +230,7 @@ Teammates start with the lead's permission settings. If the lead runs with `--da
 
 ### Context and communication
 
-Each teammate has its own context window. When spawned, a teammate loads the same project context as a regular session: CLAUDE.md, MCP servers, and skills. It also receives the spawn prompt from the lead. The lead's conversation history does not carry over.
+Each teammate has its own context window. When spawned, a teammate loads the same project context as a regular session: AGENTS.md, MCP servers, and skills. It also receives the spawn prompt from the lead. The lead's conversation history does not carry over.
 
 **How teammates share information:**
 
@@ -284,7 +284,7 @@ With multiple independent investigators actively trying to disprove each other, 
 
 ### Give teammates enough context
 
-Teammates load project context automatically, including CLAUDE.md, MCP servers, and skills, but they don't inherit the lead's conversation history. See [Context and communication](#context-and-communication) for details. Include task-specific details in the spawn prompt:
+Teammates load project context automatically, including AGENTS.md, MCP servers, and skills, but they don't inherit the lead's conversation history. See [Context and communication](#context-and-communication) for details. Include task-specific details in the spawn prompt:
 
 ```
 Spawn a security reviewer teammate with the prompt: "Review the authentication module
@@ -375,7 +375,7 @@ Agent teams are experimental. Current limitations to be aware of:
 * **Split panes require tmux or iTerm2**: the default in-process mode works in any terminal. Split-pane mode isn't supported in VS Code's integrated terminal, Windows Terminal, or Ghostty.
 
 <Tip>
-  **`CLAUDE.md` works normally**: teammates read `CLAUDE.md` files from their working directory. Use this to provide project-specific guidance to all teammates.
+  **`AGENTS.md` works normally**: teammates read `AGENTS.md` files from their working directory. Use this to provide project-specific guidance to all teammates.
 </Tip>
 
 ## Next steps

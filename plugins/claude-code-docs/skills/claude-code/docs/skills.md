@@ -112,7 +112,7 @@ The `SKILL.md` contains the main instructions and is required. Other files are o
 Skills defined in `.claude/skills/` within directories added via `--add-dir` are loaded automatically and picked up by live change detection, so you can edit them during a session without restarting.
 
 <Note>
-  CLAUDE.md files from `--add-dir` directories are not loaded by default. To load them, set `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1`. See [Load memory from additional directories](/en/memory#load-memory-from-additional-directories).
+  AGENTS.md files from `--add-dir` directories are not loaded by default. To load them, set `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1`. See [Load memory from additional directories](/en/memory#load-memory-from-additional-directories).
 </Note>
 
 ## Configure skills
@@ -382,8 +382,8 @@ Skills and [subagents](/en/sub-agents) work together in two directions:
 
 | Approach                     | System prompt                             | Task                        | Also loads                   |
 | :--------------------------- | :---------------------------------------- | :-------------------------- | :--------------------------- |
-| Skill with `context: fork`   | From agent type (`Explore`, `Plan`, etc.) | SKILL.md content            | CLAUDE.md                    |
-| Subagent with `skills` field | Subagent's markdown body                  | Claude's delegation message | Preloaded skills + CLAUDE.md |
+| Skill with `context: fork`   | From agent type (`Explore`, `Plan`, etc.) | SKILL.md content            | AGENTS.md                    |
+| Subagent with `skills` field | Subagent's markdown body                  | Claude's delegation message | Preloaded skills + AGENTS.md |
 
 With `context: fork`, you write the task in your skill and pick an agent type to execute it. For the inverse (defining a custom subagent that uses skills as reference material), see [Subagents](/en/sub-agents#preload-skills-into-subagents).
 
@@ -673,6 +673,6 @@ To override the limit, set the `SLASH_COMMAND_TOOL_CHAR_BUDGET` environment vari
 * **[Subagents](/en/sub-agents)**: delegate tasks to specialized agents
 * **[Plugins](/en/plugins)**: package and distribute skills with other extensions
 * **[Hooks](/en/hooks)**: automate workflows around tool events
-* **[Memory](/en/memory)**: manage CLAUDE.md files for persistent context
+* **[Memory](/en/memory)**: manage AGENTS.md files for persistent context
 * **[Interactive mode](/en/interactive-mode#built-in-commands)**: built-in commands and shortcuts
 * **[Permissions](/en/permissions)**: control tool and skill access

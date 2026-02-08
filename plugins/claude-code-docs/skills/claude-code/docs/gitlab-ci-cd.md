@@ -20,7 +20,7 @@
 
 * **Instant MR creation**: Describe what you need, and Claude proposes a complete MR with changes and explanation
 * **Automated implementation**: Turn issues into working code with a single command or mention
-* **Project-aware**: Claude follows your `CLAUDE.md` guidelines and existing code patterns
+* **Project-aware**: Claude follows your `AGENTS.md` guidelines and existing code patterns
 * **Simple setup**: Add one job to `.gitlab-ci.yml` and a masked CI/CD variable
 * **Enterprise-ready**: Choose Claude API, AWS Bedrock, or Google Vertex AI to meet data residency and procurement needs
 * **Secure by default**: Runs in your GitLab runners with your branch protection and approvals
@@ -377,9 +377,9 @@ claude-vertex:
 
 ## Best practices
 
-### CLAUDE.md configuration
+### AGENTS.md configuration
 
-Create a `CLAUDE.md` file at the repository root to define coding standards, review criteria, and project-specific rules. Claude reads this file during runs and follows your conventions when proposing changes.
+Create a `AGENTS.md` file at the repository root to define coding standards, review criteria, and project-specific rules. Claude reads this file during runs and follows your conventions when proposing changes.
 
 ### Security considerations
 
@@ -392,7 +392,7 @@ Create a `CLAUDE.md` file at the repository root to define coding standards, rev
 
 ### Optimizing performance
 
-* Keep `CLAUDE.md` focused and concise
+* Keep `AGENTS.md` focused and concise
 * Provide clear issue/MR descriptions to reduce iterations
 * Configure sensible job timeouts to avoid runaway runs
 * Cache npm and package installs in runners where possible
@@ -462,5 +462,5 @@ Claude Code supports these commonly used inputs:
 
 You can guide Claude in two primary ways:
 
-1. **CLAUDE.md**: Define coding standards, security requirements, and project conventions. Claude reads this during runs and follows your rules.
+1. **AGENTS.md**: Define coding standards, security requirements, and project conventions. Claude reads this during runs and follows your rules.
 2. **Custom prompts**: Pass task-specific instructions via `prompt`/`prompt_file` in the job. Use different prompts for different jobs (for example, review, implement, refactor).

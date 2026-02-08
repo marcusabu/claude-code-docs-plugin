@@ -92,11 +92,11 @@ command:
 
 ## Comparisons to related features
 
-### Output Styles vs. CLAUDE.md vs. --append-system-prompt
+### Output Styles vs. AGENTS.md vs. --append-system-prompt
 
 Output styles completely "turn off" the parts of Claude Code's default system
-prompt specific to software engineering. Neither CLAUDE.md nor
-`--append-system-prompt` edit Claude Code's default system prompt. CLAUDE.md
+prompt specific to software engineering. Neither AGENTS.md nor
+`--append-system-prompt` edit Claude Code's default system prompt. AGENTS.md
 adds the contents as a user message *following* Claude Code's default system
 prompt. `--append-system-prompt` appends the content to the system prompt.
 

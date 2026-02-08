@@ -68,7 +68,7 @@ To keep agent team costs manageable:
 
 * Use Sonnet for teammates. It balances capability and cost for coordination tasks.
 * Keep teams small. Each teammate runs its own context window, so token usage is roughly proportional to team size.
-* Keep spawn prompts focused. Teammates load CLAUDE.md, MCP servers, and skills automatically, but everything in the spawn prompt adds to their context from the start.
+* Keep spawn prompts focused. Teammates load AGENTS.md, MCP servers, and skills automatically, but everything in the spawn prompt adds to their context from the start.
 * Clean up teams when work is done. Active teammates continue consuming tokens even if idle.
 * Agent teams are disabled by default. Set `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` in your [settings.json](/en/settings) or environment to enable them. See [enable agent teams](/en/agent-teams#enable-agent-teams).
 
@@ -85,7 +85,7 @@ Use `/cost` to check your current token usage, or [configure your status line](/
 * **Clear between tasks**: Use `/clear` to start fresh when switching to unrelated work. Stale context wastes tokens on every subsequent message. Use `/rename` before clearing so you can easily find the session later, then `/resume` to return to it.
 * **Add custom compaction instructions**: `/compact Focus on code samples and API usage` tells Claude what to preserve during summarization.
 
-You can also customize compaction behavior in your CLAUDE.md:
+You can also customize compaction behavior in your AGENTS.md:
 
 ```markdown  theme={null}
 # Compact instructions
@@ -159,9 +159,9 @@ For example, this PreToolUse hook filters test output to show only failures:
   </Tab>
 </Tabs>
 
-### Move instructions from CLAUDE.md to skills
+### Move instructions from AGENTS.md to skills
 
-Your [CLAUDE.md](/en/memory) file is loaded into context at session start. If it contains detailed instructions for specific workflows (like PR reviews or database migrations), those tokens are present even when you're doing unrelated work. [Skills](/en/skills) load on-demand only when invoked, so moving specialized instructions into skills keeps your base context smaller. Aim to keep CLAUDE.md under \~500 lines by including only essentials.
+Your [AGENTS.md](/en/memory) file is loaded into context at session start. If it contains detailed instructions for specific workflows (like PR reviews or database migrations), those tokens are present even when you're doing unrelated work. [Skills](/en/skills) load on-demand only when invoked, so moving specialized instructions into skills keeps your base context smaller. Aim to keep AGENTS.md under \~500 lines by including only essentials.
 
 ### Adjust extended thinking
 

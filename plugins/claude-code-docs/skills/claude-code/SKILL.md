@@ -94,3 +94,24 @@ The `docs/` folder contains official Claude Code documentation:
 **Reference:**
 - [Troubleshooting](docs/troubleshooting.md) - Common issues and fixes
 - [Changelog](docs/changelog.md) - Version history and updates
+
+<!-- AUTOSYNC:claude-code-docs START -->
+
+This section is auto-synced from the generated Claude Code docs in this repo.
+It’s intentionally terse; prefer opening the source docs instead of duplicating them here.
+
+Source: plugins/claude-code-docs/skills/claude-code/docs/overview.md
+
+Key sections (from generated docs):
+- Claude Code overview
+  - Get started
+  - What you can do
+  - Use Claude Code everywhere
+  - Next steps
+
+Where to look:
+- Generated docs: plugins/claude-code-docs/skills/claude-code/docs/
+- Update workflow: .github/workflows/update-docs.yml
+- Plugin manifest: plugins/claude-code-docs/.claude-plugin/plugin.json
+
+<!-- AUTOSYNC:claude-code-docs END -->

@@ -29,6 +29,7 @@ The `docs/` folder contains official Claude Code documentation:
 
 **Core Configuration:**
 - [Settings](docs/settings.md) - All settings options, permissions, environment variables
+- [Server-managed settings](docs/server-managed-settings.md) - Admin-enforced / centrally managed config
 - [Model Config](docs/model-config.md) - Model selection and configuration
 - [Memory](docs/memory.md) - CLAUDE.md and context management
 - [Skills](docs/skills.md) - Creating and managing skills
@@ -103,11 +104,10 @@ It’s intentionally terse; prefer opening the source docs instead of duplicatin
 Source: plugins/claude-code-docs/skills/claude-code/docs/overview.md
 
 Key sections (from generated docs):
-- Claude Code overview
-  - Get started
-  - What you can do
-  - Use Claude Code everywhere
-  - Next steps
+- Claude Code overview (what it is / where it runs)
+- Settings & permissions (incl. server-managed settings)
+- Extensibility (skills, hooks, MCP servers, plugins)
+- Troubleshooting
 
 Where to look:
 - Generated docs: plugins/claude-code-docs/skills/claude-code/docs/

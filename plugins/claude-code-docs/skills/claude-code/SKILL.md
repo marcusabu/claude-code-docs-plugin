@@ -111,8 +111,12 @@ Key sections (from generated docs):
 - Troubleshooting and release notes
 
 Latest changelog snapshot:
-- Current top release in `docs/changelog.md`: **2.1.39**
-- Recent highlights: improved Bedrock/Vertex/Foundry handling, hook/error fixes, and terminal/rendering stability improvements.
+- Current top release in `docs/changelog.md`: **2.1.42**
+- Recent highlights: startup and prompt-cache performance improvements, Bedrock/Vertex/Foundry model handling fixes, and hook/rendering stability fixes.
+
+Notable generated doc additions/updates:
+- [Agent Teams](docs/agent-teams.md) (experimental multi-session orchestration; token-intensive)
+- [Network Config](docs/network-config.md) (proxy, custom CA, and mTLS setup for enterprise environments)
 
 Where to look:
 - Generated docs: plugins/claude-code-docs/skills/claude-code/docs/

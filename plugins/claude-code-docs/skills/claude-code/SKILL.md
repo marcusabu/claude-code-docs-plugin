@@ -63,7 +63,7 @@ The `docs/` folder contains official Claude Code documentation:
 **IDE Integrations:**
 - [VS Code](docs/vs-code.md) - Visual Studio Code integration
 - [JetBrains](docs/jetbrains.md) - JetBrains IDE integration
-- [Chrome](docs/chrome.md) - Chrome extension
+- [Chrome / Edge](docs/chrome.md) - Browser extension integration
 - [Desktop](docs/desktop.md) - Desktop application
 
 **Cloud & API Providers:**
@@ -106,6 +106,7 @@ Source: plugins/claude-code-docs/skills/claude-code/docs/overview.md
 Key sections (from generated docs):
 - Claude Code overview (what it is / where it runs)
 - Settings & permissions (incl. server-managed settings)
+- Browser extension integration (Chrome + Edge) & native host troubleshooting
 - Extensibility (skills, hooks, MCP servers, plugins)
 - Troubleshooting and release notes
 

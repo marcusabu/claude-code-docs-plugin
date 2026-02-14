@@ -43,7 +43,7 @@ The `docs/` folder contains official Claude Code documentation:
 **Commands & Interface:**
 - [CLI Reference](docs/cli-reference.md) - Command line options
 - [Interactive Mode](docs/interactive-mode.md) - Interactive session usage
-- [Slash Commands](docs/slash-commands.md) - Built-in and custom commands
+- [Keybindings](docs/keybindings.md) - Keyboard shortcuts and command ergonomics
 - [Output Styles](docs/output-styles.md) - Customizing Claude's output
 - [Statusline](docs/statusline.md) - Status line configuration
 
@@ -54,7 +54,7 @@ The `docs/` folder contains official Claude Code documentation:
 - [Discover Plugins](docs/discover-plugins.md) - Finding and installing plugins
 
 **Security & Privacy:**
-- [IAM](docs/iam.md) - Identity and access management
+- [Authentication](docs/authentication.md) - Auth and account access setup
 - [Sandboxing](docs/sandboxing.md) - Bash command sandboxing
 - [Security](docs/security.md) - Security best practices
 - [Data Usage](docs/data-usage.md) - Data handling and privacy
@@ -108,8 +108,11 @@ Key sections (from generated docs):
 - Settings & permissions (incl. server-managed settings)
 - Browser extension integration (Chrome + Edge) & native host troubleshooting
 - Extensibility (skills, hooks, MCP servers, plugins)
-- Troubleshooting
-- Changelog (recent releases / fixes)
+- Troubleshooting and release notes
+
+Latest changelog snapshot:
+- Current top release in `docs/changelog.md`: **2.1.39**
+- Recent highlights: improved Bedrock/Vertex/Foundry handling, hook/error fixes, and terminal/rendering stability improvements.
 
 Where to look:
 - Generated docs: plugins/claude-code-docs/skills/claude-code/docs/

@@ -98,25 +98,25 @@ The `docs/` folder contains official Claude Code documentation:
 
 <!-- AUTOSYNC:claude-code-docs START -->
 
-This section is auto-synced from the generated Claude Code docs in this repo.
-It’s intentionally terse; prefer opening the source docs instead of duplicating them here.
+This section is auto-synced from generated Claude Code docs.
+Keep answers short and link to the relevant docs page instead of duplicating detail.
 
-Source: plugins/claude-code-docs/skills/claude-code/docs/overview.md
+Primary doc index:
+- `docs/overview.md`
 
-Key sections (from generated docs):
-- Claude Code overview (what it is / where it runs)
-- Settings & permissions (incl. server-managed settings)
-- Browser extension integration (Chrome + Edge) & native host troubleshooting
-- Extensibility (skills, hooks, MCP servers, plugins)
-- Troubleshooting and release notes
+Recent doc-focus changes to be aware of:
+- New Desktop quickstart guide: `docs/desktop-quickstart.md`
+- Desktop integration updates: `docs/desktop.md`
+- Model configuration updates: `docs/model-config.md`
+- Browser extension updates: `docs/chrome.md`
 
 Latest changelog snapshot:
-- Current top release in `docs/changelog.md`: **2.1.39**
-- Recent highlights: improved Bedrock/Vertex/Foundry handling, hook/error fixes, and terminal/rendering stability improvements.
+- Current top release in `docs/changelog.md`: **2.1.42**
+- Notables: startup/prompt-cache performance improvements, new `claude auth` subcommands, and multiple stability fixes.
 
 Where to look:
-- Generated docs: plugins/claude-code-docs/skills/claude-code/docs/
-- Update workflow: .github/workflows/update-docs.yml
-- Plugin manifest: plugins/claude-code-docs/.claude-plugin/plugin.json
+- Generated docs: `plugins/claude-code-docs/skills/claude-code/docs/`
+- Update workflow: `.github/workflows/update-docs.yml`
+- Plugin manifest: `plugins/claude-code-docs/.claude-plugin/plugin.json`
 
 <!-- AUTOSYNC:claude-code-docs END -->

@@ -98,29 +98,27 @@ The `docs/` folder contains official Claude Code documentation:
 
 <!-- AUTOSYNC:claude-code-docs START -->
 
-This section is auto-synced from the generated Claude Code docs in this repo.
-It’s intentionally terse; prefer opening the source docs instead of duplicating them here.
+Auto-synced summary from generated Claude Code docs.
+Keep this skill concise; open docs for details.
 
-Source: plugins/claude-code-docs/skills/claude-code/docs/overview.md
+Core entry points:
+- [Overview](docs/overview.md)
+- [Features overview](docs/features-overview.md)
+- [How Claude Code works](docs/how-claude-code-works.md)
+- [Best practices](docs/best-practices.md)
+- [Troubleshooting](docs/troubleshooting.md)
+- [Changelog](docs/changelog.md)
 
-Key sections (from generated docs):
-- Claude Code overview (what it is / where it runs)
-- Settings & permissions (incl. server-managed settings)
-- Browser extension integration (Chrome + Edge) & native host troubleshooting
-- Extensibility (skills, hooks, MCP servers, plugins)
-- Troubleshooting and release notes
+Current changelog top version: **2.1.44**
 
-Latest changelog snapshot:
-- Current top release in `docs/changelog.md`: **2.1.42**
-- Recent highlights: startup and prompt-cache performance improvements, Bedrock/Vertex/Foundry model handling fixes, and hook/rendering stability fixes.
+Notable docs now present in generated set:
+- [Agent Teams](docs/agent-teams.md)
+- [Fast mode](docs/fast-mode.md)
+- [Permissions](docs/permissions.md)
+- [Desktop quickstart](docs/desktop-quickstart.md)
 
-Notable generated doc additions/updates:
-- [Agent Teams](docs/agent-teams.md) (experimental multi-session orchestration; token-intensive)
-- [Network Config](docs/network-config.md) (proxy, custom CA, and mTLS setup for enterprise environments)
-
-Where to look:
-- Generated docs: plugins/claude-code-docs/skills/claude-code/docs/
-- Update workflow: .github/workflows/update-docs.yml
-- Plugin manifest: plugins/claude-code-docs/.claude-plugin/plugin.json
+Source of truth:
+- Generated docs dir: `plugins/claude-code-docs/skills/claude-code/docs/`
+- Sync workflow: `.github/workflows/update-docs.yml`
 
 <!-- AUTOSYNC:claude-code-docs END -->

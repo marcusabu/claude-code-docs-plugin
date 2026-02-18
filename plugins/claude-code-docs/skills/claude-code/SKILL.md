@@ -98,29 +98,26 @@ The `docs/` folder contains official Claude Code documentation:
 
 <!-- AUTOSYNC:claude-code-docs START -->
 
-This section is auto-synced from the generated Claude Code docs in this repo.
-It’s intentionally terse; prefer opening the source docs instead of duplicating them here.
+This section is auto-synced from generated docs in `docs/`.
+Keep this as a map; open source pages for full detail.
 
-Source: plugins/claude-code-docs/skills/claude-code/docs/overview.md
+Current docs snapshot:
+- Changelog head: **2.1.45** (`docs/changelog.md`)
+- Documentation index: <https://code.claude.com/docs/llms.txt>
 
-Key sections (from generated docs):
-- Claude Code overview (what it is / where it runs)
-- Settings & permissions (incl. server-managed settings)
-- Browser extension integration (Chrome + Edge) & native host troubleshooting
-- Extensibility (skills, hooks, MCP servers, plugins)
-- Troubleshooting and release notes
+High-signal pages to check first:
+- [Features overview](docs/features-overview.md)
+- [How Claude Code works](docs/how-claude-code-works.md)
+- [Best practices](docs/best-practices.md)
+- [Permissions](docs/permissions.md)
+- [Settings](docs/settings.md), [Server-managed settings](docs/server-managed-settings.md), [Model config](docs/model-config.md)
+- [MCP](docs/mcp.md), [Skills](docs/skills.md), [Sub-agents](docs/sub-agents.md), [Agent Teams](docs/agent-teams.md)
+- [GitHub Actions](docs/github-actions.md), [Headless](docs/headless.md)
+- [Network config](docs/network-config.md) and provider docs ([Bedrock](docs/amazon-bedrock.md), [Vertex](docs/google-vertex-ai.md), [Foundry](docs/microsoft-foundry.md))
+- [Monitoring usage](docs/monitoring-usage.md), [Costs](docs/costs.md), [Troubleshooting](docs/troubleshooting.md)
 
-Latest changelog snapshot:
-- Current top release in `docs/changelog.md`: **2.1.42**
-- Recent highlights: startup and prompt-cache performance improvements, Bedrock/Vertex/Foundry model handling fixes, and hook/rendering stability fixes.
-
-Notable generated doc additions/updates:
-- [Agent Teams](docs/agent-teams.md) (experimental multi-session orchestration; token-intensive)
-- [Network Config](docs/network-config.md) (proxy, custom CA, and mTLS setup for enterprise environments)
-
-Where to look:
-- Generated docs: plugins/claude-code-docs/skills/claude-code/docs/
-- Update workflow: .github/workflows/update-docs.yml
-- Plugin manifest: plugins/claude-code-docs/.claude-plugin/plugin.json
-
+Repo pointers:
+- Generated docs: `plugins/claude-code-docs/skills/claude-code/docs/`
+- Docs update workflow: `.github/workflows/update-docs.yml`
+- Plugin manifest: `plugins/claude-code-docs/.claude-plugin/plugin.json`
 <!-- AUTOSYNC:claude-code-docs END -->

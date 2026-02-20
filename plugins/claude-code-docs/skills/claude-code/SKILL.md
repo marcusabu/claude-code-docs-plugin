@@ -121,3 +121,5 @@ Repo pointers:
 - Docs update workflow: `.github/workflows/update-docs.yml`
 - Plugin manifest: `plugins/claude-code-docs/.claude-plugin/plugin.json`
 <!-- AUTOSYNC:claude-code-docs END -->
+
+- Last synced: 2026-02-19 12:01 

@@ -102,7 +102,7 @@ This section is auto-synced from generated docs in `docs/`.
 Keep this as a map; open source pages for full detail.
 
 Current docs snapshot:
-- Changelog head: **2.1.49** (`docs/changelog.md`)
+- Changelog head: **2.1.50** (`docs/changelog.md`)
 - Documentation index: <https://code.claude.com/docs/llms.txt>
 
 High-signal pages to check first:
@@ -112,7 +112,7 @@ High-signal pages to check first:
 - [Permissions](docs/permissions.md)
 - [Settings](docs/settings.md), [Server-managed settings](docs/server-managed-settings.md), [Model config](docs/model-config.md)
 - [MCP](docs/mcp.md), [Skills](docs/skills.md), [Sub-agents](docs/sub-agents.md), [Agent Teams](docs/agent-teams.md)
-- [GitHub Actions](docs/github-actions.md), [Headless](docs/headless.md)
+- [GitHub Actions](docs/github-actions.md), [Headless](docs/headless.md), [Fast mode](docs/fast-mode.md)
 - [Network config](docs/network-config.md) and provider docs ([Bedrock](docs/amazon-bedrock.md), [Vertex](docs/google-vertex-ai.md), [Foundry](docs/microsoft-foundry.md))
 - [Monitoring usage](docs/monitoring-usage.md), [Costs](docs/costs.md), [Troubleshooting](docs/troubleshooting.md)
 
@@ -122,4 +122,4 @@ Repo pointers:
 - Plugin manifest: `plugins/claude-code-docs/.claude-plugin/plugin.json`
 <!-- AUTOSYNC:claude-code-docs END -->
 
-- Last synced: 2026-02-20 12:00 
+- Last synced: 2026-02-21 12:01 

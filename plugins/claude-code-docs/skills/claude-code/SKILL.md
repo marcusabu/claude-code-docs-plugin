@@ -1,125 +1,66 @@
----
-name: claude-code
-description: Knowledge about Claude Code features, configuration, and best practices. Use when users ask how to create skills, agents, hooks, configure MCP servers, manage settings, use plugins, or troubleshoot Claude Code issues. Or use when the user references claude code docs.
----
+# Claude Code Skill
 
-# Claude Code Knowledge
+This skill mirrors generated docs for the Claude Code plugin. Keep this concise and link to source docs.
 
-Reference documentation for Claude Code features and configuration.
+## Source Docs
+- [Agent Teams](plugins/claude-code-docs/skills/claude-code/docs/agent-teams.md)
+- [Amazon Bedrock](plugins/claude-code-docs/skills/claude-code/docs/amazon-bedrock.md)
+- [Analytics](plugins/claude-code-docs/skills/claude-code/docs/analytics.md)
+- [Authentication](plugins/claude-code-docs/skills/claude-code/docs/authentication.md)
+- [Best Practices](plugins/claude-code-docs/skills/claude-code/docs/best-practices.md)
+- [Changelog](plugins/claude-code-docs/skills/claude-code/docs/changelog.md)
+- [Checkpointing](plugins/claude-code-docs/skills/claude-code/docs/checkpointing.md)
+- [Chrome](plugins/claude-code-docs/skills/claude-code/docs/chrome.md)
+- [Claude Code On The Web](plugins/claude-code-docs/skills/claude-code/docs/claude-code-on-the-web.md)
+- [Cli Reference](plugins/claude-code-docs/skills/claude-code/docs/cli-reference.md)
+- [Common Workflows](plugins/claude-code-docs/skills/claude-code/docs/common-workflows.md)
+- [Costs](plugins/claude-code-docs/skills/claude-code/docs/costs.md)
+- [Data Usage](plugins/claude-code-docs/skills/claude-code/docs/data-usage.md)
+- [Desktop Quickstart](plugins/claude-code-docs/skills/claude-code/docs/desktop-quickstart.md)
+- [Desktop](plugins/claude-code-docs/skills/claude-code/docs/desktop.md)
+- [Devcontainer](plugins/claude-code-docs/skills/claude-code/docs/devcontainer.md)
+- [Discover Plugins](plugins/claude-code-docs/skills/claude-code/docs/discover-plugins.md)
+- [Fast Mode](plugins/claude-code-docs/skills/claude-code/docs/fast-mode.md)
+- [Features Overview](plugins/claude-code-docs/skills/claude-code/docs/features-overview.md)
+- [Github Actions](plugins/claude-code-docs/skills/claude-code/docs/github-actions.md)
+- [Gitlab Ci Cd](plugins/claude-code-docs/skills/claude-code/docs/gitlab-ci-cd.md)
+- [Google Vertex Ai](plugins/claude-code-docs/skills/claude-code/docs/google-vertex-ai.md)
+- [Headless](plugins/claude-code-docs/skills/claude-code/docs/headless.md)
+- [Hooks Guide](plugins/claude-code-docs/skills/claude-code/docs/hooks-guide.md)
+- [Hooks](plugins/claude-code-docs/skills/claude-code/docs/hooks.md)
+- [How Claude Code Works](plugins/claude-code-docs/skills/claude-code/docs/how-claude-code-works.md)
+- [Interactive Mode](plugins/claude-code-docs/skills/claude-code/docs/interactive-mode.md)
+- [Jetbrains](plugins/claude-code-docs/skills/claude-code/docs/jetbrains.md)
+- [Keybindings](plugins/claude-code-docs/skills/claude-code/docs/keybindings.md)
+- [Legal And Compliance](plugins/claude-code-docs/skills/claude-code/docs/legal-and-compliance.md)
+- [Llm Gateway](plugins/claude-code-docs/skills/claude-code/docs/llm-gateway.md)
+- [Mcp](plugins/claude-code-docs/skills/claude-code/docs/mcp.md)
+- [Memory](plugins/claude-code-docs/skills/claude-code/docs/memory.md)
+- [Microsoft Foundry](plugins/claude-code-docs/skills/claude-code/docs/microsoft-foundry.md)
+- [Model Config](plugins/claude-code-docs/skills/claude-code/docs/model-config.md)
+- [Monitoring Usage](plugins/claude-code-docs/skills/claude-code/docs/monitoring-usage.md)
+- [Network Config](plugins/claude-code-docs/skills/claude-code/docs/network-config.md)
+- [Output Styles](plugins/claude-code-docs/skills/claude-code/docs/output-styles.md)
+- [Overview](plugins/claude-code-docs/skills/claude-code/docs/overview.md)
+- [Permissions](plugins/claude-code-docs/skills/claude-code/docs/permissions.md)
+- [Plugin Marketplaces](plugins/claude-code-docs/skills/claude-code/docs/plugin-marketplaces.md)
+- [Plugins Reference](plugins/claude-code-docs/skills/claude-code/docs/plugins-reference.md)
+- [Plugins](plugins/claude-code-docs/skills/claude-code/docs/plugins.md)
+- [Quickstart](plugins/claude-code-docs/skills/claude-code/docs/quickstart.md)
+- [Sandboxing](plugins/claude-code-docs/skills/claude-code/docs/sandboxing.md)
+- [Security](plugins/claude-code-docs/skills/claude-code/docs/security.md)
+- [Server Managed Settings](plugins/claude-code-docs/skills/claude-code/docs/server-managed-settings.md)
+- [Settings](plugins/claude-code-docs/skills/claude-code/docs/settings.md)
+- [Setup](plugins/claude-code-docs/skills/claude-code/docs/setup.md)
+- [Skills](plugins/claude-code-docs/skills/claude-code/docs/skills.md)
+- [Slack](plugins/claude-code-docs/skills/claude-code/docs/slack.md)
+- [Statusline](plugins/claude-code-docs/skills/claude-code/docs/statusline.md)
+- [Sub Agents](plugins/claude-code-docs/skills/claude-code/docs/sub-agents.md)
+- [Terminal Config](plugins/claude-code-docs/skills/claude-code/docs/terminal-config.md)
+- [Third Party Integrations](plugins/claude-code-docs/skills/claude-code/docs/third-party-integrations.md)
+- [Troubleshooting](plugins/claude-code-docs/skills/claude-code/docs/troubleshooting.md)
+- [Vs Code](plugins/claude-code-docs/skills/claude-code/docs/vs-code.md)
 
-## When to Use This Skill
-
-Use when asked about:
-- Creating or configuring skills, agents, hooks
-- Setting up MCP servers
-- Managing settings and permissions
-- Using plugins and marketplaces
-- Slash commands and CLI options
-- Troubleshooting Claude Code issues
-- Best practices for Claude Code configuration
-
-## Documentation Reference
-
-The `docs/` folder contains official Claude Code documentation:
-
-**Getting Started:**
-- [Overview](docs/overview.md) - Introduction to Claude Code
-- [Quickstart](docs/quickstart.md) - Get up and running quickly
-- [Setup](docs/setup.md) - Installation and initial setup
-
-**Core Configuration:**
-- [Settings](docs/settings.md) - All settings options, permissions, environment variables
-- [Server-managed settings](docs/server-managed-settings.md) - Admin-enforced / centrally managed config
-- [Model Config](docs/model-config.md) - Model selection and configuration
-- [Memory](docs/memory.md) - CLAUDE.md and context management
-- [Skills](docs/skills.md) - Creating and managing skills
-- [Sub-agents](docs/sub-agents.md) - Custom agent configuration
-- [Hooks](docs/hooks.md) - Hook configuration and lifecycle events
-- [Hooks Guide](docs/hooks-guide.md) - Practical hook examples
-- [MCP Servers](docs/mcp.md) - Model Context Protocol setup
-- [Terminal Config](docs/terminal-config.md) - Terminal configuration options
-- [Network Config](docs/network-config.md) - Network and proxy settings
-
-**Commands & Interface:**
-- [CLI Reference](docs/cli-reference.md) - Command line options
-- [Interactive Mode](docs/interactive-mode.md) - Interactive session usage
-- [Keybindings](docs/keybindings.md) - Keyboard shortcuts and command ergonomics
-- [Output Styles](docs/output-styles.md) - Customizing Claude's output
-- [Statusline](docs/statusline.md) - Status line configuration
-
-**Plugins & Extensions:**
-- [Plugins](docs/plugins.md) - Plugin system overview
-- [Plugins Reference](docs/plugins-reference.md) - Detailed plugin API
-- [Plugin Marketplaces](docs/plugin-marketplaces.md) - Discovering and managing plugins
-- [Discover Plugins](docs/discover-plugins.md) - Finding and installing plugins
-
-**Security & Privacy:**
-- [Authentication](docs/authentication.md) - Auth and account access setup
-- [Sandboxing](docs/sandboxing.md) - Bash command sandboxing
-- [Security](docs/security.md) - Security best practices
-- [Data Usage](docs/data-usage.md) - Data handling and privacy
-- [Legal and Compliance](docs/legal-and-compliance.md) - Legal considerations
-
-**IDE Integrations:**
-- [VS Code](docs/vs-code.md) - Visual Studio Code integration
-- [JetBrains](docs/jetbrains.md) - JetBrains IDE integration
-- [Chrome / Edge](docs/chrome.md) - Browser extension integration
-- [Desktop](docs/desktop.md) - Desktop application
-
-**Cloud & API Providers:**
-- [Amazon Bedrock](docs/amazon-bedrock.md) - AWS Bedrock setup
-- [Google Vertex AI](docs/google-vertex-ai.md) - Vertex AI setup
-- [Microsoft Foundry](docs/microsoft-foundry.md) - Azure AI Foundry setup
-- [LLM Gateway](docs/llm-gateway.md) - LLM gateway configuration
-
-**CI/CD & Automation:**
-- [GitHub Actions](docs/github-actions.md) - GitHub Actions integration
-- [GitLab CI/CD](docs/gitlab-ci-cd.md) - GitLab CI/CD integration
-- [Headless Mode](docs/headless.md) - Non-interactive automation
-
-**Other Integrations:**
-- [Slack](docs/slack.md) - Slack integration
-- [Third-party Integrations](docs/third-party-integrations.md) - Other integrations
-
-**Workflows & Development:**
-- [Common Workflows](docs/common-workflows.md) - Common usage patterns
-- [Checkpointing](docs/checkpointing.md) - State checkpointing
-- [DevContainer](docs/devcontainer.md) - Development container setup
-- [Claude Code on the Web](docs/claude-code-on-the-web.md) - Web-based usage
-
-**Monitoring & Costs:**
-- [Monitoring Usage](docs/monitoring-usage.md) - Usage monitoring
-- [Costs](docs/costs.md) - Cost management and optimization
-- [Analytics](docs/analytics.md) - Analytics and telemetry
-
-**Reference:**
-- [Troubleshooting](docs/troubleshooting.md) - Common issues and fixes
-- [Changelog](docs/changelog.md) - Version history and updates
-
-<!-- AUTOSYNC:claude-code-docs START -->
-
-This section is auto-synced from generated docs in `docs/`.
-Keep this as a map; open source pages for full detail.
-
-Current docs snapshot:
-- Changelog head: **2.1.50** (`docs/changelog.md`)
-- Documentation index: <https://code.claude.com/docs/llms.txt>
-
-High-signal pages to check first:
-- [Features overview](docs/features-overview.md)
-- [How Claude Code works](docs/how-claude-code-works.md)
-- [Best practices](docs/best-practices.md)
-- [Permissions](docs/permissions.md)
-- [Settings](docs/settings.md), [Server-managed settings](docs/server-managed-settings.md), [Model config](docs/model-config.md)
-- [MCP](docs/mcp.md), [Skills](docs/skills.md), [Sub-agents](docs/sub-agents.md), [Agent Teams](docs/agent-teams.md)
-- [GitHub Actions](docs/github-actions.md), [Headless](docs/headless.md), [Fast mode](docs/fast-mode.md)
-- [Network config](docs/network-config.md) and provider docs ([Bedrock](docs/amazon-bedrock.md), [Vertex](docs/google-vertex-ai.md), [Foundry](docs/microsoft-foundry.md))
-- [Monitoring usage](docs/monitoring-usage.md), [Costs](docs/costs.md), [Troubleshooting](docs/troubleshooting.md)
-
-Repo pointers:
-- Generated docs: `plugins/claude-code-docs/skills/claude-code/docs/`
-- Docs update workflow: `.github/workflows/update-docs.yml`
-- Plugin manifest: `plugins/claude-code-docs/.claude-plugin/plugin.json`
-<!-- AUTOSYNC:claude-code-docs END -->
-
-- Last synced: 2026-02-21 12:01 
+## Notes
+- Generated docs are source of truth.
+- Synced: 2026-02-22T11:01:17.621412Z

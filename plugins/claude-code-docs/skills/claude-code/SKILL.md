@@ -58,6 +58,7 @@ The `docs/` folder contains official Claude Code documentation:
 - [Sandboxing](docs/sandboxing.md) - Bash command sandboxing
 - [Security](docs/security.md) - Security best practices
 - [Data Usage](docs/data-usage.md) - Data handling and privacy
+- [Zero Data Retention](docs/zero-data-retention.md) - Enterprise ZDR behavior and caveats
 - [Legal and Compliance](docs/legal-and-compliance.md) - Legal considerations
 
 **IDE Integrations:**
@@ -102,7 +103,7 @@ This section is auto-synced from generated docs in `docs/`.
 Keep this as a map; open source pages for full detail.
 
 Current docs snapshot:
-- Changelog head: **2.1.61** (`docs/changelog.md`)
+- Changelog head: **2.1.63** (`docs/changelog.md`)
 - Documentation index: <https://code.claude.com/docs/llms.txt>
 
 High-signal pages to check first:
@@ -120,4 +121,4 @@ Repo pointers:
 - Plugin manifest: `plugins/claude-code-docs/.claude-plugin/plugin.json`
 <!-- AUTOSYNC:claude-code-docs END -->
 
-- Last synced: 2026-02-27 12:00
+- Last synced: 2026-02-28 12:00

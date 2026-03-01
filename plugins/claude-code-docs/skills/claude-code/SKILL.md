@@ -121,4 +121,4 @@ Repo pointers:
 - Plugin manifest: `plugins/claude-code-docs/.claude-plugin/plugin.json`
 <!-- AUTOSYNC:claude-code-docs END -->
 
-- Last synced: 2026-02-28 12:00
+- Last synced: 2026-03-01 12:00

@@ -103,16 +103,17 @@ This section is auto-synced from generated docs in `docs/`.
 Keep this as a map; open source pages for full detail.
 
 Current docs snapshot:
-- Changelog head: **2.1.70** (`docs/changelog.md`)
+- Changelog head: **2.1.76** (`docs/changelog.md`)
 - Documentation index: <https://code.claude.com/docs/llms.txt>
 
 High-signal pages to check first:
 - [Features overview](docs/features-overview.md), [How Claude Code works](docs/how-claude-code-works.md), [Best practices](docs/best-practices.md)
-- [Permissions](docs/permissions.md), [Settings](docs/settings.md), [Server-managed settings](docs/server-managed-settings.md), [Model config](docs/model-config.md)
-- [MCP](docs/mcp.md), [Skills](docs/skills.md), [Sub-agents](docs/sub-agents.md), [Agent Teams](docs/agent-teams.md)
-- [GitHub Actions](docs/github-actions.md), [Headless](docs/headless.md), [Fast mode](docs/fast-mode.md)
+- [Permissions](docs/permissions.md), [Settings](docs/settings.md), [Server-managed settings](docs/server-managed-settings.md), [Model config](docs/model-config.md), [Env vars](docs/env-vars.md)
+- [MCP](docs/mcp.md), [Skills](docs/skills.md), [Sub-agents](docs/sub-agents.md), [Agent Teams](docs/agent-teams.md), [Tools reference](docs/tools-reference.md)
+- [Commands](docs/commands.md), [CLI reference](docs/cli-reference.md), [Interactive mode](docs/interactive-mode.md), [Fast mode](docs/fast-mode.md), [Remote control](docs/remote-control.md), [Scheduled tasks](docs/scheduled-tasks.md)
+- [GitHub Actions](docs/github-actions.md), [Headless](docs/headless.md), [Code review](docs/code-review.md)
 - [Desktop quickstart](docs/desktop-quickstart.md), [Desktop](docs/desktop.md), [VS Code](docs/vs-code.md), [JetBrains](docs/jetbrains.md)
-- [Network config](docs/network-config.md) and provider docs ([Bedrock](docs/amazon-bedrock.md), [Vertex](docs/google-vertex-ai.md), [Foundry](docs/microsoft-foundry.md))
+- [Network config](docs/network-config.md) and provider docs ([Bedrock](docs/amazon-bedrock.md), [Vertex](docs/google-vertex-ai.md), [Foundry](docs/microsoft-foundry.md), [LLM Gateway](docs/llm-gateway.md))
 - [Monitoring usage](docs/monitoring-usage.md), [Costs](docs/costs.md), [Troubleshooting](docs/troubleshooting.md)
 
 Repo pointers:
@@ -121,4 +122,4 @@ Repo pointers:
 - Plugin manifest: `plugins/claude-code-docs/.claude-plugin/plugin.json`
 <!-- AUTOSYNC:claude-code-docs END -->
 
-- Last synced: 2026-03-07 12:01
+- Last synced: 2026-03-16 12:00

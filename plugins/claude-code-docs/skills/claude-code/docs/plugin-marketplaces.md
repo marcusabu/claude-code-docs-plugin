@@ -157,7 +157,7 @@ Each plugin entry needs at minimum a `name` and `source` (where to fetch it from
 | `plugins` | array  | List of available plugins                                                                                                                                              | See below      |
 
 <Note>
-  **Reserved names**: The following marketplace names are reserved for official Anthropic use and cannot be used by third-party marketplaces: `claude-code-marketplace`, `claude-code-plugins`, `claude-plugins-official`, `anthropic-marketplace`, `anthropic-plugins`, `agent-skills`, `life-sciences`. Names that impersonate official marketplaces (like `official-claude-plugins` or `anthropic-tools-v2`) are also blocked.
+  **Reserved names**: The following marketplace names are reserved for official Anthropic use and cannot be used by third-party marketplaces: `claude-code-marketplace`, `claude-code-plugins`, `claude-plugins-official`, `anthropic-marketplace`, `anthropic-plugins`, `agent-skills`, `knowledge-work-plugins`, `life-sciences`. Names that impersonate official marketplaces (like `official-claude-plugins` or `anthropic-tools-v2`) are also blocked.
 </Note>
 
 ### Owner fields
@@ -226,7 +226,6 @@ Once a plugin is cloned or copied into the local machine, it is copied into the 
 | `url`         | object                          | `url`, `ref?`, `sha?`              | Git URL source                                                                      |
 | `git-subdir`  | object                          | `url`, `path`, `ref?`, `sha?`      | Subdirectory within a git repo. Clones sparsely to minimize bandwidth for monorepos |
 | `npm`         | object                          | `package`, `version?`, `registry?` | Installed via `npm install`                                                         |
-| `pip`         | object                          | `package`, `version?`, `registry?` | Installed via pip                                                                   |
 
 <Note>
   **Marketplace sources vs plugin sources**: These are different concepts that control different things.

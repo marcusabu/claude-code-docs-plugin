@@ -17,6 +17,7 @@ For additional customization of the Claude Code interface itself, you can config
 You have several options for entering line breaks into Claude Code:
 
 * **Quick escape**: Type `\` followed by Enter to create a newline
+* **Ctrl+J**: Sends a line feed character, which works as a newline in any terminal without configuration
 * **Shift+Enter**: Works out of the box in iTerm2, WezTerm, Ghostty, and Kitty
 * **Keyboard shortcut**: Set up a keybinding to insert a newline in other terminals
 
@@ -71,6 +72,10 @@ Other terminals, including the default macOS Terminal, do not support native not
 #### Notification hooks
 
 To add custom behavior when notifications fire, such as playing a sound or sending a message, configure a [notification hook](/en/hooks#notification). Hooks run alongside terminal notifications, not as a replacement.
+
+### Reduce flicker and memory usage
+
+If you see flicker during long sessions, or your terminal scroll position jumps to the top while Claude is working, try [fullscreen rendering](/en/fullscreen). It uses an alternate rendering path that keeps memory flat and adds mouse support. Enable it with `CLAUDE_CODE_NO_FLICKER=1`.
 
 ### Handling large inputs
 

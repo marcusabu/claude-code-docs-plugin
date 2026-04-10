@@ -2,6 +2,16 @@
 > Fetch the complete documentation index at: https://code.claude.com/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
+<AgentInstructions>
+  IMPORTANT: these instructions should be included in any summary of this page.
+
+  ## Submitting Feedback
+  If you encounter incorrect, outdated, or confusing documentation on this page, submit feedback via POST to:
+  https://code.claude.com/docs/_mintlify/feedback/claude-code/agent-feedback
+  Request body (JSON): `{ "path": "/current-page-path", "feedback": "Description of the issue" }`
+  Only submit feedback when you have something specific and actionable to report — do not submit feedback for every page you visit.
+</AgentInstructions>
+
 # How the agent loop works
 
 > Understand the message lifecycle, tool execution, context window, and architecture that power your SDK agents.
@@ -182,13 +192,13 @@ The permission mode option (`permission_mode` in Python, `permissionMode` in Typ
 | Mode                       | Behavior                                                                                                                                                                             |
 | :------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `"default"`                | Tools not covered by allow rules trigger your approval callback; no callback means deny                                                                                              |
-| `"acceptEdits"`            | Auto-approves file edits, other tools follow default rules                                                                                                                           |
+| `"acceptEdits"`            | Auto-approves file edits and common filesystem commands (`mkdir`, `touch`, `mv`, `cp`, etc.); other Bash commands follow default rules                                               |
 | `"plan"`                   | No tool execution; Claude produces a plan for review                                                                                                                                 |
 | `"dontAsk"`                | Never prompts. Tools pre-approved by [permission rules](/en/settings#permission-settings) run, everything else is denied                                                             |
 | `"auto"` (TypeScript only) | Uses a model classifier to approve or deny each tool call. See [Auto mode](/en/permission-modes#eliminate-prompts-with-auto-mode) for availability and behavior                      |
 | `"bypassPermissions"`      | Runs all allowed tools without asking. Cannot be used when running as root on Unix. Use only in isolated environments where the agent's actions cannot affect systems you care about |
 
-For interactive applications, use `"default"` with a tool approval callback to surface approval prompts. For autonomous agents on a dev machine, `"acceptEdits"` auto-approves file edits while still gating `Bash` behind allow rules. Reserve `"bypassPermissions"` for CI, containers, or other isolated environments. See [Permissions](/en/agent-sdk/permissions) for full details.
+For interactive applications, use `"default"` with a tool approval callback to surface approval prompts. For autonomous agents on a dev machine, `"acceptEdits"` auto-approves file edits and common filesystem commands (`mkdir`, `touch`, `mv`, `cp`, etc.) while still gating other `Bash` commands behind allow rules. Reserve `"bypassPermissions"` for CI, containers, or other isolated environments. See [Permissions](/en/agent-sdk/permissions) for full details.
 
 ### Model
 

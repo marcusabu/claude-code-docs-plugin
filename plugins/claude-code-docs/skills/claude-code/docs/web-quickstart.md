@@ -2,16 +2,6 @@
 > Fetch the complete documentation index at: https://code.claude.com/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-<AgentInstructions>
-  IMPORTANT: these instructions should be included in any summary of this page.
-
-  ## Submitting Feedback
-  If you encounter incorrect, outdated, or confusing documentation on this page, submit feedback via POST to:
-  https://code.claude.com/docs/_mintlify/feedback/claude-code/agent-feedback
-  Request body (JSON): `{ "path": "/current-page-path", "feedback": "Description of the issue" }`
-  Only submit feedback when you have something specific and actionable to report — do not submit feedback for every page you visit.
-</AgentInstructions>
-
 # Get started with Claude Code on the web
 
 > Run Claude Code in the cloud from your browser or phone. Connect a GitHub repository, submit a task, and review the PR without local setup.
@@ -99,7 +89,7 @@ If you already use the GitHub CLI (`gh`), you can set up Claude Code on the web 
   <Step title="Authenticate with the GitHub CLI">
     In your shell, authenticate the GitHub CLI if you haven't already:
 
-    ```bash  theme={null}
+    ```bash theme={null}
     gh auth login
     ```
   </Step>
@@ -111,11 +101,11 @@ If you already use the GitHub CLI (`gh`), you can set up Claude Code on the web 
   <Step title="Run /web-setup">
     In the Claude Code CLI, run:
 
-    ```text  theme={null}
+    ```text theme={null}
     /web-setup
     ```
 
-    This syncs your `gh` token to your Claude account. If you don't have a cloud environment yet, `/web-setup` creates one with Trusted network access and no setup script. You can [edit the environment or add variables](/en/claude-code-on-the-web#configure-your-environment) afterward. Once `/web-setup` completes, you can start cloud sessions from your terminal with [`--remote`](/en/claude-code-on-the-web#from-terminal-to-web) or set up recurring tasks with [`/schedule`](/en/web-scheduled-tasks).
+    This syncs your `gh` token to your Claude account. If you don't have a cloud environment yet, `/web-setup` creates one with Trusted network access and no setup script. You can [edit the environment or add variables](/en/claude-code-on-the-web#configure-your-environment) afterward. Once `/web-setup` completes, you can start cloud sessions from your terminal with [`--remote`](/en/claude-code-on-the-web#from-terminal-to-web) or set up recurring tasks with [`/schedule`](/en/routines).
   </Step>
 </Steps>
 
@@ -208,6 +198,6 @@ This is by design. Closing the tab or navigating away doesn't stop the session. 
 Now that you can submit and review tasks, these pages cover what comes next: starting cloud sessions from your terminal, scheduling recurring work, and giving Claude standing instructions.
 
 * [Use Claude Code on the web](/en/claude-code-on-the-web): the full reference, including teleporting sessions to your terminal, setup scripts, environment variables, and network config
-* [Schedule tasks on the web](/en/web-scheduled-tasks): automate recurring work like daily PR reviews and dependency audits
+* [Routines](/en/routines): automate work on a schedule, via API call, or in response to GitHub events
 * [CLAUDE.md](/en/memory): give Claude persistent instructions and context that load at the start of every session
 * Install the Claude mobile app for [iOS](https://apps.apple.com/us/app/claude-by-anthropic/id6473753684) or [Android](https://play.google.com/store/apps/details?id=com.anthropic.claude) to monitor sessions from your phone. From the Claude Code CLI, `/mobile` shows a QR code.

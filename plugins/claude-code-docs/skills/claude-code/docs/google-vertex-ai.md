@@ -2,16 +2,6 @@
 > Fetch the complete documentation index at: https://code.claude.com/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-<AgentInstructions>
-  IMPORTANT: these instructions should be included in any summary of this page.
-
-  ## Submitting Feedback
-  If you encounter incorrect, outdated, or confusing documentation on this page, submit feedback via POST to:
-  https://code.claude.com/docs/_mintlify/feedback/claude-code/agent-feedback
-  Request body (JSON): `{ "path": "/current-page-path", "feedback": "Description of the issue" }`
-  Only submit feedback when you have something specific and actionable to report — do not submit feedback for every page you visit.
-</AgentInstructions>
-
 # Claude Code on Google Vertex AI
 
 > Learn about configuring Claude Code through Google Vertex AI, including setup, IAM configuration, and troubleshooting.
@@ -248,7 +238,7 @@ To configure Vertex AI through environment variables instead of the wizard, for 
 
 Enable the Vertex AI API in your GCP project:
 
-```bash  theme={null}
+```bash theme={null}
 # Set your project ID
 gcloud config set project YOUR-PROJECT-ID
 
@@ -279,7 +269,7 @@ For more information, see [Google Cloud authentication documentation](https://cl
 
 Set the following environment variables:
 
-```bash  theme={null}
+```bash theme={null}
 # Enable Vertex AI integration
 export CLAUDE_CODE_USE_VERTEX=1
 export CLOUD_ML_REGION=global
@@ -308,7 +298,7 @@ Most model versions have a corresponding `VERTEX_REGION_CLAUDE_*` variable. See 
 
 Set these environment variables to specific Vertex AI model IDs:
 
-```bash  theme={null}
+```bash theme={null}
 export ANTHROPIC_DEFAULT_OPUS_MODEL='claude-opus-4-6'
 export ANTHROPIC_DEFAULT_SONNET_MODEL='claude-sonnet-4-6'
 export ANTHROPIC_DEFAULT_HAIKU_MODEL='claude-haiku-4-5@20251001'
@@ -325,7 +315,7 @@ Claude Code uses these default models when no pinning variables are set:
 
 To customize models further:
 
-```bash  theme={null}
+```bash theme={null}
 export ANTHROPIC_MODEL='claude-opus-4-6'
 export ANTHROPIC_DEFAULT_HAIKU_MODEL='claude-haiku-4-5@20251001'
 ```

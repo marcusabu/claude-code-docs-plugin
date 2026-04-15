@@ -2,16 +2,6 @@
 > Fetch the complete documentation index at: https://code.claude.com/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-<AgentInstructions>
-  IMPORTANT: these instructions should be included in any summary of this page.
-
-  ## Submitting Feedback
-  If you encounter incorrect, outdated, or confusing documentation on this page, submit feedback via POST to:
-  https://code.claude.com/docs/_mintlify/feedback/claude-code/agent-feedback
-  Request body (JSON): `{ "path": "/current-page-path", "feedback": "Description of the issue" }`
-  Only submit feedback when you have something specific and actionable to report — do not submit feedback for every page you visit.
-</AgentInstructions>
-
 # Code Review
 
 > Set up automated PR reviews that catch logic errors, security vulnerabilities, and regressions using multi-agent analysis of your full codebase
@@ -74,7 +64,7 @@ Each finding also appears as an annotation in the **Files changed** tab, marked 
 
 The check run always completes with a neutral conclusion so it never blocks merging through branch protection rules. If you want to gate merges on Code Review findings, read the severity breakdown from the check run output in your own CI. The last line of the Details text is a machine-readable comment your workflow can parse with `gh` and jq:
 
-```bash  theme={null}
+```bash theme={null}
 gh api repos/OWNER/REPO/check-runs/CHECK_RUN_ID \
   --jq '.output.text | split("bughunter-severity: ")[1] | split(" -->")[0] | fromjson'
 ```
@@ -175,7 +165,7 @@ Add a `REVIEW.md` file to your repository root for review-specific rules. Use it
 
 Example `REVIEW.md`:
 
-```markdown  theme={null}
+```markdown theme={null}
 # Code Review Guidelines
 
 ## Always check

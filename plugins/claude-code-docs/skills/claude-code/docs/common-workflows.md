@@ -403,6 +403,14 @@ Suppose you need to add or update documentation for your code.
 
 ***
 
+## Work in notes and non-code folders
+
+Claude Code works in any directory. Run it inside a notes vault, a documentation folder, or any collection of markdown files to search, edit, and reorganize content the same way you would code.
+
+The `.claude/` directory and `CLAUDE.md` sit alongside other tools' config directories without conflict. Claude reads files fresh on each tool call, so it sees edits you make in another application the next time it reads that file.
+
+***
+
 ## Work with images
 
 Suppose you need to work with images in your codebase, and you want Claude's help analyzing image content.
@@ -506,7 +514,7 @@ Use @ to quickly include files or directories without waiting for Claude to read
 
 ## Use extended thinking (thinking mode)
 
-[Extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking) is enabled by default, giving Claude space to reason through complex problems step-by-step before responding. This reasoning is visible in verbose mode, which you can toggle on with `Ctrl+O`. During extended thinking, progress hints appear below the indicator to show that Claude is actively working.
+[Extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking) is enabled by default, giving Claude space to reason through complex problems step-by-step before responding. This reasoning is visible in verbose mode, which you can toggle on with `Ctrl+O`. During extended thinking, the spinner shows inline progress hints such as "still thinking" and "almost done thinking" to indicate Claude is actively working.
 
 Additionally, [models that support effort](/en/model-config#adjust-effort-level) use adaptive reasoning: instead of a fixed thinking token budget, the model dynamically decides whether and how much to think based on your effort level setting and the task at hand. Adaptive reasoning lets Claude respond faster to routine prompts and reserve deeper thinking for steps that benefit from it.
 

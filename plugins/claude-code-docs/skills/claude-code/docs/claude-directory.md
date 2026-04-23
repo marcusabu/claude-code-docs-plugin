@@ -1463,41 +1463,7 @@ Click a filename to open that node in the explorer above.
 
 ## Troubleshoot configuration
 
-If a setting, hook, or file isn't taking effect, scan the symptoms below.
-
-| Symptom                                                          | Cause                                                                                  | Fix                                                                                                                                                                                                       |
-| :--------------------------------------------------------------- | :------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Hook never fires                                                 | `matcher` is a JSON array instead of a string                                          | Use a single string with `\|` to match multiple tools, for example `"Edit\|Write"`. See [matcher patterns](/en/hooks#matcher-patterns).                                                                   |
-| Hook never fires                                                 | `matcher` value is lowercase, for example `"bash"`                                     | Matching is case-sensitive. Tool names are capitalized: `Bash`, `Edit`, `Write`, `Read`.                                                                                                                  |
-| Hook never fires                                                 | Hooks are in a standalone `.claude/hooks.json` file                                    | There is no standalone hooks file. Define hooks under the `"hooks"` key in `settings.json`. See [hook configuration](/en/hooks).                                                                          |
-| Permissions, hooks, or env set globally are ignored              | Configuration was added to `~/.claude.json`                                            | `~/.claude.json` holds app state and UI toggles. `permissions`, `hooks`, and `env` belong in `~/.claude/settings.json`. These are two different files.                                                    |
-| A `settings.json` value seems ignored                            | The same key is set in `settings.local.json`                                           | `settings.local.json` overrides `settings.json`, and both override `~/.claude/settings.json`. See [settings precedence](/en/settings#settings-precedence).                                                |
-| Skill doesn't appear in `/skills`                                | Skill file is at `.claude/skills/name.md` instead of in a folder                       | Use a folder with `SKILL.md` inside: `.claude/skills/name/SKILL.md`.                                                                                                                                      |
-| Subdirectory `CLAUDE.md` instructions seem ignored               | Subdirectory files load on demand, not at session start                                | They load when Claude reads a file in that directory with the Read tool, not at launch and not when writing or creating files there. See [how CLAUDE.md files load](/en/memory#how-claude-md-files-load). |
-| Subagent ignores `CLAUDE.md` instructions                        | Subagents don't always inherit project memory                                          | Put critical rules in the agent file body, which becomes the subagent's system prompt. See [subagent configuration](/en/sub-agents).                                                                      |
-| Cleanup logic never runs at session end                          | No `SessionEnd` hook configured                                                        | `SessionStart` and `SessionEnd` both exist. See the [hook events list](/en/hooks#hook-events).                                                                                                            |
-| MCP servers in `.mcp.json` never load                            | File is under `.claude/` or uses Claude Desktop's config format                        | Project MCP config lives at the repository root as `.mcp.json`, not inside `.claude/`. See [MCP configuration](/en/mcp).                                                                                  |
-| Project MCP server added but doesn't appear                      | The one-time approval prompt was dismissed                                             | Project-scoped servers require approval. Run `/mcp` to see status and approve.                                                                                                                            |
-| MCP server fails to start from some directories                  | `command` or `args` uses a relative file path                                          | Use absolute paths for local scripts. Executables on your `PATH` like `npx` or `uvx` work as-is.                                                                                                          |
-| MCP server starts without expected environment variables         | Variables are in `settings.json` `env`, which doesn't propagate to MCP child processes | Set per-server `env` inside `.mcp.json` instead.                                                                                                                                                          |
-| `Bash(rm *)` deny rule doesn't block `/bin/rm` or `find -delete` | Prefix rules match the literal command string, not the underlying executable           | Add explicit patterns for each variant, or use a [PreToolUse hook](/en/hooks-guide) or the [sandbox](/en/sandboxing) for a hard guarantee.                                                                |
-
-## Check what loaded
-
-The explorer shows what files can exist. To see what actually loaded in your current session, use these commands:
-
-| Command        | Shows                                                                                 |
-| -------------- | ------------------------------------------------------------------------------------- |
-| `/context`     | Token usage by category: system prompt, memory files, skills, MCP tools, and messages |
-| `/memory`      | Which CLAUDE.md and rules files loaded, plus auto-memory entries                      |
-| `/agents`      | Configured subagents and their settings                                               |
-| `/hooks`       | Active hook configurations                                                            |
-| `/mcp`         | Connected MCP servers and their status                                                |
-| `/skills`      | Available skills from project, user, and plugin sources                               |
-| `/permissions` | Current allow and deny rules                                                          |
-| `/doctor`      | Installation and configuration diagnostics                                            |
-
-Run `/context` first for the overview, then the specific command for the area you want to investigate.
+If a setting, hook, or file isn't taking effect, see [Debug your configuration](/en/debug-your-config) for the inspection commands and a symptom-first lookup table.
 
 ## Application data
 
@@ -1507,15 +1473,18 @@ Beyond the config you author, `~/.claude` holds data Claude Code writes during s
 
 Files in the paths below are deleted on startup once they're older than [`cleanupPeriodDays`](/en/settings#available-settings). The default is 30 days.
 
-| Path under `~/.claude/`                      | Contents                                                                                           |
-| -------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `projects/<project>/<session>.jsonl`         | Full conversation transcript: every message, tool call, and tool result                            |
-| `projects/<project>/<session>/tool-results/` | Large tool outputs spilled to separate files                                                       |
-| `file-history/<session>/`                    | Pre-edit snapshots of files Claude changed, used for [checkpoint restore](/en/checkpointing)       |
-| `plans/`                                     | Plan files written during [plan mode](/en/permission-modes#analyze-before-you-edit-with-plan-mode) |
-| `debug/`                                     | Per-session debug logs, written only when you start with `--debug` or run `/debug`                 |
-| `paste-cache/`, `image-cache/`               | Contents of large pastes and attached images                                                       |
-| `session-env/`                               | Per-session environment metadata                                                                   |
+| Path under `~/.claude/`                      | Contents                                                                                                          |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `projects/<project>/<session>.jsonl`         | Full conversation transcript: every message, tool call, and tool result                                           |
+| `projects/<project>/<session>/tool-results/` | Large tool outputs spilled to separate files                                                                      |
+| `file-history/<session>/`                    | Pre-edit snapshots of files Claude changed, used for [checkpoint restore](/en/checkpointing)                      |
+| `plans/`                                     | Plan files written during [plan mode](/en/permission-modes#analyze-before-you-edit-with-plan-mode)                |
+| `debug/`                                     | Per-session debug logs, written only when you start with `--debug` or run `/debug`                                |
+| `paste-cache/`, `image-cache/`               | Contents of large pastes and attached images                                                                      |
+| `session-env/`                               | Per-session environment metadata                                                                                  |
+| `tasks/`                                     | Per-session task lists written by the task tools                                                                  |
+| `shell-snapshots/`                           | Captured shell environment used by the Bash tool. Removed on clean exit. The sweep clears any left after a crash. |
+| `backups/`                                   | Timestamped copies of `~/.claude.json` taken before config migrations                                             |
 
 ### Kept until you delete them
 
@@ -1525,10 +1494,9 @@ The following paths are not covered by automatic cleanup and persist indefinitel
 | ----------------------- | ------------------------------------------------------------------------------------- |
 | `history.jsonl`         | Every prompt you've typed, with timestamp and project path. Used for up-arrow recall. |
 | `stats-cache.json`      | Aggregated token and cost counts shown by `/cost`                                     |
-| `backups/`              | Timestamped copies of `~/.claude.json` taken before config migrations                 |
 | `todos/`                | Legacy per-session task lists. No longer written by current versions; safe to delete. |
 
-`shell-snapshots/` holds runtime files removed when the session exits cleanly. Other small cache and lock files appear depending on which features you use and are safe to delete.
+Other small cache and lock files appear depending on which features you use and are safe to delete.
 
 ### Plaintext storage
 
@@ -1542,15 +1510,14 @@ Transcripts and history are not encrypted at rest. OS file permissions are the o
 
 You can delete any of the application-data paths above at any time. New sessions are unaffected. The table below shows what you lose for past sessions.
 
-| Delete                                                                                                               | You lose                                                        |
-| -------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| `~/.claude/projects/`                                                                                                | Resume, continue, and rewind for past sessions                  |
-| `~/.claude/history.jsonl`                                                                                            | Up-arrow prompt recall                                          |
-| `~/.claude/file-history/`                                                                                            | Checkpoint restore for past sessions                            |
-| `~/.claude/stats-cache.json`                                                                                         | Historical totals shown by `/cost`                              |
-| `~/.claude/backups/`                                                                                                 | Rollback copies of `~/.claude.json` from past config migrations |
-| `~/.claude/debug/`, `~/.claude/plans/`, `~/.claude/paste-cache/`, `~/.claude/image-cache/`, `~/.claude/session-env/` | Nothing user-facing                                             |
-| `~/.claude/todos/`                                                                                                   | Nothing. Legacy directory not written by current versions.      |
+| Delete                                                                                                                                                                                       | You lose                                                   |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| `~/.claude/projects/`                                                                                                                                                                        | Resume, continue, and rewind for past sessions             |
+| `~/.claude/history.jsonl`                                                                                                                                                                    | Up-arrow prompt recall                                     |
+| `~/.claude/file-history/`                                                                                                                                                                    | Checkpoint restore for past sessions                       |
+| `~/.claude/stats-cache.json`                                                                                                                                                                 | Historical totals shown by `/cost`                         |
+| `~/.claude/debug/`, `~/.claude/plans/`, `~/.claude/paste-cache/`, `~/.claude/image-cache/`, `~/.claude/session-env/`, `~/.claude/tasks/`, `~/.claude/shell-snapshots/`, `~/.claude/backups/` | Nothing user-facing                                        |
+| `~/.claude/todos/`                                                                                                                                                                           | Nothing. Legacy directory not written by current versions. |
 
 Don't delete `~/.claude.json`, `~/.claude/settings.json`, or `~/.claude/plugins/`: those hold your auth, preferences, and installed plugins.
 

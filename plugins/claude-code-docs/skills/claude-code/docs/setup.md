@@ -20,7 +20,7 @@ Claude Code runs on the following platforms and configurations:
   * Alpine Linux 3.19+
 * **Hardware**: 4 GB+ RAM, x64 or ARM64 processor
 * **Network**: internet connection required. See [network configuration](/en/network-config#network-access-requirements).
-* **Shell**: Bash, Zsh, PowerShell, or CMD. Native Windows setups require [Git for Windows](https://git-scm.com/downloads/win). WSL setups do not.
+* **Shell**: Bash, Zsh, PowerShell, or CMD. Native Windows setups require [Git for Windows](https://git-scm.com/downloads/win) for Git Bash. WSL setups do not require Git for Windows.
 * **Location**: [Anthropic supported countries](https://www.anthropic.com/supported-countries)
 
 ### Additional dependencies
@@ -59,7 +59,7 @@ To install Claude Code, use one of the following methods:
 
     If you see `The token '&&' is not a valid statement separator`, you're in PowerShell, not CMD. If you see `'irm' is not recognized as an internal or external command`, you're in CMD, not PowerShell. Your prompt shows `PS C:\` when you're in PowerShell and `C:\` without the `PS` when you're in CMD.
 
-    **Native Windows setups require [Git for Windows](https://git-scm.com/downloads/win).** Install it first if you don't have it. WSL setups do not need it.
+    [Git for Windows](https://git-scm.com/downloads/win) is required on native Windows so Claude Code can use the Bash tool. WSL setups do not need Git for Windows.
 
     <Info>
       Native installations automatically update in the background to keep you on the latest version.
@@ -97,17 +97,17 @@ After installation completes, open a terminal in the project you want to work in
 claude
 ```
 
-If you encounter any issues during installation, see the [troubleshooting guide](/en/troubleshooting).
+If you encounter any issues during installation, see [Troubleshoot installation and login](/en/troubleshoot-install).
 
 ### Set up on Windows
 
 You can run Claude Code natively on Windows or inside WSL. Pick based on where your projects are located and which features you need:
 
-| Option         | Requires                                             | [Sandboxing](/en/sandboxing) | When to use                                     |
-| -------------- | ---------------------------------------------------- | ---------------------------- | ----------------------------------------------- |
-| Native Windows | [Git for Windows](https://git-scm.com/downloads/win) | Not supported                | Windows-native projects and tools               |
-| WSL 2          | WSL 2 enabled                                        | Supported                    | Linux toolchains or sandboxed command execution |
-| WSL 1          | WSL 1 enabled                                        | Not supported                | If WSL 2 is unavailable                         |
+| Option         | Requires                                                      | [Sandboxing](/en/sandboxing) | When to use                                     |
+| -------------- | ------------------------------------------------------------- | ---------------------------- | ----------------------------------------------- |
+| Native Windows | [Git for Windows](https://git-scm.com/downloads/win) required | Not supported                | Windows-native projects and tools               |
+| WSL 2          | WSL 2 enabled                                                 | Supported                    | Linux toolchains or sandboxed command execution |
+| WSL 1          | WSL 1 enabled                                                 | Not supported                | If WSL 2 is unavailable                         |
 
 **Option 1: Native Windows with Git Bash**
 
@@ -115,7 +115,7 @@ Install [Git for Windows](https://git-scm.com/downloads/win), then run the insta
 
 Whether you install from PowerShell or CMD only affects which install command you run. Your prompt shows `PS C:\Users\YourName>` in PowerShell and `C:\Users\YourName>` without the `PS` in CMD. If you're new to the terminal, the [terminal guide](/en/terminal-guide#windows) walks through each step.
 
-After installation, launch `claude` from PowerShell, CMD, or Git Bash. Claude Code uses Git Bash internally to execute commands regardless of where you launched it. If Claude Code can't find your Git Bash installation, set the path in your [settings.json file](/en/settings):
+After installation, launch `claude` from PowerShell, CMD, or Git Bash. When Git Bash is installed, Claude Code uses it internally to execute commands regardless of where you launched it. If Claude Code can't find your Git Bash installation, set the path in your [settings.json file](/en/settings):
 
 ```json theme={null}
 {
@@ -158,6 +158,8 @@ After installing, confirm Claude Code is working:
 ```bash theme={null}
 claude --version
 ```
+
+If this fails with `command not found` or another error, see [Troubleshoot installation and login](/en/troubleshoot-install).
 
 For a more detailed check of your installation and configuration, run [`claude doctor`](/en/troubleshooting#get-more-help):
 
@@ -390,10 +392,10 @@ npm install -g @anthropic-ai/claude-code
 
 The npm package installs the same native binary as the standalone installer. npm pulls the binary in through a per-platform optional dependency such as `@anthropic-ai/claude-code-darwin-arm64`, and a postinstall step links it into place. The installed `claude` binary does not itself invoke Node.
 
-Supported npm install platforms are `darwin-arm64`, `darwin-x64`, `linux-x64`, `linux-arm64`, `linux-x64-musl`, `linux-arm64-musl`, `win32-x64`, and `win32-arm64`. Your package manager must allow optional dependencies. See [troubleshooting](/en/troubleshooting#native-binary-not-found-after-npm-install) if the binary is missing after install.
+Supported npm install platforms are `darwin-arm64`, `darwin-x64`, `linux-x64`, `linux-arm64`, `linux-x64-musl`, `linux-arm64-musl`, `win32-x64`, and `win32-arm64`. Your package manager must allow optional dependencies. See [troubleshooting](/en/troubleshoot-install#native-binary-not-found-after-npm-install) if the binary is missing after install.
 
 <Warning>
-  Do NOT use `sudo npm install -g` as this can lead to permission issues and security risks. If you encounter permission errors, see [troubleshooting permission errors](/en/troubleshooting#permission-errors-during-installation).
+  Do NOT use `sudo npm install -g` as this can lead to permission issues and security risks. If you encounter permission errors, see [troubleshooting permission errors](/en/troubleshoot-install#permission-errors-during-installation).
 </Warning>
 
 ### Binary integrity and code signing

@@ -54,7 +54,7 @@ Ultrareview is a premium feature that bills against extra usage rather than your
 | Max                 | 3 free runs through May 5, 2026 | billed as [extra usage](https://support.claude.com/en/articles/12429409-extra-usage-for-paid-claude-plans) |
 | Team and Enterprise | none                            | billed as [extra usage](https://support.claude.com/en/articles/12429409-extra-usage-for-paid-claude-plans) |
 
-Pro and Max subscribers receive three free ultrareview runs to try the feature. These three runs are a one-time allotment per account, do not refresh, and expire on May 5, 2026. After you use all three, or after the free run period ends, each review is billed to extra usage and typically costs \$5 to \$20 depending on the size of the change.
+Pro and Max subscribers receive three free ultrareview runs to try the feature. These three runs are a one-time allotment per account, do not refresh, and expire on May 5, 2026. After you use all three, or after the free run period ends, each review is billed to extra usage and typically costs \$5 to \$20 depending on the size of the change. A run counts once the remote session starts, so a review that you stop early or that fails to complete still uses a free run. For a paid review, extra usage is billed only for the portion that ran.
 
 Because ultrareview always bills as extra usage outside the free runs, your account or organization must have extra usage enabled before you can launch a paid review. If extra usage is not enabled, Claude Code blocks the launch and links you to the billing settings where you can turn it on. You can also run `/extra-usage` to check or change your current setting.
 
@@ -63,6 +63,27 @@ Because ultrareview always bills as extra usage outside the free runs, your acco
 A review typically takes 5 to 10 minutes. The review runs as a background task, so you can keep working in your session, start other commands, or close the terminal entirely.
 
 Use `/tasks` to see running and completed reviews, open the detail view for a review, or stop a review that is in progress. Stopping a review archives the cloud session, and partial findings are not returned. When the review finishes, the verified findings appear as a notification in your session. Each finding includes the file location and an explanation of the issue so you can ask Claude to fix it directly.
+
+## Run ultrareview non-interactively
+
+Use the `claude ultrareview` subcommand to start an ultrareview from CI or a script without an interactive session. The subcommand launches the same review as `/ultrareview`, blocks until the remote review finishes, prints the findings to stdout, and exits with code 0 on success or 1 on failure.
+
+```bash theme={null}
+claude ultrareview
+claude ultrareview 1234
+claude ultrareview origin/main
+```
+
+Without arguments, the subcommand reviews the diff between your current branch and the default branch. Pass a PR number to review a pull request, or pass a base branch to review the diff against that branch instead. Invoking the subcommand counts as consent for the billing and terms prompt that the interactive command shows.
+
+Progress messages and the live session URL go to stderr so stdout stays parseable. Use these flags to control the output and timeout:
+
+| Flag                  | Description                                                         |
+| --------------------- | ------------------------------------------------------------------- |
+| `--json`              | Print the raw `bugs.json` payload instead of the formatted findings |
+| `--timeout <minutes>` | Maximum minutes to wait for the review to finish. Defaults to 30    |
+
+Running `claude ultrareview` requires the same authentication and extra usage configuration as `/ultrareview`. The subcommand exits with code 0 when the review completes with or without findings, code 1 when the review fails to launch, the remote session errors, or the timeout elapses, and code 130 when interrupted with Ctrl-C. The remote review keeps running if you interrupt the subcommand; follow the session URL printed to stderr to watch it in the browser.
 
 ## How ultrareview compares to /review
 

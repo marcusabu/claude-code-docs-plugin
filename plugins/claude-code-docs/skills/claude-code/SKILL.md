@@ -103,7 +103,7 @@ This section is auto-synced from generated docs in `docs/`.
 Keep it compact; use the linked pages for full details.
 
 Current docs snapshot:
-- Changelog head: **2.1.119** (`docs/changelog.md`)
+- Changelog head: **2.1.138** (`docs/changelog.md`)
 - Documentation index: <https://code.claude.com/docs/llms.txt>
 - Generated docs workflow: `.github/workflows/update-docs.yml`
 
@@ -115,16 +115,17 @@ Start here first:
 - CLI & workflows: [Commands](docs/commands.md), [CLI reference](docs/cli-reference.md), [Interactive mode](docs/interactive-mode.md), [Keybindings](docs/keybindings.md), [Common workflows](docs/common-workflows.md), [Code review](docs/code-review.md), [Remote control](docs/remote-control.md), [Scheduled tasks](docs/scheduled-tasks.md), [Routines](docs/routines.md), [Ultraplan](docs/ultraplan.md), [Ultrareview](docs/ultrareview.md)
 - Surfaces & integrations: [Desktop](docs/desktop.md), [Desktop quickstart](docs/desktop-quickstart.md), [Desktop scheduled tasks](docs/desktop-scheduled-tasks.md), [Claude Code on the web](docs/claude-code-on-the-web.md), [Web quickstart](docs/web-quickstart.md), [VS Code](docs/vs-code.md), [JetBrains](docs/jetbrains.md), [Slack](docs/slack.md), [Computer use](docs/computer-use.md), [Voice dictation](docs/voice-dictation.md)
 - Infra & deployment: [Platforms](docs/platforms.md), [Network config](docs/network-config.md), [GitHub Actions](docs/github-actions.md), [Headless](docs/headless.md), [LLM Gateway](docs/llm-gateway.md), [Bedrock](docs/amazon-bedrock.md), [Vertex](docs/google-vertex-ai.md), [Foundry](docs/microsoft-foundry.md)
-- Monitoring & upkeep: [Monitoring usage](docs/monitoring-usage.md), [Costs](docs/costs.md), [Troubleshooting](docs/troubleshooting.md), [Errors](docs/errors.md), [Changelog](docs/changelog.md), [What’s new](docs/whats-new.md)
+- Monitoring & upkeep: [Monitoring usage](docs/monitoring-usage.md), [Costs](docs/costs.md), [Troubleshoot install](docs/troubleshoot-install.md), [Troubleshooting](docs/troubleshooting.md), [Errors](docs/errors.md), [Changelog](docs/changelog.md), [What’s new](docs/whats-new.md)
 
 Notable additions in this sync:
-- New setup/admin references: [Admin setup](docs/admin-setup.md), [Auto mode config](docs/auto-mode-config.md), [Debug your config](docs/debug-your-config.md), [Plugin dependencies](docs/plugin-dependencies.md)
-- Workflow and review docs expanded: [Routines](docs/routines.md), [Ultrareview](docs/ultrareview.md), [Desktop scheduled tasks](docs/desktop-scheduled-tasks.md), [Computer use](docs/computer-use.md)
-- Agent SDK coverage is broader now: [Overview](docs/agent-sdk__overview.md), [Quickstart](docs/agent-sdk__quickstart.md), [Python](docs/agent-sdk__python.md), [TypeScript](docs/agent-sdk__typescript.md), [TypeScript v2 preview](docs/agent-sdk__typescript-v2-preview.md), [Sessions](docs/agent-sdk__sessions.md), [Slash commands](docs/agent-sdk__slash-commands.md), [Structured outputs](docs/agent-sdk__structured-outputs.md), [Observability](docs/agent-sdk__observability.md)
+- Settings docs now emphasize config scopes and managed delivery paths: [Settings](docs/settings.md), [Server-managed settings](docs/server-managed-settings.md), [Permissions](docs/permissions.md)
+- Skills docs now explicitly cover command/skill unification, invocation control, and dynamic context injection: [Skills](docs/skills.md)
+- Hooks guidance is more task-oriented, with clearer examples for notifications, formatting, policy enforcement, and context reinjection: [Hooks guide](docs/hooks-guide.md), [Hooks](docs/hooks.md)
+- Troubleshooting is split more cleanly between runtime issues and install/login problems: [Errors](docs/errors.md), [Troubleshoot install](docs/troubleshoot-install.md)
 
 Repo pointers:
 - Generated docs: `plugins/claude-code-docs/skills/claude-code/docs/`
 - Plugin manifest: `plugins/claude-code-docs/.claude-plugin/plugin.json`
 <!-- AUTOSYNC:claude-code-docs END -->
 
-- Last synced: 2026-04-27 12:00 Europe/Amsterdam
+- Last synced: 2026-05-11 12:00 Europe/Amsterdam

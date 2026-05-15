@@ -46,7 +46,7 @@ This walkthrough covers the core agent view loop: dispatch a task, watch its row
   </Step>
 
   <Step title="Dispatch a session">
-    Type a prompt describing a task and press `Enter`. A new background session starts on that task and appears as a row showing whether it's working, waiting on you, or done. The new session uses the model shown in the agent view header and the same [permission mode](#permission-mode-and-settings) you'd get running `claude` in that directory.
+    Type a prompt describing a task and press `Enter`. A new background session starts on that task and appears as a row showing whether it's working, waiting on you, or done. The new session uses the model shown in the agent view header and the same [permission mode](#permission-mode-model-and-effort) you'd get running `claude` in that directory.
 
     Every prompt you enter here starts its own new session. Typing another prompt and pressing `Enter` launches a second session alongside the first rather than sending a follow-up to it. You can run several in parallel this way.
 
@@ -73,6 +73,8 @@ You can use `claude agents` as your primary entry point instead of `claude`: dis
 Run `claude agents` to open agent view. It takes over the full terminal and lists every session grouped by state, with pinned sessions and the ones that need you at the top. Each row shows the session's name, current activity, and how long ago it last changed.
 
 The list shows every background session you've started, across all your projects. A session working in one repository and another in a different worktree both appear here, regardless of which directory you opened agent view from. Interactive sessions you have open in other terminals don't appear until you [background them](#from-inside-a-session). [Subagents](/en/sub-agents) and [teammates](/en/agent-teams) a session spawns aren't listed as separate rows.
+
+To scope the view to one project, launch with `claude agents --cwd <path>`. Only sessions started under that directory appear, including any running in a [worktree](/en/worktrees) dispatched from it.
 
 ```text theme={null}
 Pinned
@@ -285,7 +287,7 @@ To make a subagent always run in its own worktree regardless of how it was start
 
 ### Set the model
 
-The model name shown in the agent view header is the dispatch default. New sessions you start from the input use this model, which is the same setting [`/model`](/en/model-config) controls in any session.
+The model name shown in the agent view header is the dispatch default. New sessions you start from the input use this model, which is the same setting [`/model`](/en/model-config) controls in any session. To override it for the whole agent view session, pass `--model` when opening agent view. See [Permission mode, model, and effort](#permission-mode-model-and-effort).
 
 Each background session can run on a different model. To override it for one session:
 
@@ -293,11 +295,47 @@ Each background session can run on a different model. To override it for one ses
 * Attach to a running session and run `/model` there. The change persists if the session is respawned.
 * Dispatch a [subagent](/en/sub-agents) whose frontmatter sets a `model` field.
 
-### Permission mode and settings
+### Permission mode, model, and effort
 
-A dispatched session reads its [settings](/en/settings) and [permission mode](/en/permissions) from the directory it runs in, the same as if you had started `claude` there. Dispatching from the agent view input doesn't pass a permission mode, so the session uses the `defaultMode` from that directory's settings or the `permissionMode` from the dispatched [subagent's frontmatter](/en/sub-agents#supported-frontmatter-fields).
+A background session reads its [settings](/en/settings) from the directory it runs in, the same as if you had started `claude` there.
 
-To set the mode from the shell, pass `--permission-mode` with `claude --bg`. Using `bypassPermissions` or `auto` this way is refused until you have accepted that mode by running `claude` with it once interactively, since those modes let a session you aren't watching act without approval.
+The [permission mode](/en/permissions) depends on how you started the session. Backgrounding an existing session with `/bg` or `←` keeps the current permission mode, so a session you switched to `acceptEdits` or `auto` stays in that mode after detaching. Dispatching from the agent view input or running `claude --bg` from your shell uses the `defaultMode` from that directory's settings, or the `permissionMode` from the dispatched [subagent's frontmatter](/en/sub-agents#supported-frontmatter-fields).
+
+To set defaults for every session you dispatch from agent view, pass any of `--permission-mode`, `--model`, or `--effort` when opening it:
+
+```bash theme={null}
+claude agents --permission-mode plan --model opus --effort high
+```
+
+<Note>
+  Passing `--permission-mode`, `--model`, or `--effort` to `claude agents` requires Claude Code v2.1.142 or later. Earlier versions reject these flags with an unknown-option error.
+</Note>
+
+The active defaults appear in the footer below the dispatch input.
+
+Without these flags, the session uses the `defaultMode` from that directory's settings or the `permissionMode` from the dispatched [subagent's frontmatter](/en/sub-agents#supported-frontmatter-fields), and the model shown in the agent view header.
+
+Using `bypassPermissions` or `auto` is refused until you have accepted that mode by running `claude` with it once interactively, since those modes let a session you aren't watching act without approval. The same applies whether you pass the mode to `claude agents` or to `claude --bg --permission-mode`.
+
+### Settings, plugins, and MCP servers
+
+Agent view accepts the same configuration flags as `claude` for loading settings, plugins, MCP servers, and additional directories. Each flag applies to agent view itself and is passed through to every session you dispatch from it, so a plugin or MCP server you load this way is available in those sessions too.
+
+| Flag                                                                                             | Effect                                                                         |
+| :----------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- |
+| [`--settings <file-or-json>`](/en/settings)                                                      | Override settings for agent view and dispatched sessions                       |
+| [`--add-dir <path>`](/en/permissions#additional-directories-grant-file-access-not-configuration) | Grant file access to an additional directory                                   |
+| [`--plugin-dir <path>`](/en/plugins)                                                             | Load a plugin from a local directory                                           |
+| [`--mcp-config <file-or-json>`](/en/mcp)                                                         | Load MCP servers from a config file or JSON string                             |
+| `--strict-mcp-config`                                                                            | Use only the MCP servers from `--mcp-config`, ignoring other MCP configuration |
+
+Repeat `--add-dir`, `--plugin-dir`, or `--mcp-config` once per value. The space-separated form, such as `--add-dir a b c`, is not supported with `claude agents`.
+
+The following example opens agent view with a settings override and one extra directory:
+
+```bash theme={null}
+claude agents --settings ./ci-settings.json --add-dir ../shared-lib
+```
 
 ## Manage sessions from the shell
 
@@ -305,7 +343,7 @@ Every background session has a short ID you can use from the shell. The ID is pr
 
 | Command                | Purpose                                                                                    |
 | :--------------------- | :----------------------------------------------------------------------------------------- |
-| `claude agents`        | Open agent view                                                                            |
+| `claude agents`        | Open agent view. Pass `--cwd <path>` to list only sessions started under that directory    |
 | `claude attach <id>`   | Attach to a session in this terminal                                                       |
 | `claude logs <id>`     | Print the session's recent output                                                          |
 | `claude stop <id>`     | Stop a session. Also accepts `claude kill`                                                 |

@@ -118,14 +118,14 @@ Start here first:
 - Monitoring & upkeep: [Monitoring usage](docs/monitoring-usage.md), [Costs](docs/costs.md), [Troubleshoot install](docs/troubleshoot-install.md), [Troubleshooting](docs/troubleshooting.md), [Errors](docs/errors.md), [Changelog](docs/changelog.md), [What’s new](docs/whats-new.md)
 
 Notable additions in this sync:
-- Settings docs now emphasize config scopes and managed delivery paths: [Settings](docs/settings.md), [Server-managed settings](docs/server-managed-settings.md), [Permissions](docs/permissions.md)
-- Skills docs now explicitly cover command/skill unification, invocation control, and dynamic context injection: [Skills](docs/skills.md)
-- Hooks guidance is more task-oriented, with clearer examples for notifications, formatting, policy enforcement, and context reinjection: [Hooks guide](docs/hooks-guide.md), [Hooks](docs/hooks.md)
-- Troubleshooting is split more cleanly between runtime issues and install/login problems: [Errors](docs/errors.md), [Troubleshoot install](docs/troubleshoot-install.md)
+- New autonomous workflow docs: [/goal](docs/goal.md) for condition-based multi-turn work, plus [Scheduled tasks](docs/scheduled-tasks.md) and [Routines](docs/routines.md)
+- Parallel work is documented more clearly across [Agents overview](docs/agents.md), [Agent view](docs/agent-view.md), [Agent Teams](docs/agent-teams.md), [Sub-agents](docs/sub-agents.md), and [Worktrees](docs/worktrees.md)
+- Tooling and plugin references are more complete and easier to use as source-of-truth docs: [Tools reference](docs/tools-reference.md), [Plugins reference](docs/plugins-reference.md)
+- Admin / enterprise / hosted surfaces expanded with [Admin setup](docs/admin-setup.md), [Claude platform on AWS](docs/claude-platform-on-aws.md), and updated provider/setup docs
 
 Repo pointers:
 - Generated docs: `plugins/claude-code-docs/skills/claude-code/docs/`
 - Plugin manifest: `plugins/claude-code-docs/.claude-plugin/plugin.json`
 <!-- AUTOSYNC:claude-code-docs END -->
 
-- Last synced: 2026-05-11 12:00 Europe/Amsterdam
+- Last synced: 2026-05-18 12:00 Europe/Amsterdam

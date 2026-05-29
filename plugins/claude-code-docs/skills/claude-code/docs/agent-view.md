@@ -87,7 +87,7 @@ Pinned
   ✽ clawd walk cycle          Write assets/sprites/clawd-walk.png           3m
 
 Ready for review
-  ∙ jump physics              Opened PR with collision fix            ⧉ PR #2048  2h
+  ∙ jump physics              Opened PR with collision fix              PR #2048  2h
 
 Needs input
   ✻ power-up design           needs input: double jump or wall climb?       1m
@@ -123,7 +123,7 @@ Separately, the icon's shape shows whether the underlying process is running:
 | `∙`                 | The process has exited. You can still peek, reply, or attach, and Claude restarts from where it left off          |
 | `✢`                 | A [`/loop`](/en/scheduled-tasks) session sleeping between iterations. The row shows its run count and a countdown |
 
-The `⧉ PR #N` label that can appear at the right edge of a row is the [pull request the session opened](#pull-request-status), not part of the state icon. When a session has opened more than one pull request, the label adds a `+N` suffix counting the others.
+The `PR #N` label that can appear at the right edge of a row is the [pull request the session opened](#pull-request-status), not part of the state icon. When a session has opened more than one pull request, the label shows a count instead, such as `3 PRs`.
 
 The terminal tab title shows the awaiting-input count while agent view is open: `2 awaiting input · claude agents` when sessions need input, or `claude agents` when none do.
 
@@ -139,11 +139,11 @@ Each refresh is one short Haiku-class request through your normal provider, bill
 
 ### Pull request status
 
-When a session opens a pull request, a `⧉ PR #1234` label appears at the right edge of the row, linked to the pull request in terminals that support hyperlinks. The label persists when you send a follow-up to the session, so the pull request remains visible while the row reverts to live progress.
+When a session opens a pull request, a `PR #1234` label appears at the right edge of the row, linked to the pull request in terminals that support hyperlinks. The label persists when you send a follow-up to the session, so the pull request remains visible while the row reverts to live progress.
 
-When a session has opened more than one pull request, the label shows the open pull request that most needs attention and adds a `+N` suffix counting the others. Open the [peek panel](#peek-and-reply) to see them all.
+When a session has opened more than one pull request, the label shows a count instead, such as `3 PRs`, colored by the open pull request that most needs attention. Open the [peek panel](#peek-and-reply) to see them all.
 
-The `⧉` icon is colored by the pull request's status:
+The pull request number is colored by its status:
 
 | Color  | Pull request status                           |
 | :----- | :-------------------------------------------- |
@@ -152,7 +152,7 @@ The `⧉` icon is colored by the pull request's status:
 | Purple | Merged                                        |
 | Grey   | Draft or closed                               |
 
-For most tasks this column is where you pick up the result: review and merge the pull request when its `⧉` icon turns green.
+For most tasks this column is where you pick up the result: review and merge the pull request when its number turns green.
 
 ### Peek and reply
 
@@ -174,7 +174,7 @@ Press `←` on an empty prompt to detach and return to agent view. If a dialog h
 
 Detaching never stops a background session: `←`, `Ctrl+Z`, `/exit`, and double `Ctrl+C` or double `Ctrl+D` all leave it running. To end a session from inside it, run `/stop`.
 
-After you've dispatched or backgrounded a session, pressing `←` on an empty prompt works from any Claude Code session, not only ones you attached to from agent view. It backgrounds the current session and opens agent view with that row selected, so you can switch sessions without leaving the terminal. The row is created even from a fresh session with no conversation history, so `→` returns to it. When that row is the only one, agent view shows an onboarding hint below it. You can turn this shortcut off in `/config` (the `leftArrowOpensAgents` setting).
+Pressing `←` on an empty prompt works from any Claude Code session, not only ones you attached to from agent view. It backgrounds the current session and opens agent view with that row selected, so you can switch sessions without leaving the terminal. The row is created even from a fresh session with no conversation history, so `→` returns to it. When that row is the only one, agent view shows an onboarding hint below it. You can turn this shortcut off in `/config` (the `leftArrowOpensAgents` setting).
 
 ### Organize the list
 
@@ -243,7 +243,8 @@ Prefix or mention parts of the prompt to control how the session starts:
 | `<agent-name> <prompt>`           | If the first word matches a custom [subagent](/en/sub-agents) name, that subagent runs as the session's main agent with the configuration from its frontmatter |
 | `@<agent-name>`                   | Mention a custom subagent anywhere in the prompt to run it as the main agent                                                                                   |
 | `@<repo>`                         | Mention a repository under the directory you opened agent view from to run the session there                                                                   |
-| `/<skill>`                        | Suggest [skills](/en/skills) to dispatch as the prompt                                                                                                         |
+| `/<command>`                      | Suggest [skills](/en/skills) and [commands](/en/commands) to dispatch as the prompt                                                                            |
+| `! <command>`                     | Run a shell command as a background job instead of starting a Claude session. The job appears as a row you can attach to, watch, and detach from               |
 | `#<number>` or a pull request URL | If a session is already working on that PR, select it instead of dispatching                                                                                   |
 | `Shift+Enter`                     | Dispatch and immediately attach to the new session                                                                                                             |
 
@@ -263,7 +264,7 @@ When agent view is grouped by directory, the highlighted row's directory becomes
 
 ### From inside a session
 
-Run `/background` or its alias `/bg` to move the current conversation into a background session. Pass a prompt such as `/bg run the test suite and fix any failures` to give one more instruction first.
+Run `/background` or its alias `/bg` to move the current conversation into a background session. Pass a prompt such as `/bg run the test suite and fix any failures` to give one more instruction first. If Claude is responding when you run `/bg`, the response continues in the background session.
 
 Backgrounding from an interactive session starts a fresh process that resumes from the saved conversation, so running subagents, [monitors](/en/tools-reference#monitor-tool), and background commands do not transfer to it. Claude asks you to confirm before backgrounding when any are running. Once in the background, the session can start new subagents, monitors, and background commands, and those keep running across later detach and reattach.
 
@@ -310,6 +311,24 @@ backgrounded · 7c5dcf5d · flaky-test-fix
   claude stop 7c5dcf5d      stop this session
 ```
 
+#### Run a shell command
+
+To run a shell command as a background job instead of a Claude session, type `!` as the first character of the agent view dispatch input. The `!` shows as a prefix and everything you type after it is the command. The following example dispatches `pytest -x` from the agent view input box:
+
+```text theme={null}
+! pytest -x
+```
+
+Press `Enter` to start the job. The same job can also be launched directly from your shell with `--exec`:
+
+```bash theme={null}
+claude --bg --exec 'pytest -x'
+```
+
+The command runs as a PTY-backed job and appears as a row in agent view, with the most recent line of output as its status. A shell job runs the command in place of Claude, so no model is invoked and the output is not sent to any session.
+
+To see the output, attach to the row, press `Space` to peek without attaching, or run `claude logs <id>` from your shell. The captured output stays in memory and is not written to disk. The row and its output clean up automatically about five minutes after the command exits, so read it before then if you need the result.
+
 ### How file edits are isolated
 
 Every background session, whether started from agent view, `/bg`, or `claude --bg`, starts in your working directory. Before editing files, Claude moves the session into an isolated [git worktree](/en/worktrees) under `.claude/worktrees/`, so parallel sessions can read the same checkout but each writes to its own.
@@ -344,12 +363,12 @@ To make a subagent always run in its own worktree regardless of how it was start
 
 ### Set the model
 
-The model name shown in the agent view header is the dispatch default. New sessions you start from the input use this model, which comes from the [`model` setting](/en/settings#available-settings) in your user settings. Set it by pressing `d` on a model in the [`/model` picker](/en/model-config), or edit the setting directly. To override it for the whole agent view session, pass `--model` when opening agent view. See [Permission mode, model, and effort](#permission-mode-model-and-effort).
+The model name shown in the agent view header is the dispatch default. New sessions you start from the input use this model, which comes from the [`model` setting](/en/settings#available-settings) in your user settings. Set it by selecting a model in the [`/model` picker](/en/model-config), or edit the setting directly. To override it for the whole agent view session, pass `--model` when opening agent view. See [Permission mode, model, and effort](#permission-mode-model-and-effort).
 
 Each background session can run on a different model. To override it for one session:
 
 * From the shell, pass `--model` with `claude --bg`.
-* Attach to a running session and run `/model` there. The change persists if the session is respawned.
+* Attach to a running session, open `/model`, and press `s` on a model to switch for that session only. The change persists if the session is respawned.
 * Dispatch a [subagent](/en/sub-agents) whose frontmatter sets a `model` field.
 
 ### Permission mode, model, and effort
@@ -425,7 +444,7 @@ Background sessions are hosted by a per-user supervisor process, separate from y
 
 The supervisor and its sessions authenticate with the same credentials as your interactive sessions and make no additional network connections beyond the model API.
 
-Each background session is its own Claude Code process, managed by the supervisor rather than tied to your terminal. A session that's actively working, waiting for your input, or has a terminal attached keeps its process running. A running background shell command, subagent, workflow, or monitor counts as active work, so a long-running process such as a dev server keeps the session alive.
+Each background session is its own Claude Code process, managed by the supervisor rather than tied to your terminal. A session that's actively working, waiting for your input, or has a terminal attached keeps its process running. A running background shell command, subagent, dynamic workflow, or monitor counts as active work, so a long-running process such as a dev server keeps the session alive.
 
 Once a session finishes and sits unattached for about an hour, the supervisor stops its process to free resources. A session you have [pinned](#organize-the-list) with `Ctrl+T` is exempt and keeps its process running while idle. The transcript and state stay on disk either way, and the next time you attach, peek, or reply to a stopped session, the supervisor starts a fresh process from where it left off. When every session has finished and no terminal is connected, the supervisor itself exits and starts again the next time you need it.
 
@@ -463,7 +482,7 @@ Before you dispatch your first session, agent view shows a short onboarding hint
 
 ### Cannot open agents because background tasks are running
 
-If pressing `←` to background the current session shows `Cannot open agents — N background task(s) running`, the session has in-flight work such as a subagent, a workflow, or a background shell command, and the shortcut won't silently abandon it. Run `/tasks` to see what's running, then `/bg` to confirm abandoning them. See [From inside a session](#from-inside-a-session) for what does and doesn't transfer when you background.
+If pressing `←` to background the current session shows `Cannot open agents — N background task(s) running`, the session has in-flight work such as a subagent, a dynamic workflow, or a background shell command, and the shortcut won't silently abandon it. Run `/tasks` to see what's running, then `/bg` to confirm abandoning them. See [From inside a session](#from-inside-a-session) for what does and doesn't transfer when you background.
 
 ### Prompt rejected as too short
 

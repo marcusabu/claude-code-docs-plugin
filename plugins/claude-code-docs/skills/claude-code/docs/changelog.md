@@ -10,6 +10,92 @@ This page is generated from the [CHANGELOG.md on GitHub](https://github.com/anth
 
 Run `claude --version` to check your installed version.
 
+<Update label="2.1.154" description="May 28, 2026">
+  * Opus 4.8 is here! Now defaults to high effort · /effort xhigh for your hardest tasks
+  * Introducing dynamic workflows: ask Claude to create a workflow and it orchestrates work across tens to hundreds of agents in the background, so you can take on larger, more complex tasks. Run `/workflows` to view your runs
+  * Fast mode on Opus 4.8 is now available at a fraction of its previous cost: 2x the standard rate for 2.5x the speed
+  * The lean system prompt is now the default for all models except Haiku, Sonnet, and Opus 4.7 and earlier
+  * Claude now reserves the multiple-choice question prompt for decisions it genuinely cannot make itself, instead of asking when it already has enough context to proceed
+  * `/simplify` now runs a cleanup-only review (reuse, simplification, efficiency, altitude) and applies the fixes, instead of running the full `/code-review --fix` bug-hunting review
+  * Renamed the `/effort` slider labels from "Speed"/"Intelligence" to "Faster"/"Smarter" for clarity
+  * `claude agents`: type `! <command>` to run a shell command as a background session you can attach to and detach from. Also available as `claude --bg --exec '<command>'`
+  * `claude agents`: `/logout` now signs you out instead of being sent to a background session
+  * `←←` to open the agents view now works on Bedrock, Vertex, Foundry, and with telemetry disabled
+  * Claude in Chrome: pick which connected browser to use via `/chrome` → "Select browser…", or in-chat when a browser action runs with multiple connected
+  * Plugins can now declare `defaultEnabled: false` in `plugin.json` or a marketplace entry; enable them with `/plugin` or `claude plugin enable`. Dependencies of enabled plugins are still enabled automatically
+  * The `/plugin` Discover tab now pins plugins whose relevance signals match the current directory with a "suggested for this directory" annotation
+  * Streaming tool execution is now always enabled, including when telemetry is disabled or on Bedrock/Vertex/Foundry (previously behind a feature flag)
+  * Stdio MCP server subprocesses now receive `CLAUDE_CODE_SESSION_ID` and `CLAUDECODE=1` in their environment
+  * `claude mcp list`/`get` now show unapproved `.mcp.json` servers as `⏸ Pending approval` instead of auto-approving and connecting when output is piped
+  * `/remote-control` autocomplete now shows "Disconnect Remote Control" when Remote Control is already active
+  * Added Claude Opus 4.8 support and 4.7 → 4.8 migration guidance to the `/claude-api` skill
+  * Deprecated `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` (will be removed on 06/01). To use fast mode on Opus 4.6, switch with `/model claude-opus-4-6[1m]` and then `/fast on`
+  * Improved the auto-mode classifier's detection of data exfiltration, particularly bulk transfers of repository contents
+  * Fixed `rm -rf $HOME` not being blocked as a dangerous path when `HOME` has a trailing slash
+  * Fixed `$TMPDIR` resolving to different directories in sandboxed vs unsandboxed Bash commands within the same session
+  * Fixed unreadable highlighted-row text in `claude agents` when the Claude Code theme doesn't match the terminal background
+  * Fixed background-agent completion notifications triggering premature "out of context" behavior on some 1M-context models
+  * Fixed background-session classifier losing the user's goal when a scheduled `/command` fires
+  * Fixed pinned background sessions respawning every minute after a Claude Code update, causing repeated agent-start notifications and process churn at idle
+  * Fixed background sessions stuck at "blocked", "running", or "working" not retiring after the idle grace period
+  * Fixed subagents in background sessions bypassing the worktree-isolation guard and writing to the shared checkout
+  * Fixed orphaned `claude --bg-pty-host` processes spinning at 100% CPU after the daemon exits on macOS
+  * Fixed number key shortcuts not working for options shown below the divider in option dialogs
+  * Fixed `worktree.baseRef: "head"` resolving to the main checkout's HEAD instead of the current worktree's HEAD when spawning subagents or calling `EnterWorktree` from inside a linked worktree
+  * Fixed a stray leading space on wrapped lines when the previous line ended exactly at the terminal width
+  * Fixed intermittent terminal rendering corruption in VS Code by capping the number of distinct colors the thinking spinner produces
+  * Fixed plan file names including `[Image #N]` / `[Pasted text #N]` placeholders when a plan-mode prompt starts with pasted images or text
+  * Fixed a phantom expand/click affordance on colored tool output: short ANSI-colored lines that fit on screen no longer show a "ctrl+o to expand" hint
+  * Fixed a single invalid `allowedMcpServers`/`deniedMcpServers` entry in managed settings discarding all managed-settings policy; the bad entry is now dropped with a `claude doctor` warning
+  * Fixed API 400 errors on models that don't support the effort parameter when `CLAUDE_CODE_ALWAYS_ENABLE_EFFORT` is set
+  * Windows: Fixed update failures caused by `claude.exe` being in use showing a generic error instead of telling you to close other sessions and retry
+  * Removed the stale "& for background" hint from the shortcuts help panel
+  * \[VSCode] Auto mode no longer requires the bypass-permissions setting to appear in the mode picker, and a dismissable notice on the new-session screen explains auto mode the first time it's active
+  * Fixed the task panel below the prompt showing a stray unselectable "main" row when only a workflow is running
+  * Fixed /mcp tools list and tool detail rendering when MCP servers have long or multi-line tool names or long descriptions
+  * Fixed the /model picker not showing fast mode pricing on the Default option for API (pay-as-you-go) users when fast mode is on
+  * Fixed auto mode incorrectly blocking actions with "could not evaluate this action" when the safety classifier ran out of output tokens while reasoning
+</Update>
+
+<Update label="2.1.153" description="May 28, 2026">
+  * Added `skipLfs` option to `github`/`git` plugin marketplace sources to skip Git LFS downloads during clone and update
+  * Claude Code now shows a one-time notice when your npm global install can't auto-update; `/doctor` lists the fixes
+  * Status line commands now receive `COLUMNS` and `LINES` environment variables so scripts can size output to the terminal width
+  * `claude agents`: autocomplete in the dispatch input now suggests native slash commands and bundled skills, not just project skills
+  * `claude agents`: PR column now shows `PR #N` for a single PR or `N PRs` for multiple
+  * `claude doctor` now shows the result of your last update attempt
+  * Combined the separate "needs authentication" startup notifications for MCP servers and connectors into a single message
+  * macOS: background agents now appear as "Claude Code" in Privacy & Security and keep their permission grants across upgrades
+  * Fixed stateful MCP servers without the optional GET SSE stream reconnect-looping on `tools/list` (regression in v2.1.147)
+  * Fixed a regression where a custom API gateway could receive the user's Anthropic OAuth credential instead of the gateway's own token
+  * Fixed subagent (Agent tool) frontmatter MCP servers ignoring `--strict-mcp-config`, `--bare`, remote mode, enterprise managed MCP config, and managed-settings MCP server allow/deny policies
+  * `--strict-mcp-config` no longer strips inline `mcpServers` from explicitly-passed agent definitions (`--agents` / SDK `agents`), and blocked subagent MCP servers now surface a visible warning
+  * Fixed the Windows PowerShell installer reporting "Installation complete!" when installation actually failed
+  * Fixed `claude update` installing the latest version instead of the configured release channel's version for npm installations
+  * Fixed excessive memory usage (multiple GB) when resuming a session by transcript file path on machines with many stored sessions
+  * Fixed `claude agents` and `claude --bg` running on a stale daemon started before binary-takeover support, even after upgrading
+  * Fixed a hang where the CLI could fail to exit when stdin was closed without EOF in stream-json mode, leaving a stale session marker behind
+  * Fixed malformed `file://` links in Claude's responses not being clickable in the terminal
+  * Fixed `claude --help` rendering unwrapped output on terminals narrower than 92 columns
+  * Fixed MCP tool progress notifications not rendering in the collapsed tool view
+  * Fixed `Agent` tool with `subagent_type: 'claude'` running in an undocumented temporary worktree, which could silently discard outputs written to gitignored paths
+  * `/bg` while Claude is responding now continues the response in the background session instead of dropping it
+  * Fixed `/btw` keyboard shortcuts becoming unresponsive in background sessions while a task is running
+  * Fixed background sessions writing temp files to `$CLAUDE_JOB_DIR` triggering a "sensitive file" permission prompt
+  * Fixed recovering a background agent whose working directory was deleted showing a truncated stack trace instead of a clear error message
+  * Fixed `EnterWorktree` not being available immediately in background sessions (previously required `ToolSearch` first)
+  * Fixed `cmd+k` in iTerm2/Terminal.app not repainting attached background sessions
+  * Fixed the IME candidate window appearing at the bottom of the screen instead of next to the input caret in attached background sessions on Windows
+  * Fixed background-color bleed when attaching to a background agent from 256-color-only terminals after the agent had rendered file diffs
+  * Fixed `/copy` and copy-on-select silently failing to update the system clipboard when attached to a background session inside tmux
+  * Fixed opening `claude agents` with Remote Control enabled leaving zombie session entries on the Code tab after exiting
+  * Fixed `/rename` in background sessions not updating the session banner immediately
+  * Fixed Windows update rollback: if a Windows update fails, Claude Code now restores the original executable by copy and tells you how to recover
+  * \[VSCode] Fixed Claude Code processes not shutting down cleanly when VS Code closed on Windows, causing false "unclean exit" reports and orphaned MCP servers
+  * `/model` now saves your selection as the default for new sessions (matching the IDE). Press `s` in the picker to switch models for the current session only.
+  * If you customized the `modelPicker:setAsDefault` keybinding, rename it to `modelPicker:thisSessionOnly` in keybindings.json (the `d` action was replaced by `s`)
+</Update>
+
 <Update label="2.1.152" description="May 27, 2026">
   * `/code-review --fix` now applies review findings to your working tree after the review, surfacing reuse, simplification, and efficiency suggestions; `/simplify` now invokes `/code-review --fix`
   * Skills and slash commands can now set `disallowed-tools` in frontmatter to remove tools from the model while the skill is active

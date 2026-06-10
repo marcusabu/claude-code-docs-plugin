@@ -411,7 +411,7 @@ Configuration object for the `query()` function.
 | `debug`                           | `boolean`                                                                                                | `false`                                     | Enable debug mode for the Claude Code process                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | `debugFile`                       | `string`                                                                                                 | `undefined`                                 | Write debug logs to a specific file path. Implicitly enables debug mode                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | `disallowedTools`                 | `string[]`                                                                                               | `[]`                                        | Tools to deny. A bare name such as `"Bash"` removes the tool from Claude's context. A scoped rule such as `"Bash(rm *)"` leaves the tool available and denies matching calls in every permission mode, including `bypassPermissions`. See [Permissions](/en/agent-sdk/permissions#allow-and-deny-rules)                                                                                                                                                                                       |
-| `effort`                          | `'low' \| 'medium' \| 'high' \| 'xhigh' \| 'max'`                                                        | `'high'`                                    | Controls how much effort Claude puts into its response. Works with adaptive thinking to guide thinking depth                                                                                                                                                                                                                                                                                                                                                                                  |
+| `effort`                          | `'low' \| 'medium' \| 'high' \| 'xhigh' \| 'max'`                                                        | Model default                               | Controls how much effort Claude puts into its response. Works with adaptive thinking to guide thinking depth. See [adjust the effort level](/en/model-config#adjust-effort-level)                                                                                                                                                                                                                                                                                                             |
 | `enableFileCheckpointing`         | `boolean`                                                                                                | `false`                                     | Enable file change tracking for rewinding. See [File checkpointing](/en/agent-sdk/file-checkpointing)                                                                                                                                                                                                                                                                                                                                                                                         |
 | `env`                             | `Record<string, string \| undefined>`                                                                    | `process.env`                               | Environment variables. When set, this replaces the subprocess environment instead of merging with `process.env`, so pass `{ ...process.env, YOUR_VAR: 'value' }` to keep inherited variables like `PATH`. See [Handle slow or stalled API responses](#handle-slow-or-stalled-api-responses) for an example of this pattern, and [Environment variables](/en/env-vars) for variables the underlying CLI reads. Set `CLAUDE_AGENT_SDK_CLIENT_APP` to identify your app in the User-Agent header |
 | `executable`                      | `'bun' \| 'deno' \| 'node'`                                                                              | Auto-detected                               | JavaScript runtime to use                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
@@ -429,7 +429,7 @@ Configuration object for the `query()` function.
 | `maxThinkingTokens`               | `number`                                                                                                 | `undefined`                                 | *Deprecated:* Use `thinking` instead. Maximum tokens for thinking process                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | `maxTurns`                        | `number`                                                                                                 | `undefined`                                 | Maximum agentic turns (tool-use round trips)                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `mcpServers`                      | `Record<string, [`McpServerConfig`](#mcpserverconfig)>`                                                  | `{}`                                        | MCP server configurations                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `model`                           | `string`                                                                                                 | Default from CLI                            | Claude model to use                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `model`                           | `string`                                                                                                 | Default from CLI                            | Claude model alias or full model name. See [accepted values and provider-specific IDs](/en/model-config#available-models)                                                                                                                                                                                                                                                                                                                                                                     |
 | `onElicitation`                   | `(request: ElicitationRequest, options: { signal: AbortSignal }) => Promise<ElicitationResult>`          | `undefined`                                 | Callback for handling MCP elicitation requests. Called when an MCP server requests user input and no hook handles it first. When not provided, unhandled elicitation requests are declined automatically                                                                                                                                                                                                                                                                                      |
 | `outputFormat`                    | `{ type: 'json_schema', schema: JSONSchema }`                                                            | `undefined`                                 | Define output format for agent results. See [Structured outputs](/en/agent-sdk/structured-outputs) for details                                                                                                                                                                                                                                                                                                                                                                                |
 | `outputStyle`                     | `string`                                                                                                 | `undefined`                                 | Not an `Options` field. Set `outputStyle` in the inline [`settings`](/en/settings) object or a settings file instead. See [Activate an output style](/en/agent-sdk/modifying-system-prompts#activate-an-output-style)                                                                                                                                                                                                                                                                         |
@@ -481,7 +481,7 @@ const result = query({
 * `API_TIMEOUT_MS`: per-request timeout on the Anthropic client, in milliseconds. Default `600000`. Applies to the main loop and all subagents.
 * `CLAUDE_CODE_MAX_RETRIES`: maximum API retries. Default `10`. Each retry gets its own `API_TIMEOUT_MS` window, so worst-case wall time is roughly `API_TIMEOUT_MS × (CLAUDE_CODE_MAX_RETRIES + 1)` plus backoff.
 * `CLAUDE_ASYNC_AGENT_STALL_TIMEOUT_MS`: stall watchdog for subagents launched with `run_in_background`. Default `600000`. Resets on each stream event; on stall it aborts the subagent, marks the task failed, and surfaces the error to the parent with any partial result. Does not apply to synchronous subagents.
-* `CLAUDE_ENABLE_STREAM_WATCHDOG=1` with `CLAUDE_STREAM_IDLE_TIMEOUT_MS`: aborts the request when headers have arrived but the response body stops streaming. Off by default. `CLAUDE_STREAM_IDLE_TIMEOUT_MS` defaults to `300000` and is clamped to that minimum. The aborted request goes through the normal retry path.
+* `CLAUDE_ENABLE_STREAM_WATCHDOG=1` with `CLAUDE_STREAM_IDLE_TIMEOUT_MS`: aborts the request when headers have arrived but the response body stops streaming. When `CLAUDE_ENABLE_STREAM_WATCHDOG` is unset, the default is server-controlled on the direct Anthropic API and off on other providers. `CLAUDE_STREAM_IDLE_TIMEOUT_MS` defaults to `300000` and is clamped to that minimum. The aborted request goes through the normal retry path.
 
 ### `Query` object
 
@@ -630,22 +630,22 @@ type AgentDefinition = {
 };
 ```
 
-| Field                                 | Required | Description                                                                                                                                                                    |
-| :------------------------------------ | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `description`                         | Yes      | Natural language description of when to use this agent                                                                                                                         |
-| `tools`                               | No       | Array of allowed tool names. If omitted, inherits all tools from parent. To preload Skills into the agent's context, use the `skills` field rather than listing `'Skill'` here |
-| `disallowedTools`                     | No       | Array of tool names to explicitly disallow for this agent                                                                                                                      |
-| `prompt`                              | Yes      | The agent's system prompt                                                                                                                                                      |
-| `model`                               | No       | Model override for this agent. Accepts an alias such as `'sonnet'`, `'opus'`, `'haiku'`, `'inherit'`, or a full model ID. If omitted or `'inherit'`, uses the main model       |
-| `mcpServers`                          | No       | MCP server specifications for this agent                                                                                                                                       |
-| `skills`                              | No       | Array of skill names to preload into the agent context                                                                                                                         |
-| `initialPrompt`                       | No       | Auto-submitted as the first user turn when this agent runs as the main thread agent                                                                                            |
-| `maxTurns`                            | No       | Maximum number of agentic turns (API round-trips) before stopping                                                                                                              |
-| `background`                          | No       | Run this agent as a non-blocking background task when invoked                                                                                                                  |
-| `memory`                              | No       | Memory source for this agent: `'user'`, `'project'`, or `'local'`                                                                                                              |
-| `effort`                              | No       | Reasoning effort level for this agent. Accepts a named level or an integer                                                                                                     |
-| `permissionMode`                      | No       | Permission mode for tool execution within this agent. See [`PermissionMode`](#permissionmode)                                                                                  |
-| `criticalSystemReminder_EXPERIMENTAL` | No       | Experimental: Critical reminder added to the system prompt                                                                                                                     |
+| Field                                 | Required | Description                                                                                                                                                                         |
+| :------------------------------------ | :------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `description`                         | Yes      | Natural language description of when to use this agent                                                                                                                              |
+| `tools`                               | No       | Array of allowed tool names. If omitted, inherits all tools from parent. To preload Skills into the agent's context, use the `skills` field rather than listing `'Skill'` here      |
+| `disallowedTools`                     | No       | Array of tool names to explicitly disallow for this agent                                                                                                                           |
+| `prompt`                              | Yes      | The agent's system prompt                                                                                                                                                           |
+| `model`                               | No       | Model override for this agent. Accepts an alias such as `'fable'`, `'opus'`, `'sonnet'`, `'haiku'`, `'inherit'`, or a full model ID. If omitted or `'inherit'`, uses the main model |
+| `mcpServers`                          | No       | MCP server specifications for this agent                                                                                                                                            |
+| `skills`                              | No       | Array of skill names to preload into the agent context                                                                                                                              |
+| `initialPrompt`                       | No       | Auto-submitted as the first user turn when this agent runs as the main thread agent                                                                                                 |
+| `maxTurns`                            | No       | Maximum number of agentic turns (API round-trips) before stopping                                                                                                                   |
+| `background`                          | No       | Run this agent as a non-blocking background task when invoked                                                                                                                       |
+| `memory`                              | No       | Memory source for this agent: `'user'`, `'project'`, or `'local'`                                                                                                                   |
+| `effort`                              | No       | Reasoning effort level for this agent. Accepts a named level or an integer                                                                                                          |
+| `permissionMode`                      | No       | Permission mode for tool execution within this agent. See [`PermissionMode`](#permissionmode)                                                                                       |
+| `criticalSystemReminder_EXPERIMENTAL` | No       | Experimental: Critical reminder added to the system prompt                                                                                                                          |
 
 ### `AgentMcpServerSpec`
 
@@ -665,11 +665,11 @@ Controls which filesystem-based configuration sources the SDK loads settings fro
 type SettingSource = "user" | "project" | "local";
 ```
 
-| Value       | Description                                  | Location                      |
-| :---------- | :------------------------------------------- | :---------------------------- |
-| `'user'`    | Global user settings                         | `~/.claude/settings.json`     |
-| `'project'` | Shared project settings (version controlled) | `.claude/settings.json`       |
-| `'local'`   | Local project settings (gitignored)          | `.claude/settings.local.json` |
+| Value       | Description                                     | Location                      |
+| :---------- | :---------------------------------------------- | :---------------------------- |
+| `'user'`    | Global user settings                            | `~/.claude/settings.json`     |
+| `'project'` | Shared project settings (version controlled)    | `.claude/settings.json`       |
+| `'local'`   | Local project settings (not version controlled) | `.claude/settings.local.json` |
 
 #### Default behavior
 
@@ -776,8 +776,8 @@ Programmatic options such as `agents`, `allowedTools`, and `settings` override u
 type PermissionMode =
   | "default" // Standard permission behavior
   | "acceptEdits" // Auto-accept file edits
-  | "bypassPermissions" // Bypass all permission checks
-  | "plan" // Planning mode - read-only tools only
+  | "bypassPermissions" // Bypass permission checks; explicit ask rules still prompt
+  | "plan" // Planning mode - explore without editing
   | "dontAsk" // Don't prompt for permissions, deny if not pre-approved
   | "auto"; // Use a model classifier to approve or deny each tool call
 ```
@@ -1053,6 +1053,7 @@ type SDKResultMessage =
       result: string;
       stop_reason: string | null;
       ttft_ms?: number;
+      ttft_stream_ms?: number;
       total_cost_usd: number;
       usage: NonNullableUsage;
       modelUsage: { [modelName: string]: ModelUsage };
@@ -1091,7 +1092,8 @@ type SDKResultMessage =
 Several fields on the result carry diagnostic detail beyond `subtype`:
 
 * `api_error_status`: the HTTP status code of the API error that terminated the conversation. Absent or `null` when the turn ended without an API error.
-* `ttft_ms`: time to first token in milliseconds. Present on the success arm only.
+* `ttft_ms`: time to first token in milliseconds, measured when the first complete assistant message arrives. Present on the success arm only.
+* `ttft_stream_ms`: time in milliseconds until the first `message_start` stream event, when the response stream opens. Lower than `ttft_ms`; the gap between the two is time spent streaming the first message. Present on the success arm only.
 * `terminal_reason`: why the loop ended. One of `"completed"`, `"max_turns"`, `"tool_deferred"`, `"aborted_streaming"`, `"aborted_tools"`, `"hook_stopped"`, `"stop_hook_prevented"`, `"blocking_limit"`, `"rapid_refill_breaker"`, `"prompt_too_long"`, `"image_error"`, or `"model_error"`.
 * `fast_mode_state`: one of `"on"`, `"off"`, or `"cooldown"`.
 
@@ -1139,6 +1141,7 @@ type SDKPartialAssistantMessage = {
   parent_tool_use_id: string | null;
   uuid: UUID;
   session_id: string;
+  ttft_ms?: number; // Time to first token in ms, present only on message_start events
 };
 ```
 
@@ -1726,7 +1729,7 @@ type AgentInput = {
   description: string;
   prompt: string;
   subagent_type: string;
-  model?: "sonnet" | "opus" | "haiku";
+  model?: "sonnet" | "opus" | "haiku" | "fable";
   resume?: string;
   run_in_background?: boolean;
   max_turns?: number;
@@ -2698,7 +2701,7 @@ type PermissionBehavior = "allow" | "deny" | "ask";
 type PermissionUpdateDestination =
   | "userSettings" // Global user settings
   | "projectSettings" // Per-directory project settings
-  | "localSettings" // Gitignored local settings
+  | "localSettings" // Local project settings
   | "session" // Current session only
   | "cliArg"; // CLI argument
 ```
@@ -2729,7 +2732,7 @@ type SdkBeta = "context-1m-2025-08-07";
 ```
 
 <Warning>
-  The `context-1m-2025-08-07` beta is retired as of April 30, 2026. Passing this value with Claude Sonnet 4.5 or Sonnet 4 has no effect, and requests that exceed the standard 200k-token context window return an error. To use a 1M-token context window, migrate to [Claude Sonnet 4.6, Claude Opus 4.6, or Claude Opus 4.7](https://platform.claude.com/docs/en/about-claude/models/overview), which include 1M context at standard pricing with no beta header required.
+  The `context-1m-2025-08-07` beta is retired as of April 30, 2026. Passing this value with Claude Sonnet 4.5 or Sonnet 4 has no effect, and requests that exceed the standard 200k-token context window return an error. To use a 1M-token context window, migrate to [Claude Sonnet 4.6, Claude Opus 4.6, Claude Opus 4.7, or Claude Opus 4.8](https://platform.claude.com/docs/en/about-claude/models/overview), which include 1M context at standard pricing with no beta header required.
 </Warning>
 
 ### `SlashCommand`
@@ -2899,7 +2902,7 @@ MCP tool result type (from `@modelcontextprotocol/sdk/types.js`). `structuredCon
 ```typescript theme={null}
 type CallToolResult = {
   content: Array<{
-    type: "text" | "image" | "resource";
+    type: "text" | "image" | "audio" | "resource" | "resource_link";
     // Additional fields vary by type
   }>;
   structuredContent?: Record<string, unknown>;
@@ -3450,7 +3453,7 @@ This pattern enables you to:
 <Warning>
   Commands running with `dangerouslyDisableSandbox: true` have full system access. Ensure your `canUseTool` handler validates these requests carefully.
 
-  If `permissionMode` is set to `bypassPermissions` and `allowUnsandboxedCommands` is enabled, the model can autonomously execute commands outside the sandbox without any approval prompts. This combination effectively allows the model to escape sandbox isolation silently.
+  If `permissionMode` is set to `bypassPermissions` and `allowUnsandboxedCommands` is enabled, the model can autonomously execute commands outside the sandbox without approval prompts (an explicit [`ask` rule](/en/agent-sdk/permissions#how-permissions-are-evaluated) still forces one). This combination effectively allows the model to escape sandbox isolation silently.
 </Warning>
 
 ## See also

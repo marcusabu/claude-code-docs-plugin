@@ -103,29 +103,29 @@ This section is auto-synced from generated docs in `docs/`.
 Keep it compact; use the linked pages for full details.
 
 Current docs snapshot:
-- Changelog head: **2.1.138** (`docs/changelog.md`)
+- Changelog head: **2.1.176** (`docs/changelog.md`)
 - Documentation index: <https://code.claude.com/docs/llms.txt>
 - Generated docs workflow: `.github/workflows/update-docs.yml`
 
 Start here first:
 - Orientation: [Overview](docs/overview.md), [Quickstart](docs/quickstart.md), [Features overview](docs/features-overview.md), [How Claude Code works](docs/how-claude-code-works.md), [Best practices](docs/best-practices.md)
-- Config & context: [Settings](docs/settings.md), [Server-managed settings](docs/server-managed-settings.md), [Model config](docs/model-config.md), [Env vars](docs/env-vars.md), [Memory](docs/memory.md), [Explore the .claude directory](docs/claude-directory.md), [Context window](docs/context-window.md), [Auto mode config](docs/auto-mode-config.md), [Debug your config](docs/debug-your-config.md)
-- Safety & permissions: [Permission modes](docs/permission-modes.md), [Permissions](docs/permissions.md), [Sandboxing](docs/sandboxing.md), [Data usage](docs/data-usage.md), [Security](docs/security.md), [Admin setup](docs/admin-setup.md)
-- Extensibility: [Skills](docs/skills.md), [Sub-agents](docs/sub-agents.md), [Agent Teams](docs/agent-teams.md), [Hooks](docs/hooks.md), [Hooks guide](docs/hooks-guide.md), [MCP](docs/mcp.md), [Plugins](docs/plugins.md), [Plugins reference](docs/plugins-reference.md), [Plugin dependencies](docs/plugin-dependencies.md), [Tools reference](docs/tools-reference.md)
-- CLI & workflows: [Commands](docs/commands.md), [CLI reference](docs/cli-reference.md), [Interactive mode](docs/interactive-mode.md), [Keybindings](docs/keybindings.md), [Common workflows](docs/common-workflows.md), [Code review](docs/code-review.md), [Remote control](docs/remote-control.md), [Scheduled tasks](docs/scheduled-tasks.md), [Routines](docs/routines.md), [Ultraplan](docs/ultraplan.md), [Ultrareview](docs/ultrareview.md)
-- Surfaces & integrations: [Desktop](docs/desktop.md), [Desktop quickstart](docs/desktop-quickstart.md), [Desktop scheduled tasks](docs/desktop-scheduled-tasks.md), [Claude Code on the web](docs/claude-code-on-the-web.md), [Web quickstart](docs/web-quickstart.md), [VS Code](docs/vs-code.md), [JetBrains](docs/jetbrains.md), [Slack](docs/slack.md), [Computer use](docs/computer-use.md), [Voice dictation](docs/voice-dictation.md)
-- Infra & deployment: [Platforms](docs/platforms.md), [Network config](docs/network-config.md), [GitHub Actions](docs/github-actions.md), [Headless](docs/headless.md), [LLM Gateway](docs/llm-gateway.md), [Bedrock](docs/amazon-bedrock.md), [Vertex](docs/google-vertex-ai.md), [Foundry](docs/microsoft-foundry.md)
+- Config & context: [Settings](docs/settings.md), [Server-managed settings](docs/server-managed-settings.md), [Env vars](docs/env-vars.md), [Memory](docs/memory.md), [Context window](docs/context-window.md), [Debug your config](docs/debug-your-config.md)
+- Safety & permissions: [Permission modes](docs/permission-modes.md), [Permissions](docs/permissions.md), [Sandboxing](docs/sandboxing.md), [Security](docs/security.md), [Security guidance](docs/security-guidance.md), [Admin setup](docs/admin-setup.md)
+- Extensibility: [Skills](docs/skills.md), [Agents](docs/agents.md), [Agent teams](docs/agent-teams.md), [Hooks](docs/hooks.md), [MCP](docs/mcp.md), [Plugins](docs/plugins.md), [Plugin dependencies](docs/plugin-dependencies.md), [Tools reference](docs/tools-reference.md)
+- CLI & workflows: [Commands](docs/commands.md), [CLI reference](docs/cli-reference.md), [Interactive mode](docs/interactive-mode.md), [Common workflows](docs/common-workflows.md), [Scheduled tasks](docs/scheduled-tasks.md), [Routines](docs/routines.md), [Workflows](docs/workflows.md), [Worktrees](docs/worktrees.md)
+- Surfaces & integrations: [Desktop](docs/desktop.md), [Claude Code on the web](docs/claude-code-on-the-web.md), [VS Code](docs/vs-code.md), [JetBrains](docs/jetbrains.md), [Slack](docs/slack.md), [Remote control](docs/remote-control.md), [Computer use](docs/computer-use.md), [Voice dictation](docs/voice-dictation.md)
+- Infra & deployment: [Platforms](docs/platforms.md), [GitHub Actions](docs/github-actions.md), [GitHub Enterprise Server](docs/github-enterprise-server.md), [Headless](docs/headless.md), [LLM Gateway](docs/llm-gateway.md), [Bedrock](docs/amazon-bedrock.md), [Vertex](docs/google-vertex-ai.md), [Foundry](docs/microsoft-foundry.md)
 - Monitoring & upkeep: [Monitoring usage](docs/monitoring-usage.md), [Costs](docs/costs.md), [Troubleshoot install](docs/troubleshoot-install.md), [Troubleshooting](docs/troubleshooting.md), [Errors](docs/errors.md), [Changelog](docs/changelog.md), [What’s new](docs/whats-new.md)
 
 Notable additions in this sync:
-- Settings docs now emphasize config scopes and managed delivery paths: [Settings](docs/settings.md), [Server-managed settings](docs/server-managed-settings.md), [Permissions](docs/permissions.md)
-- Skills docs now explicitly cover command/skill unification, invocation control, and dynamic context injection: [Skills](docs/skills.md)
-- Hooks guidance is more task-oriented, with clearer examples for notifications, formatting, policy enforcement, and context reinjection: [Hooks guide](docs/hooks-guide.md), [Hooks](docs/hooks.md)
-- Troubleshooting is split more cleanly between runtime issues and install/login problems: [Errors](docs/errors.md), [Troubleshoot install](docs/troubleshoot-install.md)
+- New docs for agent workflows and APIs: [Agents](docs/agents.md), [Sessions](docs/sessions.md), [Agent SDK overview](docs/agent-sdk__overview.md), [Agent SDK quickstart](docs/agent-sdk__quickstart.md)
+- Broader operational docs for structured usage patterns: [Workflows](docs/workflows.md), [Worktrees](docs/worktrees.md), [Large codebases](docs/large-codebases.md), [Prompt library](docs/prompt-library.md)
+- More surface/integration coverage: [Channels](docs/channels.md), [Channels reference](docs/channels-reference.md), [Agent view](docs/agent-view.md), [Deep links](docs/deep-links.md)
+- More deployment/admin guidance: [Managed MCP](docs/managed-mcp.md), [Sandbox environments](docs/sandbox-environments.md), [GitHub Enterprise Server](docs/github-enterprise-server.md), [Claude Platform on AWS](docs/claude-platform-on-aws.md)
 
 Repo pointers:
 - Generated docs: `plugins/claude-code-docs/skills/claude-code/docs/`
 - Plugin manifest: `plugins/claude-code-docs/.claude-plugin/plugin.json`
 <!-- AUTOSYNC:claude-code-docs END -->
 
-- Last synced: 2026-05-11 12:00 Europe/Amsterdam
+- Last synced: 2026-06-15 12:00 Europe/Amsterdam

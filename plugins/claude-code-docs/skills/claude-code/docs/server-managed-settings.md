@@ -6,9 +6,9 @@
 
 > Centrally configure Claude Code for your organization through server-delivered settings, without requiring device management infrastructure.
 
-Server-managed settings allow administrators to centrally configure Claude Code through a web-based interface on Claude.ai. Claude Code clients automatically receive these settings when users authenticate with an organization OAuth login or a directly configured API key, on platforms where server-managed delivery is supported. See [Platform availability](#platform-availability).
+Server-managed settings let organization Owners centrally configure Claude Code from [**Admin Settings > Claude Code > Managed settings**](https://claude.ai/admin-settings/claude-code) in the claude.ai console. Claude Code clients fetch these settings automatically when users authenticate with an organization OAuth login or a directly configured API key, on platforms where server-managed delivery is supported. See [Platform availability](#platform-availability).
 
-This approach is designed for organizations that do not have device management infrastructure in place, or need to manage settings for users on unmanaged devices.
+This approach is designed for organizations that do not have device management infrastructure in place, or that need to manage settings for users on unmanaged devices.
 
 <Note>
   Server-managed settings are available for [Claude for Teams](https://claude.com/pricing?utm_source=claude_code\&utm_medium=docs\&utm_content=server_settings_teams#team-&-enterprise) and [Claude for Enterprise](https://anthropic.com/contact-sales?utm_source=claude_code\&utm_medium=docs\&utm_content=server_settings_enterprise) customers.
@@ -19,6 +19,7 @@ This approach is designed for organizations that do not have device management i
 To use server-managed settings, you need:
 
 * Claude for Teams or Claude for Enterprise plan
+* The Owner or Primary Owner role in your Claude organization, to view and edit the configuration
 * Claude Code version 2.1.38 or later for Claude for Teams, or version 2.1.30 or later for Claude for Enterprise
 * Network access to `api.anthropic.com`
 
@@ -37,7 +38,9 @@ If your devices are enrolled in an MDM or endpoint management solution, endpoint
 
 <Steps>
   <Step title="Open the admin console">
-    In [Claude.ai](https://claude.ai), navigate to **Admin Settings > Claude Code > Managed settings**.
+    In the claude.ai console, go to [**Admin Settings > Claude Code > Managed settings**](https://claude.ai/admin-settings/claude-code).
+
+    If the link redirects you to a different Admin Settings page instead of the Claude Code page, your account doesn't have the required role. Admin and other non-Owner roles can't view or edit managed settings, so ask an Owner or Primary Owner in your organization to make the change. See [Access control](#access-control).
   </Step>
 
   <Step title="Define your settings">
@@ -179,6 +182,8 @@ To enable this, add the key to your managed settings configuration:
   "forceRemoteSettingsRefresh": true
 }
 ```
+
+You can also set this key in an [endpoint-managed](/en/settings#settings-files) MDM profile or system `managed-settings.json` file to enforce fail-closed behavior on first launch, before any server payload has been delivered. As of v2.1.191, this flag is an exception to the [precedence rule](#settings-precedence) above: it is honored when set in any managed source even if a cached server-managed payload is also present, so an MDM-delivered value is not ignored when server-managed settings exist. The settings fetch also sends a `Cache-Control: no-cache` header so intermediate HTTP proxies do not serve a stale response.
 
 Before enabling this setting, ensure your network policies allow connectivity to `api.anthropic.com`. If that endpoint is unreachable, the CLI exits at startup and users cannot start Claude Code.
 

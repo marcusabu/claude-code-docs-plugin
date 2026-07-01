@@ -93,7 +93,7 @@ This walkthrough guides you through creating a user-level subagent with the `/ag
   <Step title="Open the subagents interface">
     In Claude Code, run:
 
-    ```text theme={null}
+    ```text wrap theme={null}
     /agents
     ```
   </Step>
@@ -105,7 +105,7 @@ This walkthrough guides you through creating a user-level subagent with the `/ag
   <Step title="Generate with Claude">
     Select **Generate with Claude**. When prompted, describe the subagent:
 
-    ```text theme={null}
+    ```text wrap theme={null}
     A code improvement agent that scans files and suggests improvements
     for readability, performance, and best practices. It should explain
     each issue, show the current code, and provide an improved version.
@@ -133,7 +133,7 @@ This walkthrough guides you through creating a user-level subagent with the `/ag
   <Step title="Save and try it out">
     Review the configuration summary. Press `s` or `Enter` to save, or press `e` to save and edit the file in your editor. The subagent is available immediately. Try it:
 
-    ```text theme={null}
+    ```text wrap theme={null}
     Use the code-improver agent to suggest improvements in this project
     ```
 
@@ -179,7 +179,9 @@ Directories added with `--add-dir` are also scanned: a `.claude/agents/` folder 
 
 **User subagents** (`~/.claude/agents/`) are personal subagents available in all your projects.
 
-Claude Code scans `.claude/agents/` and `~/.claude/agents/` recursively, so you can organize definitions into subfolders such as `agents/review/` or `agents/research/`. The subdirectory path doesn't affect how a subagent is identified or invoked, because identity comes only from the `name` frontmatter field. Keep `name` values unique across the whole tree: if two files within one scope declare the same name, Claude Code keeps one and discards the other without warning.
+Claude Code scans `.claude/agents/` and `~/.claude/agents/` recursively, so you can organize definitions into subfolders such as `agents/review/` or `agents/research/`. The subdirectory path doesn't affect how a subagent is identified or invoked, because identity comes only from the `name` frontmatter field.
+
+Keep `name` values unique across the whole tree: if two files within one scope declare the same name, Claude Code loads only one of them. {/* min-version: 2.1.196 */}As of v2.1.196, running `/doctor` reports same-scope duplicate agent names and shows which definition is active.
 
 Plugin `agents/` directories are also scanned recursively. Unlike project and user scopes, a subfolder inside a plugin's `agents/` directory becomes part of the [scoped identifier](#invoke-subagents-explicitly): a file at `agents/review/security.md` in plugin `my-plugin` registers as `my-plugin:review:security`.
 
@@ -287,16 +289,18 @@ The following fields can be used in the YAML frontmatter. Only `name` and `descr
 The `model` field controls which [AI model](/en/model-config) the subagent uses:
 
 * **Model alias**: use one of the available aliases: `sonnet`, `opus`, `haiku`, or `fable`
-* **Full model ID**: use a full model ID such as `claude-opus-4-8` or `claude-sonnet-4-6`. Accepts the same values as the `--model` flag
+* **Full model ID**: use a full model ID such as `claude-opus-4-8` or `claude-sonnet-5`. Accepts the same values as the `--model` flag
 * **inherit**: use the same model as the main conversation
 * **Omitted**: defaults to `inherit` and uses the same model as the main conversation
 
 When Claude invokes a subagent, it can also pass a `model` parameter for that specific invocation. Claude Code resolves the subagent's model in this order:
 
-1. The [`CLAUDE_CODE_SUBAGENT_MODEL`](/en/model-config#environment-variables) environment variable, if set
+1. The [`CLAUDE_CODE_SUBAGENT_MODEL`](/en/model-config#environment-variables) environment variable, when set to a model alias or model ID
 2. The per-invocation `model` parameter
 3. The subagent definition's `model` frontmatter
 4. The main conversation's model
+
+{/* min-version: 2.1.196 */}As of v2.1.196, setting `CLAUDE_CODE_SUBAGENT_MODEL` to `inherit` is the same as leaving it unset: resolution continues with the per-invocation `model` parameter, then the frontmatter. In earlier versions, `inherit` forced subagents onto the main conversation's model and ignored both of those sources.
 
 The environment variable, per-invocation parameter, and frontmatter values are checked against your organization's [`availableModels`](/en/model-config#restrict-model-selection) allowlist. A value that resolves to an excluded model is not used and the subagent runs on the inherited model instead.
 
@@ -618,7 +622,9 @@ Configure hooks in `settings.json` that respond to subagent lifecycle events in 
 | `SubagentStart` | Agent type name | When a subagent begins execution |
 | `SubagentStop`  | Agent type name | When a subagent completes        |
 
-Both events support matchers to target specific agent types by name. This example runs a setup script only when the `db-agent` subagent starts, and a cleanup script when any subagent stops:
+Both events support matchers to target specific agent types by name. The matcher value is the agent's frontmatter `name` for project-level and user-level subagents, or the plugin-scoped identifier such as `my-plugin:db-agent` for [plugin subagents](/en/plugins). A scoped name contains a colon, so it is evaluated as an [unanchored regular expression](/en/hooks#matcher-patterns); anchor it with `^` and `$`, as in `^my-plugin:db-agent$`, to match only that agent.
+
+This example runs a setup script only when the `db-agent` subagent starts, and a cleanup script when any subagent stops:
 
 ```json theme={null}
 {
@@ -642,6 +648,8 @@ Both events support matchers to target specific agent types by name. This exampl
 }
 ```
 
+A hyphenated matcher like `db-agent` matches exactly on Claude Code v2.1.195 or later. On earlier versions it is evaluated as an unanchored regular expression and also fires for any agent type that contains it, such as `prod-db-agent`; anchor it as `^db-agent$` on those versions.
+
 See [Hooks](/en/hooks) for the complete hook configuration format.
 
 ## Work with subagents
@@ -660,14 +668,14 @@ When automatic delegation isn't enough, you can request a subagent yourself. Thr
 
 For natural language, there's no special syntax. Name the subagent and Claude typically delegates:
 
-```text theme={null}
+```text wrap theme={null}
 Use the test-runner subagent to fix failing tests
 Have the code-reviewer subagent look at my recent changes
 ```
 
 **@-mention the subagent.** Type `@` and pick the subagent from the typeahead, the same way you @-mention files. This ensures that specific subagent runs rather than leaving the choice to Claude:
 
-```text theme={null}
+```text wrap theme={null}
 @"code-reviewer (agent)" look at the auth changes
 ```
 
@@ -733,7 +741,7 @@ When [`CLAUDE_CODE_FORK_SUBAGENT`](#fork-the-current-conversation) is set to `1`
 
 One of the most effective uses for subagents is isolating operations that produce large amounts of output. Running tests, fetching documentation, or processing log files can consume significant context. By delegating these to a subagent, the verbose output stays in the subagent's context while only the relevant summary returns to your main conversation.
 
-```text theme={null}
+```text wrap theme={null}
 Use a subagent to run the test suite and report only the failing tests with their error messages
 ```
 
@@ -741,7 +749,7 @@ Use a subagent to run the test suite and report only the failing tests with thei
 
 For independent investigations, spawn multiple subagents to work simultaneously:
 
-```text theme={null}
+```text wrap theme={null}
 Research the authentication, database, and API modules in parallel using separate subagents
 ```
 
@@ -757,7 +765,7 @@ For tasks that need sustained parallelism or exceed your context window, [agent 
 
 For multi-step workflows, ask Claude to use subagents in sequence. Each subagent completes its task and returns results to Claude, which then passes relevant context to the next subagent.
 
-```text theme={null}
+```text wrap theme={null}
 Use the code-reviewer subagent to find performance issues, then use the optimizer subagent to fix them
 ```
 
@@ -784,7 +792,9 @@ For a quick question about something already in your conversation, use [`/btw`](
 
 {/* min-version: 2.1.172 */}As of Claude Code v2.1.172, a subagent can spawn its own subagents. Use this when a delegated task itself splits into parallel subtasks, such as a reviewer subagent that dispatches a verifier per finding, so the intermediate output never reaches your main conversation. Only the top-level subagent's summary returns to you.
 
-A nested subagent is configured the same way as a top-level one and resolves from the same [scopes](#choose-the-subagent-scope). The subagent panel below the prompt input shows the full tree: each row displays a `(+N)` count of descendants, and opening a row shows that subagent's direct children with a path back to `main`. The Running tab in [`/agents`](#use-the-%2Fagents-command) lists running subagents as a flat list.
+A nested subagent is configured the same way as a top-level one and resolves from the same [scopes](#choose-the-subagent-scope).
+
+The subagent panel below the prompt input shows the full tree: each row displays a `(+N)` count of descendants, and {/* min-version: 2.1.193 */}as of v2.1.193, opening a row shows that subagent's siblings and direct children with a path back to `main`. The Running tab in [`/agents`](#use-the-%2Fagents-command) lists running subagents as a flat list.
 
 Depth is counted as the number of subagent levels below the main conversation, regardless of whether each level runs in the [foreground or background](#run-subagents-in-foreground-or-background). A subagent at depth five doesn't receive the Agent tool and can't spawn further. The limit is fixed and not configurable.
 
@@ -824,7 +834,7 @@ Claude uses the `SendMessage` tool with the agent's ID as the `to` field to resu
 
 To resume a subagent, ask Claude to continue the previous work:
 
-```text theme={null}
+```text wrap theme={null}
 Use the code-reviewer subagent to review the authentication module
 [Agent completes]
 
@@ -878,7 +888,7 @@ Enabling fork mode changes Claude Code in two ways:
 
 You can start a fork yourself with `/fork` followed by a directive, with or without the variable set. Claude Code names the fork from the first words of the directive. The following example forks the conversation to draft test cases while you continue with the implementation in the main session:
 
-```text theme={null}
+```text wrap theme={null}
 /fork draft unit tests for the parser changes so far
 ```
 

@@ -38,6 +38,7 @@ Match the message you see in your terminal to a section below.
 | `Your organization has disabled API key authentication`                                       | [Authentication](#your-organization-has-disabled-api-key-authentication)                                                      |
 | `Your organization has disabled Claude subscription access`                                   | [Authentication](#your-organization-has-disabled-claude-subscription-access)                                                  |
 | `Routines are disabled by your organization's policy`                                         | [Authentication](#routines-are-disabled-by-your-organization%E2%80%99s-policy)                                                |
+| `Remote Control is only available when using Claude via api.anthropic.com`                    | [Authentication](#remote-control-requires-the-anthropic-api)                                                                  |
 | `OAuth token revoked` / `OAuth token has expired`                                             | [Authentication](#oauth-token-revoked-or-expired)                                                                             |
 | `does not meet scope requirement user:profile`                                                | [Authentication](#oauth-scope-requirement)                                                                                    |
 | `Unable to connect to API`                                                                    | [Network](#unable-to-connect-to-api)                                                                                          |
@@ -396,6 +397,21 @@ This is a server-side setting, so it cannot be overridden from local settings, e
 * Ask an Owner in your organization to enable the **Routines** toggle at [claude.ai/admin-settings/claude-code](https://claude.ai/admin-settings/claude-code)
 * For one-off scheduled work that does not require organization-level routines, see [scheduled tasks](/en/scheduled-tasks)
 
+### Remote Control requires the Anthropic API
+
+The session isn't talking to the Anthropic API directly, so there is no claude.ai backend for [Remote Control](/en/remote-control) to pair with.
+
+```text theme={null}
+Remote Control is only available when using Claude via api.anthropic.com.
+```
+
+This appears on Amazon Bedrock, Google Vertex AI, and Microsoft Foundry. {/* min-version: 2.1.196 */}As of v2.1.196 it also appears when [`ANTHROPIC_BASE_URL`](/en/env-vars) points at a host other than `api.anthropic.com`, such as an [LLM gateway](/en/llm-gateway) or proxy, even when you sign in with claude.ai.
+
+**What to do:**
+
+* Unset `ANTHROPIC_BASE_URL` and restart the session, or start Remote Control from a session that talks to the Anthropic API directly
+* For this and the other Remote Control startup messages, see [Troubleshoot Remote Control](/en/remote-control#troubleshooting)
+
 ### OAuth token revoked or expired
 
 Your saved login is no longer valid. A revoked token means you signed out everywhere or an admin removed access; an expired token means the automatic refresh failed mid-session.
@@ -661,7 +677,7 @@ Model "claude-opus-4-8" is restricted by your organization's settings. Using cla
 
 ### thinking.type.enabled is not supported for this model
 
-Your Claude Code version is older than the minimum for Opus 4.7 or Opus 4.8. The CLI sent a thinking configuration the model no longer accepts.
+Your Claude Code version is older than the minimum for Sonnet 5, Opus 4.8, or Opus 4.7. The CLI sent a thinking configuration the model no longer accepts.
 
 ```text theme={null}
 API Error: 400 ... "thinking.type.enabled" is not supported for this model. Use "thinking.type.adaptive" and "output_config.effort" to control thinking behavior.
@@ -669,9 +685,9 @@ API Error: 400 ... "thinking.type.enabled" is not supported for this model. Use 
 
 **What to do:**
 
-* Run `claude update` and restart Claude Code. Opus 4.7 needs v2.1.111 or later. Opus 4.8 needs v2.1.154 or later
-* If you cannot upgrade, run `/model` and select Opus 4.6 or Sonnet instead
-* {/* min-version: agent-sdk@0.3.154 */}If you hit this in the [Agent SDK](/en/agent-sdk/overview), upgrade the SDK package instead. Opus 4.8 needs TypeScript SDK v0.3.154 or later and Python SDK v0.2.88 or later
+* Run `claude update` and restart Claude Code. Opus 4.7 needs v2.1.111 or later. Opus 4.8 needs v2.1.154 or later. Sonnet 5 needs v2.1.197 or later
+* If you can't upgrade, run `/model` and select Opus 4.6 or Sonnet 4.6 instead
+* {/* min-version: agent-sdk@0.3.197 */}If you hit this in the [Agent SDK](/en/agent-sdk/overview), upgrade the SDK package instead. Opus 4.8 needs TypeScript SDK v0.3.154 or later and Python SDK v0.2.88 or later. Sonnet 5 needs TypeScript SDK v0.3.197 or later
 
 ### Thinking budget exceeds output limit
 

@@ -1146,7 +1146,7 @@ type SDKSystemMessage = {
 
 ### `SDKPartialAssistantMessage`
 
-Streaming partial message (only when `includePartialMessages` is true).
+Streaming partial message (only when `includePartialMessages` is true). The `parent_tool_use_id` field is always `null`: stream events are emitted for the main session only. For subagent attribution, use complete messages, which carry `parent_tool_use_id`, or enable [`forwardSubagentText`](#options) to receive subagent text and thinking as complete messages.
 
 ```typescript theme={null}
 type SDKPartialAssistantMessage = {
@@ -3400,7 +3400,7 @@ type SandboxSettings = {
 | `ripgrep`                   | `{ command: string; args?: string[] }`                | `undefined` | Custom ripgrep binary configuration for sandbox environments                                                                                                                                                                            |
 
 <Note>
-  The sandbox depends on platform support and, on Linux, tools like `bubblewrap` and `socat`. When `enabled` is `true` and the sandbox can't start, `query()` reports a `result` message with `subtype: "error_during_execution"` and the reason in `errors`, then stops. Watch for that subtype rather than expecting `query()` to throw before yielding messages.
+  The sandbox depends on platform support and, on Linux, tools like `bubblewrap` and `socat`. When `enabled` is `true` and the sandbox can't start, `query()` reports a `result` message with `subtype: "error_during_execution"` and the reason in `errors`. For a single message `query()` call, the SDK throws after yielding that error result, so wrap the loop in a try block to continue past it. See [Handle the result](/en/agent-sdk/agent-loop#handle-the-result) for the error contract.
 
   To run unsandboxed instead, set `failIfUnavailable: false`.
 </Note>
@@ -3410,19 +3410,25 @@ type SandboxSettings = {
 ```typescript theme={null}
 import { query } from "@anthropic-ai/claude-agent-sdk";
 
-for await (const message of query({
-  prompt: "Build and test my project",
-  options: {
-    sandbox: {
-      enabled: true,
-      autoAllowBashIfSandboxed: true,
-      network: {
-        allowLocalBinding: true
+try {
+  for await (const message of query({
+    prompt: "Build and test my project",
+    options: {
+      sandbox: {
+        enabled: true,
+        autoAllowBashIfSandboxed: true,
+        network: {
+          allowLocalBinding: true
+        }
       }
     }
+  })) {
+    if ("result" in message) console.log(message.result);
   }
-})) {
-  if ("result" in message) console.log(message.result);
+} catch (error) {
+  // A single-shot query() throws after yielding an error result,
+  // such as when the sandbox can't start (failIfUnavailable defaults to true).
+  console.log(`Session ended with an error: ${error}`);
 }
 ```
 

@@ -103,29 +103,32 @@ This section is auto-synced from generated docs in `docs/`.
 Keep it compact; use the linked pages for full details.
 
 Current docs snapshot:
-- Changelog head: **2.1.138** (`docs/changelog.md`)
+- Changelog head: **2.1.201** (`docs/changelog.md`)
 - Documentation index: <https://code.claude.com/docs/llms.txt>
 - Generated docs workflow: `.github/workflows/update-docs.yml`
 
 Start here first:
 - Orientation: [Overview](docs/overview.md), [Quickstart](docs/quickstart.md), [Features overview](docs/features-overview.md), [How Claude Code works](docs/how-claude-code-works.md), [Best practices](docs/best-practices.md)
 - Config & context: [Settings](docs/settings.md), [Server-managed settings](docs/server-managed-settings.md), [Model config](docs/model-config.md), [Env vars](docs/env-vars.md), [Memory](docs/memory.md), [Explore the .claude directory](docs/claude-directory.md), [Context window](docs/context-window.md), [Auto mode config](docs/auto-mode-config.md), [Debug your config](docs/debug-your-config.md)
-- Safety & permissions: [Permission modes](docs/permission-modes.md), [Permissions](docs/permissions.md), [Sandboxing](docs/sandboxing.md), [Data usage](docs/data-usage.md), [Security](docs/security.md), [Admin setup](docs/admin-setup.md)
-- Extensibility: [Skills](docs/skills.md), [Sub-agents](docs/sub-agents.md), [Agent Teams](docs/agent-teams.md), [Hooks](docs/hooks.md), [Hooks guide](docs/hooks-guide.md), [MCP](docs/mcp.md), [Plugins](docs/plugins.md), [Plugins reference](docs/plugins-reference.md), [Plugin dependencies](docs/plugin-dependencies.md), [Tools reference](docs/tools-reference.md)
+- Safety & permissions: [Feature availability](docs/feature-availability.md), [Permission modes](docs/permission-modes.md), [Permissions](docs/permissions.md), [Sandboxing](docs/sandboxing.md), [Data usage](docs/data-usage.md), [Security](docs/security.md), [Admin setup](docs/admin-setup.md)
+- Extensibility: [Skills](docs/skills.md), [Sub-agents](docs/sub-agents.md), [Agent Teams](docs/agent-teams.md), [Hooks](docs/hooks.md), [Hooks guide](docs/hooks-guide.md), [MCP](docs/mcp.md), [Plugins](docs/plugins.md), [Plugins reference](docs/plugins-reference.md), [Plugin dependencies](docs/plugin-dependencies.md), [Plugin relevance](docs/plugin-relevance.md), [Tools reference](docs/tools-reference.md)
 - CLI & workflows: [Commands](docs/commands.md), [CLI reference](docs/cli-reference.md), [Interactive mode](docs/interactive-mode.md), [Keybindings](docs/keybindings.md), [Common workflows](docs/common-workflows.md), [Code review](docs/code-review.md), [Remote control](docs/remote-control.md), [Scheduled tasks](docs/scheduled-tasks.md), [Routines](docs/routines.md), [Ultraplan](docs/ultraplan.md), [Ultrareview](docs/ultrareview.md)
-- Surfaces & integrations: [Desktop](docs/desktop.md), [Desktop quickstart](docs/desktop-quickstart.md), [Desktop scheduled tasks](docs/desktop-scheduled-tasks.md), [Claude Code on the web](docs/claude-code-on-the-web.md), [Web quickstart](docs/web-quickstart.md), [VS Code](docs/vs-code.md), [JetBrains](docs/jetbrains.md), [Slack](docs/slack.md), [Computer use](docs/computer-use.md), [Voice dictation](docs/voice-dictation.md)
-- Infra & deployment: [Platforms](docs/platforms.md), [Network config](docs/network-config.md), [GitHub Actions](docs/github-actions.md), [Headless](docs/headless.md), [LLM Gateway](docs/llm-gateway.md), [Bedrock](docs/amazon-bedrock.md), [Vertex](docs/google-vertex-ai.md), [Foundry](docs/microsoft-foundry.md)
+- Surfaces & integrations: [Desktop](docs/desktop.md), [Desktop quickstart](docs/desktop-quickstart.md), [Desktop Linux](docs/desktop-linux.md), [Desktop scheduled tasks](docs/desktop-scheduled-tasks.md), [Claude Code on the web](docs/claude-code-on-the-web.md), [Web quickstart](docs/web-quickstart.md), [Artifacts](docs/artifacts.md), [VS Code](docs/vs-code.md), [JetBrains](docs/jetbrains.md), [Slack](docs/slack.md), [Computer use](docs/computer-use.md), [Voice dictation](docs/voice-dictation.md)
+- Infra & deployment: [Platforms](docs/platforms.md), [Network config](docs/network-config.md), [GitHub Actions](docs/github-actions.md), [Headless](docs/headless.md), [Gateways](docs/gateways.md), [Claude apps gateway](docs/claude-apps-gateway.md), [LLM Gateway](docs/llm-gateway.md), [LLM gateway connect](docs/llm-gateway-connect.md), [LLM gateway protocol](docs/llm-gateway-protocol.md), [LLM gateway rollout](docs/llm-gateway-rollout.md), [Bedrock](docs/amazon-bedrock.md), [Vertex](docs/google-vertex-ai.md), [Foundry](docs/microsoft-foundry.md)
+- Agent SDK: [Overview](docs/agent-sdk__overview.md), [Quickstart](docs/agent-sdk__quickstart.md), [TypeScript](docs/agent-sdk__typescript.md), [Python](docs/agent-sdk__python.md), [Agent loop](docs/agent-sdk__agent-loop.md), [Subagents](docs/agent-sdk__subagents.md), [Todo tracking](docs/agent-sdk__todo-tracking.md), [Slash commands](docs/agent-sdk__slash-commands.md), [Cost tracking](docs/agent-sdk__cost-tracking.md), [Permissions](docs/agent-sdk__permissions.md), [Tool search](docs/agent-sdk__tool-search.md), [MCP](docs/agent-sdk__mcp.md)
 - Monitoring & upkeep: [Monitoring usage](docs/monitoring-usage.md), [Costs](docs/costs.md), [Troubleshoot install](docs/troubleshoot-install.md), [Troubleshooting](docs/troubleshooting.md), [Errors](docs/errors.md), [Changelog](docs/changelog.md), [What’s new](docs/whats-new.md)
 
 Notable additions in this sync:
-- Settings docs now emphasize config scopes and managed delivery paths: [Settings](docs/settings.md), [Server-managed settings](docs/server-managed-settings.md), [Permissions](docs/permissions.md)
-- Skills docs now explicitly cover command/skill unification, invocation control, and dynamic context injection: [Skills](docs/skills.md)
-- Hooks guidance is more task-oriented, with clearer examples for notifications, formatting, policy enforcement, and context reinjection: [Hooks guide](docs/hooks-guide.md), [Hooks](docs/hooks.md)
-- Troubleshooting is split more cleanly between runtime issues and install/login problems: [Errors](docs/errors.md), [Troubleshoot install](docs/troubleshoot-install.md)
+- Claude apps gateway docs now cover self-hosted SSO, managed settings delivery, telemetry, upstream routing, config, deployment, GCP, and spend limits: [Claude apps gateway](docs/claude-apps-gateway.md), [Config](docs/claude-apps-gateway-config.md), [Deploy](docs/claude-apps-gateway-deploy.md), [Spend limits](docs/claude-apps-gateway-spend-limits.md)
+- LLM gateway docs were split into developer connection, protocol, and rollout pages: [LLM gateway connect](docs/llm-gateway-connect.md), [Protocol](docs/llm-gateway-protocol.md), [Rollout](docs/llm-gateway-rollout.md)
+- Feature availability now compares Claude subscription, Anthropic Console, Bedrock, Claude Platform on AWS, Google Cloud Agent Platform, and Microsoft Foundry: [Feature availability](docs/feature-availability.md)
+- Artifacts and Linux Desktop have dedicated pages: [Artifacts](docs/artifacts.md), [Desktop Linux](docs/desktop-linux.md)
+- Plugin marketplaces can declare local relevance signals so Claude Code suggests useful plugins: [Plugin relevance](docs/plugin-relevance.md)
+- Recent weekly digests cover MCP CLI login/logout, shell-mode responses, `/rewind`, Artifacts, parameter-matching permission rules, `/config`, `/cd`, nested subagents, safe mode, and third-party auto mode: [What’s new](docs/whats-new.md)
 
 Repo pointers:
 - Generated docs: `plugins/claude-code-docs/skills/claude-code/docs/`
 - Plugin manifest: `plugins/claude-code-docs/.claude-plugin/plugin.json`
 <!-- AUTOSYNC:claude-code-docs END -->
 
-- Last synced: 2026-05-11 12:00 Europe/Amsterdam
+- Last synced: 2026-07-06 12:00 Europe/Amsterdam

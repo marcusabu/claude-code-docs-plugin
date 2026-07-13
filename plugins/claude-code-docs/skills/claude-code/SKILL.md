@@ -103,7 +103,7 @@ This section is auto-synced from generated docs in `docs/`.
 Keep it compact; use the linked pages for full details.
 
 Current docs snapshot:
-- Changelog head: **2.1.201** (`docs/changelog.md`)
+- Changelog head: **2.1.207** (`docs/changelog.md`)
 - Documentation index: <https://code.claude.com/docs/llms.txt>
 - Generated docs workflow: `.github/workflows/update-docs.yml`
 
@@ -119,16 +119,15 @@ Start here first:
 - Monitoring & upkeep: [Monitoring usage](docs/monitoring-usage.md), [Costs](docs/costs.md), [Troubleshoot install](docs/troubleshoot-install.md), [Troubleshooting](docs/troubleshooting.md), [Errors](docs/errors.md), [Changelog](docs/changelog.md), [What’s new](docs/whats-new.md)
 
 Notable additions in this sync:
-- Claude apps gateway docs now cover self-hosted SSO, managed settings delivery, telemetry, upstream routing, config, deployment, GCP, and spend limits: [Claude apps gateway](docs/claude-apps-gateway.md), [Config](docs/claude-apps-gateway-config.md), [Deploy](docs/claude-apps-gateway-deploy.md), [Spend limits](docs/claude-apps-gateway-spend-limits.md)
-- LLM gateway docs were split into developer connection, protocol, and rollout pages: [LLM gateway connect](docs/llm-gateway-connect.md), [Protocol](docs/llm-gateway-protocol.md), [Rollout](docs/llm-gateway-rollout.md)
-- Feature availability now compares Claude subscription, Anthropic Console, Bedrock, Claude Platform on AWS, Google Cloud Agent Platform, and Microsoft Foundry: [Feature availability](docs/feature-availability.md)
-- Artifacts and Linux Desktop have dedicated pages: [Artifacts](docs/artifacts.md), [Desktop Linux](docs/desktop-linux.md)
-- Plugin marketplaces can declare local relevance signals so Claude Code suggests useful plugins: [Plugin relevance](docs/plugin-relevance.md)
-- Recent weekly digests cover MCP CLI login/logout, shell-mode responses, `/rewind`, Artifacts, parameter-matching permission rules, `/config`, `/cd`, nested subagents, safe mode, and third-party auto mode: [What’s new](docs/whats-new.md)
+- Changelog now covers releases through 2.1.207, including auto mode availability on Bedrock, Vertex AI, and Foundry; remote managed settings consent fixes; plugin option safety changes; and multiple background-agent, Remote Control, and terminal fixes: [Changelog](docs/changelog.md)
+- Week 28 highlights the Desktop in-app browser, `/doctor` setup checkups, auto-mode safety updates, and agent view row improvements: [What's new](docs/whats-new.md), [Week 28](docs/whats-new__2026-w28.md)
+- Agent SDK docs include expanded TypeScript, Python, MCP, permissions, structured outputs, custom tools, and agent-loop guidance: [Agent SDK TypeScript](docs/agent-sdk__typescript.md), [Python](docs/agent-sdk__python.md), [MCP](docs/agent-sdk__mcp.md), [Permissions](docs/agent-sdk__permissions.md)
+- Core CLI and configuration pages changed substantially, especially commands, settings, env vars, model config, permissions, and troubleshooting/error references: [Commands](docs/commands.md), [Settings](docs/settings.md), [Env vars](docs/env-vars.md), [Model config](docs/model-config.md), [Errors](docs/errors.md)
+- Desktop, web, agent-view, monitoring, and deployment/provider pages were refreshed; start from the linked reference group above before digging into individual changed files.
 
 Repo pointers:
 - Generated docs: `plugins/claude-code-docs/skills/claude-code/docs/`
 - Plugin manifest: `plugins/claude-code-docs/.claude-plugin/plugin.json`
 <!-- AUTOSYNC:claude-code-docs END -->
 
-- Last synced: 2026-07-06 12:00 Europe/Amsterdam
+- Last synced: 2026-07-13 12:00 Europe/Amsterdam

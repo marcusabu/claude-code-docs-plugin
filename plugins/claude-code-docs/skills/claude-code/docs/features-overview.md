@@ -24,7 +24,7 @@ Extensions plug into different parts of the agentic loop:
 * **[MCP](/docs/en/mcp)** connects Claude to external services and tools
 * **[Subagents](/docs/en/sub-agents)** run their own loops in isolated context, returning summaries
 * **[Agent teams](/docs/en/agent-teams)** coordinate multiple independent sessions with shared tasks and peer-to-peer messaging
-* **[Hooks](/docs/en/hooks-guide)** fire on lifecycle events and can run a script, HTTP request, prompt, or subagent
+* **[Hooks](/docs/en/hooks-guide)** run your script, HTTP request, prompt, or subagent when Claude Code reaches a lifecycle event
 * **[Plugins](/docs/en/plugins)** and **[marketplaces](/docs/en/plugin-marketplaces)** package and distribute these features
 
 [Skills](/docs/en/skills) are the most flexible extension. A skill is a markdown file containing knowledge, workflows, or instructions. You can invoke skills with a command like `/deploy`, or Claude can load them automatically when relevant. Skills can run in your current conversation or in an isolated context via subagents.
@@ -165,7 +165,7 @@ Some features can seem similar. For a deeper walkthrough of choosing between the
   </Tab>
 
   <Tab title="Hook vs Skill">
-    A hook fires on a lifecycle event; a skill is loaded into context for Claude to apply.
+    Claude Code runs a hook at a lifecycle event; it loads a skill into context for Claude to apply.
 
     | Aspect           | Hook                                                                              | Skill                                                                 |
     | ---------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
@@ -230,7 +230,9 @@ Each feature has a different loading strategy and context cost:
 
 Each feature loads at different points in your session. The tabs below explain when each one loads and what goes into context.
 
-<img src="https://mintcdn.com/claude-code/ikqp3_70mqIahteV/images/context-loading.svg?fit=max&auto=format&n=ikqp3_70mqIahteV&q=85&s=aab139e750494a237ae2e0c8f9139b0a" alt="Context loading: CLAUDE.md loads at session start and stays in every request. MCP tool names load at start with full schemas deferred until use. Skills load descriptions at start, full content on invocation. Subagents get isolated context. Hooks run externally." width="720" height="382" data-path="images/context-loading.svg" />
+<img src="https://mintcdn.com/claude-code/ikqp3_70mqIahteV/images/context-loading.svg?fit=max&auto=format&n=ikqp3_70mqIahteV&q=85&s=aab139e750494a237ae2e0c8f9139b0a" className="dark:hidden" alt="Context loading: CLAUDE.md loads at session start and stays in every request. MCP tool names load at start with full schemas deferred until use. Skills load descriptions at start, full content on invocation. Subagents get isolated context. Hooks run externally." width="720" height="382" data-path="images/context-loading.svg" />
+
+<img src="https://mintcdn.com/claude-code/_xqph1dUOslCOwsj/images/context-loading-dark.svg?fit=max&auto=format&n=_xqph1dUOslCOwsj&q=85&s=b274089ef9612d9c760bca9838557626" className="hidden dark:block" alt="Context loading: CLAUDE.md loads at session start and stays in every request. MCP tool names load at start with full schemas deferred until use. Skills load descriptions at start, full content on invocation. Subagents get isolated context. Hooks run externally." width="720" height="382" data-path="images/context-loading-dark.svg" />
 
 <Tabs>
   <Tab title="CLAUDE.md">
@@ -295,7 +297,7 @@ Each feature loads at different points in your session. The tabs below explain w
   </Tab>
 
   <Tab title="Hooks">
-    **When:** On trigger. Hooks fire at specific lifecycle events like tool execution, session boundaries, prompt submission, permission requests, and compaction. See [Hooks](/docs/en/hooks) for the full list.
+    **When:** On trigger. Claude Code runs hooks at specific lifecycle events like tool execution, session boundaries, prompt submission, permission requests, and compaction. See [Hooks](/docs/en/hooks) for the full list.
 
     **What loads:** Nothing by default. Hooks execute outside the main conversation.
 

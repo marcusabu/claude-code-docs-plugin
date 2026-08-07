@@ -299,9 +299,9 @@ If a server doesn't connect, check its status with `/mcp` inside a session or `c
   </Accordion>
 
   <Accordion title="Status shows Failed to connect or Connection error">
-    Both statuses mean the server didn't start or the URL didn't respond. They can also appear for HTTP servers that expect a token rather than the browser sign-in covered in [Connect a server that requires sign-in](#connect-a-server-that-requires-sign-in).
+    Both statuses mean the server didn't start or the URL didn't respond. They can also appear for HTTP servers that reject the token you configured in `headers.Authorization`; a server that wants a token you haven't configured shows `! Needs authentication` instead, covered in [Connect a server that requires sign-in](#connect-a-server-that-requires-sign-in).
 
-    As of v2.1.191, an HTTP server that returns `404 Not Found` shows `MCP endpoint not found at <url>. Check the URL in your MCP config.` when you select the server in `/mcp`, with the URL Claude Code tried. Earlier versions show a generic `Error POSTing to endpoint` message without the URL. Compare the URL to the server's documented MCP endpoint path, then run `claude mcp remove <name>` and re-add with the correct URL.
+    If an HTTP server returns `404 Not Found`, Claude Code shows `MCP endpoint not found at <origin>. Check the URL in your MCP config.` when you select the server in `/mcp`. The message names the URL's origin, such as `https://mcp.example.com`, without its path, so run `claude mcp get <name>` to see the full URL you configured. Compare its path to the server's documented MCP endpoint path, then run `claude mcp remove <name>` and re-add with the correct URL. Before v2.1.219, the message included the URL's path as well, and before v2.1.191, a `404` showed a generic `Error POSTing to endpoint` message without the URL.
 
     For HTTP servers, confirm the URL is reachable from your machine:
 

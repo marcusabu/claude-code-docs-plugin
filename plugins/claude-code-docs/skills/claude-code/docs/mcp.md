@@ -189,6 +189,8 @@ A `disabledMcpjsonServers` entry in any settings file still rejects the server.
 
 The `/mcp` panel shows the tool count next to each connected server and flags servers that advertise the tools capability but expose no tools.
 
+In `/mcp`, a server's menu, and the [`/plugin`](/docs/en/plugins) manager, a remote (HTTP or SSE) server you've used before can show a `cached` status such as `cached 2h ago · connects on first use · 5 tools`. Claude Code loaded the server's tool list from a previous session instead of connecting at startup, and it connects the server the first time Claude calls one of its tools. The tools are available from your first message, so you don't need to do anything. To make every server connect at startup instead, set [`MCP_DISCOVERY_CACHE=0`](/docs/en/env-vars). The discovery cache and its `cached` status require Claude Code v2.1.221 or later.
+
 A remote server whose configuration has an empty `url` shows as `not configured` in `/mcp`, in `claude mcp list`, and in the [`/plugin`](/docs/en/plugins) manager, and Claude Code doesn't attempt to connect to it. A plugin can include a placeholder entry like this for a connector you configure later, so Claude Code doesn't report it as an error or a setup issue. The server's detail view in `/mcp` reads `No URL configured for this server`; set the entry's `url` to connect it. Before v2.1.208, Claude Code reported an empty `url` as a configuration issue with a prompt to reconnect.
 
 If your request needs tools from a server that is still connecting in the background, Claude waits for that server before continuing. With [tool search](#scale-with-mcp-tool-search) enabled, which is the default, the wait happens inside the `ToolSearch` call. In configurations without tool search, such as a custom `ANTHROPIC_BASE_URL`, `ENABLE_TOOL_SEARCH=false`, or a model earlier than the Claude 4.5 generation on Google Cloud's Agent Platform, Claude uses the `WaitForMcpServers` tool instead. A Microsoft Foundry [deployment hosted on Azure](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry#hosting-options) starts on the tool-search path rather than with `WaitForMcpServers`, since Claude Code discovers the deployment's server-side rejection only from the API; after Claude Code switches that deployment to [upfront loading](#scale-with-mcp-tool-search), tools from a server that finishes connecting become available on Claude's next request.
@@ -220,7 +222,7 @@ If a refresh request fails, Claude Code keeps the server's previously discovered
 
 If an HTTP or SSE server disconnects mid-session, Claude Code automatically reconnects with exponential backoff: up to five attempts, starting at a one-second delay and doubling each time. The server appears as pending in `/mcp` while reconnection is in progress. After five failed attempts the server is marked as failed and you can retry manually from `/mcp`. Stdio servers are local processes and are not reconnected automatically.
 
-The same backoff applies when an HTTP or SSE server fails its initial connection at startup. As of v2.1.121, Claude Code retries the initial connection up to three times on transient errors such as a 5xx response, a connection refused, or a timeout, then marks the server as failed if it still can't connect. Authentication and not-found errors are not retried because they require a configuration change to resolve.
+The same backoff applies when an HTTP or SSE server fails its initial connection at startup. Claude Code retries the initial connection up to three times on transient errors such as a 5xx response, a connection refused, or a timeout, then marks the server as failed if it still can't connect. Authentication and not-found errors are not retried because they require a configuration change to resolve.
 
 When a configured server fails to connect, Claude Code tells Claude which server failed and its connection error, including in `ToolSearch` results that find no matching tool, so Claude reports the connection failure in its response. Requires [tool search](#scale-with-mcp-tool-search), which is enabled by default. In configurations without tool search, such as a custom `ANTHROPIC_BASE_URL`, `ENABLE_TOOL_SEARCH=false`, or a model that doesn't support tool search, and on Amazon Bedrock, Google Cloud's Agent Platform, and Microsoft Foundry, Claude Code doesn't report failed server connections to Claude. Before v2.1.205, Claude Code didn't pass connection errors to Claude, and Claude could respond as if the failed server's tools were never configured.
 
@@ -317,7 +319,7 @@ Or inline in `plugin.json`:
 **Plugin MCP features**:
 
 * **Automatic lifecycle**: servers connect and disconnect at these points:
-  * At session startup, Claude Code connects the servers for enabled plugins automatically
+  * At session startup, Claude Code connects the servers for enabled plugins automatically. In `/mcp`, a remote (HTTP or SSE) plugin server you've used before can show the [`cached` status](#managing-your-servers) instead; Claude Code connects it when Claude first calls one of its tools
   * If you enable or disable a plugin during a session, run `/reload-plugins` to connect or disconnect its MCP servers. When you reload, Claude Code keeps the live connections of plugin servers whose configuration is unchanged, and does the same when you [replace the session's MCP server list](/docs/en/agent-sdk/typescript#mcpsetserversresult) from the Agent SDK without naming them. Before v2.1.210, Claude Code disconnected plugin-provided MCP servers that the new SDK server list didn't name
   * In [web sessions](/docs/en/claude-code-on-the-web), an MCP call to a plugin server that isn't connected yet, such as right after an idle session wakes, starts the server on demand and waits for it to connect. Before v2.1.211, plugin servers in a web session reconnected only when the next message started a turn, so MCP calls after an idle session woke failed until then
 * **Path placeholders**: `${CLAUDE_PLUGIN_ROOT}` resolves to the plugin's installation directory, `${CLAUDE_PLUGIN_DATA}` to its [persistent state](/docs/en/plugins-reference#persistent-data-directory) directory, and `${CLAUDE_PROJECT_DIR}` to the stable project root. Substitution applies to:
@@ -1257,9 +1259,9 @@ The following `.mcp.json` entry exempts one HTTP server while leaving other serv
 }
 ```
 
-The `alwaysLoad` field is available on all server types and requires Claude Code v2.1.121 or later. An MCP server can also mark individual tools as always-loaded by including `"anthropic/alwaysLoad": true` in the tool's `_meta` object, which has the same effect for that tool only.
+The `alwaysLoad` field is available on all server types. An MCP server can also mark individual tools as always-loaded by including `"anthropic/alwaysLoad": true` in the tool's `_meta` object, which has the same effect for that tool only.
 
-Setting `alwaysLoad: true` also blocks startup until the server connects, capped at the standard 5-second connect timeout. This applies even though MCP startup is otherwise [non-blocking by default](/docs/en/env-vars), since the tools must be present when the first prompt is built. Other servers continue to connect in the background.
+Setting `alwaysLoad: true` also makes startup wait for the server's tools, capped at the standard 5-second connect timeout, since they must be present when the first prompt is built. A remote server with a valid [`cached` entry](#managing-your-servers) supplies its tools from the cache without connecting, so it doesn't hold startup. Other servers connect in the background by default; set [`MCP_CONNECTION_NONBLOCKING=0`](/docs/en/env-vars) to make startup wait for them too.
 
 ## Use MCP prompts as commands
 

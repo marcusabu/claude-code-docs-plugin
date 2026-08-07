@@ -56,7 +56,7 @@ The [fast mode](/docs/en/fast-mode) availability check never appears in gateway 
 
 Inference responses must stream. Claude Code consumes server-sent events as they arrive, so a gateway that buffers complete responses before relaying them stalls the client.
 
-Forward keep-alive pings as well. On connections through `ANTHROPIC_BASE_URL` or `ANTHROPIC_AWS_BASE_URL`, Claude Code counts every byte your gateway relays, including SSE `ping` events and comment lines, and aborts a stream that goes silent for 300 seconds by default. The upstream's pings are the only traffic during long thinking pauses, so if your gateway strips or buffers them, Claude Code aborts the stream during those pauses and reports [`Response stalled mid-stream`](/docs/en/errors#the-response-above-may-be-incomplete). Gateways reached through `ANTHROPIC_BEDROCK_BASE_URL`, `ANTHROPIC_VERTEX_BASE_URL`, or `ANTHROPIC_FOUNDRY_BASE_URL` aren't wrapped by this byte-level watchdog, even when they relay the Anthropic Messages format; there, a [5-minute idle timeout](/docs/en/env-vars) aborts a silent stream instead, and on `ANTHROPIC_BEDROCK_BASE_URL` connections you can add the byte watchdog with [`CLAUDE_ENABLE_BYTE_WATCHDOG_BEDROCK`](/docs/en/env-vars).
+Forward keep-alive pings as well. On connections through `ANTHROPIC_BASE_URL` or `ANTHROPIC_AWS_BASE_URL`, Claude Code counts every byte your gateway relays, including SSE `ping` events and comment lines, and aborts a stream that goes silent for 300 seconds by default. The upstream's pings are the only traffic during long thinking pauses, so if your gateway strips or buffers them, Claude Code aborts the stream during those pauses; [Automatic retries](/docs/en/errors#automatic-retries) covers what an aborted stream reports based on how far the response had progressed. Gateways reached through `ANTHROPIC_BEDROCK_BASE_URL`, `ANTHROPIC_VERTEX_BASE_URL`, or `ANTHROPIC_FOUNDRY_BASE_URL` aren't wrapped by this byte-level watchdog, even when they relay the Anthropic Messages format; there, a [5-minute idle timeout](/docs/en/env-vars) aborts a silent stream instead, and on `ANTHROPIC_BEDROCK_BASE_URL` connections you can add the byte watchdog with [`CLAUDE_ENABLE_BYTE_WATCHDOG_BEDROCK`](/docs/en/env-vars).
 
 ### Format mismatch with the upstream
 
@@ -165,7 +165,7 @@ The discovery request sends exactly one credential header:
 
 This differs from inference requests, which send a helper value in both headers. A gateway that authenticates `/v1/models` must accept `x-api-key` for helper deployments. Any headers from `ANTHROPIC_CUSTOM_HEADERS` are included as well.
 
-Claude Code reads `id` and the optional `display_name` from each entry in the response's `data` array, and ignores entries whose `id` doesn't begin with `claude` or `anthropic`:
+Claude Code reads `id` and the optional `display_name` from each entry in the response's `data` array:
 
 ```json theme={null}
 {
@@ -175,6 +175,8 @@ Claude Code reads `id` and the optional `display_name` from each entry in the re
   ]
 }
 ```
+
+Claude Code keeps an entry when its `id` contains `claude` or `anthropic` anywhere in the string, matched case-insensitively, and ignores the rest. Provider-prefixed IDs such as `vertex_ai/claude-sonnet-4-6` or `bedrock/anthropic.claude-sonnet-4-5` pass the filter; an ID that contains neither substring doesn't. Before v2.1.223, Claude Code kept an entry only when its `id` began with `claude` or `anthropic`, which hid provider-prefixed IDs.
 
 ### Picker entries and caching
 

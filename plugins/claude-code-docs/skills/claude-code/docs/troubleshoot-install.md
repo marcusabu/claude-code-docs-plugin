@@ -243,15 +243,19 @@ npm uninstall -g @anthropic-ai/claude-code
 
 Remove the legacy local npm install:
 
-```bash theme={null}
-rm -rf ~/.claude/local
-```
+<Tabs>
+  <Tab title="macOS/Linux">
+    ```bash theme={null}
+    rm -rf ~/.claude/local
+    ```
+  </Tab>
 
-On Windows, use PowerShell:
-
-```powershell theme={null}
-Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\local"
-```
+  <Tab title="Windows PowerShell">
+    ```powershell theme={null}
+    Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\local"
+    ```
+  </Tab>
+</Tabs>
 
 Remove a Homebrew install on macOS. If you installed the `claude-code@latest` cask, substitute that name:
 
@@ -289,15 +293,19 @@ If `claude --version` prints a version but `claude` crashes or hangs on startup,
 
 Confirm the binary exists and is executable:
 
-```bash theme={null}
-ls -la "$(command -v claude)"
-```
+<Tabs>
+  <Tab title="macOS/Linux">
+    ```bash theme={null}
+    ls -la "$(command -v claude)"
+    ```
+  </Tab>
 
-On Windows, use PowerShell:
-
-```powershell theme={null}
-Get-Command claude | Select-Object Source
-```
+  <Tab title="Windows PowerShell">
+    ```powershell theme={null}
+    Get-Command claude | Select-Object Source
+    ```
+  </Tab>
+</Tabs>
 
 On Linux, check for missing shared libraries. If `ldd` shows missing libraries, you may need to install system packages. On Alpine Linux and other musl-based distributions, see [Alpine Linux setup](/docs/en/setup#alpine-linux-and-musl-based-distributions).
 
@@ -447,17 +455,47 @@ Errors like `curl: (35) TLS connect error`, `schannel: next InitializeSecurityCo
    irm https://claude.ai/install.ps1 | iex
    ```
 
-3. **Check for proxy or firewall interference**: corporate proxies that perform TLS inspection can cause these errors, including `unable to get local issuer certificate` and `SELF_SIGNED_CERT_IN_CHAIN`. For the install step, point curl at your corporate CA bundle with `--cacert`:
-   ```bash theme={null}
-   curl --cacert /path/to/corporate-ca.pem -fsSL https://claude.ai/install.sh | bash
-   ```
+3. **Check for proxy or firewall interference**: corporate proxies that perform TLS inspection can cause these errors, including `unable to get local issuer certificate` and `SELF_SIGNED_CERT_IN_CHAIN`. For the install step, make the install download trust your corporate proxy's CA:
+
+   <Tabs>
+     <Tab title="macOS/Linux">
+       ```bash theme={null}
+       curl --cacert /path/to/corporate-ca.pem -fsSL https://claude.ai/install.sh | bash
+       ```
+     </Tab>
+
+     <Tab title="Windows PowerShell">
+       The PowerShell installer downloads through .NET, which validates TLS against the Windows certificate store. Ask your IT team to add the proxy's CA certificate to the Windows store if it isn't already there, then run the installer:
+
+       ```powershell theme={null}
+       irm https://claude.ai/install.ps1 | iex
+       ```
+     </Tab>
+   </Tabs>
+
    For Claude Code itself once installed, set `NODE_EXTRA_CA_CERTS` so API requests trust the same bundle:
-   ```bash theme={null}
-   export NODE_EXTRA_CA_CERTS=/path/to/corporate-ca.pem
-   ```
+
+   <Tabs>
+     <Tab title="macOS/Linux">
+       ```bash theme={null}
+       export NODE_EXTRA_CA_CERTS=/path/to/corporate-ca.pem
+       ```
+     </Tab>
+
+     <Tab title="Windows PowerShell">
+       ```powershell theme={null}
+       $env:NODE_EXTRA_CA_CERTS = 'C:\path\to\corporate-ca.pem'
+       ```
+     </Tab>
+   </Tabs>
+
    Ask your IT team for the certificate file if you don't have it. You can also try on a direct connection to confirm the proxy is the cause.
 
-4. **On Windows, switch installers if your network blocks revocation checks**. The errors `CRYPT_E_NO_REVOCATION_CHECK (0x80092012)` and `CRYPT_E_REVOCATION_OFFLINE (0x80092013)` mean curl reached the server but your network blocks the certificate revocation lookup, which is common behind corporate firewalls. Adding curl's `--ssl-revoke-best-effort` flag doesn't fix this: the flag only applies to downloading `install.cmd` itself, and the script's own downloads run without it, so the install fails with the same error. Use an install method that tolerates the blocked lookup instead. Open PowerShell and run the PowerShell installer, which downloads through .NET and doesn't fail when the revocation server is unreachable:
+4. **On Windows, work around blocked revocation checks**. The errors `CRYPT_E_NO_REVOCATION_CHECK (0x80092012)` and `CRYPT_E_REVOCATION_OFFLINE (0x80092013)` mean curl reached the server but your network blocks the certificate revocation lookup, which is common behind corporate firewalls. If the failing command is the `curl` that downloads `install.cmd`, rerun it from a Command Prompt with `--ssl-revoke-best-effort` added:
+   ```batch theme={null}
+   curl --ssl-revoke-best-effort -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+   ```
+   When the script's own downloads hit the same errors, it retries them with best-effort revocation checking automatically, so the flag is only needed on the command you run yourself. Best-effort checking tolerates an unreachable revocation server but still rejects a certificate that is known to be revoked, matching how browsers handle revocation. You can also avoid curl's revocation check entirely by running the PowerShell installer from PowerShell, which downloads through .NET and doesn't fail when the revocation server is unreachable:
    ```powershell theme={null}
    irm https://claude.ai/install.ps1 | iex
    ```
@@ -619,10 +657,7 @@ When installing Claude Code in a Docker container, installing as root into `/` c
    RUN curl -fsSL https://claude.ai/install.sh | bash
    ```
 
-2. **Increase Docker memory limits** if using Docker Desktop:
-   ```bash theme={null}
-   docker build --memory=4g .
-   ```
+2. **Give Docker more memory** if using Docker Desktop. Build containers share the memory allocated to the Docker Desktop virtual machine, so open **Settings > Resources** in Docker Desktop, raise the memory limit, and rerun the build.
 
 ### `claude update` or `claude doctor` hangs
 
@@ -664,9 +699,7 @@ If your Git is installed somewhere else, find the path by running `where.exe git
 
 **If the path is correct and the file exists** but Claude Code still doesn't use it, check the file's name first. Claude Code accepts only a file named `bash.exe`, `sh.exe`, `bash`, or `sh`; with any other name, such as Git for Windows' `git-bash.exe` launcher, it ignores the variable and auto-detects Git Bash as if it were unset, logging a warning visible with `--debug`. A path that doesn't exist gets the same fallback and warning. Before v2.1.219, Claude Code used any existing file as the shell without checking its name, and exited at startup with `Claude Code was unable to find CLAUDE_CODE_GIT_BASH_PATH path` when the path didn't exist.
 
-If the file's name is right, endpoint security software such as AppLocker, Group Policy software restriction policies, or EDR agents may be interfering. On versions before v2.1.116, Claude Code spawned a `cmd.exe` child process to verify the path, which these policies can block. A common signal is that `cmd.exe /c dir "C:\Program Files\Git\bin\bash.exe"` works when you run it directly in PowerShell but fails silently when launched by `claude.exe`.
-
-Claude Code v2.1.116 and later check the filesystem directly, so update first. If the error persists on a current version, ask your IT team to allowlist `claude.exe` and the processes it spawns, including `cmd.exe` and `bash.exe`, in your endpoint protection policy.
+If the file's name is right, endpoint security software such as AppLocker, Group Policy software restriction policies, or EDR agents may be interfering. Ask your IT team to allowlist `claude.exe` and the processes it spawns, including `cmd.exe` and `bash.exe`, in your endpoint protection policy.
 
 ### Claude Code does not support 32-bit Windows
 
@@ -831,8 +864,6 @@ Check the following causes:
 * **Unsupported platform.** Prebuilt binaries are published for `darwin-arm64`, `darwin-x64`, `linux-x64`, `linux-arm64`, `linux-x64-musl`, `linux-arm64-musl`, `win32-x64`, and `win32-arm64`. Claude Code does not ship a binary for other platforms; see the [system requirements](/docs/en/setup#system-requirements). On FreeBSD, the installer reports the platform as unsupported. Before v2.1.205, it treated FreeBSD as Linux and downloaded a binary that couldn't run.
 * **Corporate npm mirror is missing the platform packages.** Ensure your registry mirrors all eight `@anthropic-ai/claude-code-*` platform packages in addition to the meta package.
 
-Before v2.1.113, the npm package shipped Claude Code as JavaScript that ran directly in Node rather than as a native binary, so there was no download or postinstall step to skip and this error didn't exist.
-
 ## Login and authentication
 
 These sections address login failures, OAuth errors, and token issues.
@@ -873,10 +904,21 @@ When `ANTHROPIC_API_KEY` is present and you have approved it, Claude Code uses t
 
 To use your subscription instead, unset the environment variable and remove it from your shell profile:
 
-```bash theme={null}
-unset ANTHROPIC_API_KEY
-claude
-```
+<Tabs>
+  <Tab title="macOS/Linux">
+    ```bash theme={null}
+    unset ANTHROPIC_API_KEY
+    claude
+    ```
+  </Tab>
+
+  <Tab title="Windows PowerShell">
+    ```powershell theme={null}
+    Remove-Item Env:ANTHROPIC_API_KEY
+    claude
+    ```
+  </Tab>
+</Tabs>
 
 Check `~/.zshrc`, `~/.bashrc`, or `~/.profile` for `export ANTHROPIC_API_KEY=...` lines and remove them to make the change permanent. On Windows, check your PowerShell profile at `$PROFILE` and your User environment variables for `ANTHROPIC_API_KEY`. Run `/status` inside Claude Code to confirm which authentication method is active.
 
